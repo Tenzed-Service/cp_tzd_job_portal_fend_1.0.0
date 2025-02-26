@@ -1,0 +1,12 @@
+/.angular/cache
+node_modules/
+dist/
+misc.xml
+modules.xml
+vcs.xml
+Project_Default.xml
+spendmanagerweb.iml
+.idea/
+.sqlite
+.suo
+.angular
