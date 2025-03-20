@@ -77,3 +77,11 @@
 @import "themes/dark-sidebar";
 @import "themes/update";
 @import "themes/responsive";
+
+
+
+.gradient-text {
+	background: linear-gradient(to right, #10217d, #16c2d5);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+}

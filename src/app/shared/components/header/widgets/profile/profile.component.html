@@ -10,8 +10,9 @@
       </div>
       }
       <div class="user-name-hide media-body">
-         <span>{{ (user$ | async)?.name }}</span>
-         <p class="mb-0 font-roboto">{{ (user$ | async)?.role?.name }}
+         <!-- <span>{{ (user$ | async)?.name }}</span> -->
+         <p class="mb-0 font-roboto">
+            {{ (user$ | async)?.role?.name }}
             <i class="middle ri-arrow-down-s-line"></i>
          </p>
       </div>

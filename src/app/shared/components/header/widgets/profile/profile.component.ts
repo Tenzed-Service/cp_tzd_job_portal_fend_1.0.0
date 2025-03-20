@@ -8,6 +8,11 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { ConfirmationModalComponent } from '../../../ui/modal/confirmation-modal/confirmation-modal.component';
+import { AuthService } from '../../../../../core/services/api/auth.service';
+import { NotificationService } from '../../../../services/notification.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { APIResponseVM } from '../../../../../core/models/common/common.model';
+import { ResponseCodeEnum } from '../../../../../core/enums/common.enum';
 
 @Component({
   selector: 'app-profile',
@@ -24,7 +29,12 @@ export class ProfileComponent {
 
   public active: boolean = false;
 
-  constructor(private store: Store) {
+  constructor(
+    private store: Store,
+    private authService: AuthService,
+    private notificationService: NotificationService,
+    private modalService: NgbModal
+  ) {
   }
 
   clickHeaderOnMobile(){
@@ -32,7 +42,17 @@ export class ProfileComponent {
   }
 
   logout() {
-    this.store.dispatch(new Logout());
+    // this.store.dispatch(new Logout());
+    this.authService.logout().subscribe({
+      next:(res:APIResponseVM<string>)=>{
+        if (res.responseCode === ResponseCodeEnum.SUCCESS) {
+          this.notificationService.showSuccess(res?.message)
+          this.store.dispatch(new Logout());
+          this.modalService.dismissAll();
+        }       
+      },
+      error:(err)=>{console.log(err)}
+    });
   }
 
 }

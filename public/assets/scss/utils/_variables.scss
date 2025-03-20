@@ -1,5 +1,7 @@
 :root {
-    --theme-color: #ec8951;
+    --theme-color: #1372a9; //#ec8951;
+    --theme-sidebar-background: #2e4450;
+    --theme-background: linear-gradient(to right, #10217d, #16c2d5);
     // ck editor variables
     --ck-color-base-active: var(--theme-color) !important;
     --ck-color-base-active-focus: var(--theme-color) !important;
@@ -228,7 +230,7 @@ $btn-xs-padding: 0.05rem 0.4rem;
 
 //Card settings
 $card-padding: 30px 40px;
-$card-margin-bottom: 30px;
+$card-margin-bottom: 10px;
 $card-border-color: 1px solid $light-gray;
 $card-border-radious: 15px;
 $common-shadow-color: rgba($info-color, 0.08);
@@ -311,7 +313,7 @@ $main-header-top: 0;
 $main-header-shadow: 0 0 20px rgba($semi-dark, 0.1);
 
 //page settings
-$page-body-padding: 0 15px 0 15px;
+$page-body-padding: 0 10px 0 10px;
 $page-body-bg-color: $light-color;
 $page-body-margin-bottom: 0px;
 $page-title-padding: 30px;
@@ -331,7 +333,7 @@ $breadcrumb-content: "/";
 $header-left-bg-color: $white;
 $main-header-padding: 27px 22px;
 $main-header-z-index: 5;
-$header-wrapper-padding: 22px 30px;
+$header-wrapper-padding: 5px 15px;
 $header-wrapper-nav-right: 0px;
 $header-wrapper-nav-icon-size: 20px;
 $header-wrapper-nav-icon-color: $theme-font-color;

@@ -2371,7 +2371,7 @@
         }
 
         .card {
-            margin-bottom: 30px;
+            margin-bottom: 10px;
 
             .card-body {
                 .tab-content {
@@ -2480,7 +2480,7 @@
                     &.close_icon {
                         left: 0;
                         transform: translate(0);
-                        width: 260px !important;
+                        width: 240px !important;
 
                         [dir="rtl"] & {
                             left: unset;
@@ -2490,8 +2490,8 @@
                 }
 
                 .page-body {
-                    margin: 75px 0 0 !important;
-                    padding: 25px 15px 45px;
+                    margin: 50px 0 0 !important;
+                    padding: 15px 15px 10px;
                 }
             }
         }
@@ -2533,7 +2533,7 @@
         .page-header {
             .header-wrapper {
                 margin: 0;
-                padding: 12px 30px;
+                padding: 5px 20px;
                 justify-content: space-between;
 
                 .nav-right {
@@ -5307,7 +5307,7 @@
 
         .page-header {
             .header-wrapper {
-                padding: 12px 15px !important;
+                padding: 5px 15px !important;
 
                 .nav-right {
                     >ul {
@@ -5391,9 +5391,9 @@
         &.compact-wrapper {
             .page-body-wrapper {
                 .page-body {
-                    margin-top: 73px !important;
-                    padding-top: 20px !important;
-                    padding-bottom: 50px !important;
+                    margin-top: 50px !important;
+                    padding-top: 10px !important;
+                    padding-bottom: 10px !important;
                 }
 
                 &.sidebar-wrapper {

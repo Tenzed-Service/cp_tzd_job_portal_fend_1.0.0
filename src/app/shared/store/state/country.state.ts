@@ -2,58 +2,54 @@ import { Injectable } from "@angular/core";
 import { Action, Selector, State, StateContext } from "@ngxs/store";
 import { tap } from "rxjs";
 import { GetCountries } from "../action/country.action";
-import { Country } from "../../interface/country.interface";
-import { CountryService } from "../../services/country.service";
+import { MasterService } from "../../../core/services/api/master.service";
 
 export class CountryStateModel {
-  country = {
-    data: [] as Country[]
-  }
+  data:[]
 }
 
 @State<CountryStateModel>({
   name: "country",
   defaults: {
-    country: {
-      data: []
-    }
+      data:[]
   },
 })
 @Injectable()
 export class CountryState {
   
-  constructor(private countryService: CountryService) {}
+  constructor(private masterService: MasterService) {}
 
   @Selector()
   static country(state: CountryStateModel) {
-    return state.country;
+    return state;
   }
 
   @Selector()
   static countries(state: CountryStateModel) {
-    return state?.country?.data?.map(cn => {
-      return { label: cn?.name, value: cn?.id }
+    return state?.data.map((cn:any) => {
+      return { ...cn, label: cn?.countryName, value: cn?.countryId }
     });
   }
 
   @Action(GetCountries)
   getCountries(ctx: StateContext<CountryStateModel>, action: GetCountries) {
-    const state = ctx.getState();
-    if (state?.country?.data?.length) {
+    const state = ctx.getState(); 
+    
+    if (state?.data?.length > 0) {
       // If the country has been already loaded
       // we just break the execution
       return true;
     }
-    return this.countryService.getCountries().pipe(
+    return this.masterService.get_active_countrystatecity_list().pipe(
       tap({
-        next: result => { 
+        next: result => {           
           ctx.patchState({
-            country: {
-              data: result
-            }
+              data:result?.data
           });
         },
         error: err => { 
+          console.log(err);
+          
           throw new Error(err?.error?.message);
         }
       })

@@ -1,3 +1,4 @@
+import { SingletonStoreService } from './../services/helper/singleton-store.service';
 import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { CanActivate, CanActivateChild, Router, UrlTree } from '@angular/router';
 import { Store } from '@ngxs/store';
@@ -17,19 +18,23 @@ export class AuthGuard implements CanActivate, CanActivateChild {
     private store: Store,
     private router: Router,
     private navService: NavService,
+    private singletonStoreService: SingletonStoreService,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {}
 
   canActivate(): Observable<boolean | UrlTree> | boolean | UrlTree {
     if (isPlatformBrowser(this.platformId)) {
+      const selectedUserType = this.singletonStoreService.userSelected.getValue();
       // Running in the browser, perform auth check
       return this.checkAuthStatus().pipe(
         switchMap((isAuthenticated) => {
           if (isAuthenticated) {
             this.initializeData();
             return of(true);
-          } else {
+          } else if(selectedUserType) {
             return of(this.router.createUrlTree(['/auth/login']));
+          }else{
+            return of(this.router.createUrlTree(['/user-type']));
           }
         })
       );
@@ -58,9 +63,9 @@ export class AuthGuard implements CanActivate, CanActivateChild {
   }
 
   private checkAuthStatus(): Observable<boolean> {
-    return this.store.select(state => !!state.auth?.access_token).pipe(
-      map(access_token => !!access_token), // Convert to boolean
-      catchError(() => of(false)) // Handle errors, e.g., when access_token is not available
+    return this.store.select(state => !!state.auth?.token).pipe(
+      map(token => !!token), // Convert to boolean
+      catchError(() => of(false)) // Handle errors, e.g., when token is not available
     );
   }
 

@@ -91,6 +91,7 @@
     input[type="checkbox"][class="media-checkbox"],
     input[type="radio"][class="media-checkbox"] {
         display: none;
+        color: var(--theme-color)
     }
 
     label {

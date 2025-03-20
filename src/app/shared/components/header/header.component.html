@@ -7,13 +7,20 @@
             <a [routerLink]="['/dashboard']">
                <img [src]="(setting$ | async)?.general?.dark_logo_image?.original_url" class="img-fluid" alt="header-logo">
             </a>
-         }@else {
+         }
+         <!-- @else {
             <a [routerLink]="['/dashboard']">
                <h2 class="">
                   {{(setting$ | async)?.general?.site_title ? (setting$ | async)?.general?.site_title?.split(' ')[0] : 'Logo Here'}}
                </h2>
             </a>
-         }  
+         }   -->
+      </div>
+   </div>
+
+   <div class="title-header pb-0">
+      <div class="d-flex align-items-center">
+         <h5 class="mb-0">{{ sectionHeader }}</h5>
       </div>
    </div>
    <!-- <app-search></app-search> -->
@@ -48,7 +55,7 @@
                }
             </a>
          </li>
-         <li>
+         <!-- <li>
             <app-languages></app-languages>
          </li>
          <li>
@@ -56,7 +63,7 @@
          </li>
          <li>
             <app-mode></app-mode>
-         </li>
+         </li> -->
          <app-profile></app-profile>
       </ul>
    </div>

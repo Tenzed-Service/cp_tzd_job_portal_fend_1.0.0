@@ -1,3 +1,4 @@
+import { SingletonStoreService } from './../../../core/services/helper/singleton-store.service';
 import { CommonModule, DOCUMENT } from '@angular/common';
 import { Component, Inject } from '@angular/core';
 import { Select } from '@ngxs/store';
@@ -62,9 +63,16 @@ export class HeaderComponent {
   }
   public elem: any;
   public url: string;
+  sectionHeader:string = '';
 
-  constructor( public navServices: NavService,
-    @Inject(DOCUMENT) private document: any) {
+  constructor( 
+    public navServices: NavService,
+    @Inject(DOCUMENT) private document: any,
+    private singletonStoreService: SingletonStoreService
+  ) {
+    this.singletonStoreService.sectionHeader.subscribe((header:string)=>{
+     this.sectionHeader = header;
+    });
     this.notification$.subscribe((notification) => {
       this.unreadNotificationCount = notification?.filter(item => !item.read_at)?.length;
     });

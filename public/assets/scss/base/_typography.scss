@@ -8,6 +8,9 @@ body {
     font-family: $public-sans;
     color: $theme-body-font-color;
     background-color: #f8f8f8;
+    @media (max-width: 767px) {
+        background-color: #fff;
+    }
 }
 
 ul {

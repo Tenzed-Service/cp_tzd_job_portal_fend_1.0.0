@@ -934,8 +934,8 @@
 
 .custom-dt-picker {
     .form-control {
-        padding: 10px 10px;
-        background-color: #f8f8f8;
+        padding: 16px 12px;
+        // background-color: #f8f8f8;
         border: 1px solid #efefef;
         color: #444;
 
@@ -944,13 +944,13 @@
             font-size: $form-placeholder-font-size !important;
             letter-spacing: 0.02em !important;
             font-weight: 300 !important;
-            text-transform: uppercase !important;
+            // text-transform: uppercase !important;
         }
     }
 
     .btn {
         padding: 8px 16px;
-        background-color: #f8f8f8 !important;
+        // background-color: #f8f8f8 !important;
         border: 1px solid #efefef !important;
         margin-left: 0 !important;
         color: #6c757d;
@@ -979,7 +979,7 @@
         margin-top: 15px !important;
         border: 1px solid #eee;
         border-radius: 0;
-        z-index: 1;
+        z-index: 10;
     }
 
     .ngb-dp-header {

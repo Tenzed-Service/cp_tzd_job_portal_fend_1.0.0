@@ -9,6 +9,8 @@ import { GetBadges } from "../action/sidebar.action";
 import { GetSettingOption } from "../action/setting.action";
 import { GetNotification } from "../action/notification.action";
 import { NotificationService } from "../../services/notification.service";
+import { SingletonStoreService } from "../../../core/services/helper/singleton-store.service";
+import { GetRoleAuthorizeDetails } from "../action/role-management.action";
 
 export interface AuthStateModel {
   email: string;
@@ -32,16 +34,18 @@ export class AuthState {
   constructor(private store: Store,
     public router: Router,
     private notificationService: NotificationService,
-    private authService: AuthService) {}
+    private authService: AuthService,
+    private singletonStoreService: SingletonStoreService
+  ) {}
 
   @Selector()
   static accessToken(state: AuthStateModel) {
-    return state.access_token;
+    return state.token;
   }
 
   @Selector()
   static isAuthenticated(state: AuthStateModel) {
-    return !!state.access_token;
+    return !!state.token;
   }
 
   @Selector()
@@ -56,13 +60,16 @@ export class AuthState {
 
   @Action(Login)
   login(ctx: StateContext<AuthStateModel>, action: Login) {
-    this.notificationService.notification = false;
-    ctx.patchState({
-      email: 'admin@example.com',
-      token: '',
-      access_token: '115|laravel_sanctum_mp1jyyMyKeE4qVsD1bKrnSycnmInkFXXIrxKv49w49d2a2c5',
-      permissions: [],
-    })
+    // this.notificationService.notification = false;
+    ctx.patchState(action?.payload);
+    // ctx.patchState({
+    //   email: 'admin@example.com',
+    //   token: '',
+    //   access_token: '115|laravel_sanctum_mp1jyyMyKeE4qVsD1bKrnSycnmInkFXXIrxKv49w49d2a2c5',
+    //   permissions: [],
+    // })
+    this.singletonStoreService.userSelected.next('');
+    // this.store.dispatch(new GetRoleAuthorizeDetails());
     this.store.dispatch(new GetUserDetails());
     this.store.dispatch(new GetBadges());
     this.store.dispatch(new GetNotification());
@@ -99,12 +106,13 @@ export class AuthState {
 
   @Action(AuthClear)
   authClear(ctx: StateContext<AuthStateModel>){
-    ctx.patchState({
-      email: '',
-      token: '',
-      access_token: null,
-      permissions: [],
-    });
+    ctx.setState({} as AuthStateModel);
+    // ctx.patchState({
+    //   email: '',
+    //   token: '',
+    //   access_token: null,
+    //   permissions: [],
+    // });
     this.store.dispatch(new AccountClear());
   }
 

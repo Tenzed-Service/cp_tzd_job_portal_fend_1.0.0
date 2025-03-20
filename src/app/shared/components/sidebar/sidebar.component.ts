@@ -14,6 +14,7 @@ import { GetSidebar } from '../../store/action/sidebar.action';
 import { AccountState } from '../../store/state/account.state';
 import { SettingState } from '../../store/state/setting.state';
 import { SidebarState } from '../../store/state/sidebar.state';
+import { ActionType, SidebarMenuResVM } from '../../../core/models/api/role-management.model';
 
 @Component({
   selector: 'app-sidebar',
@@ -25,6 +26,7 @@ import { SidebarState } from '../../store/state/sidebar.state';
 export class SidebarComponent {
 
   @Input() class: string;
+  @Input() menuOption: SidebarMenuResVM[] = [];
 
   @Select(AccountState.user) user$: Observable<AccountUser>;
   @Select(AccountState.permissions) permissions$: Observable<Permission[]>;
@@ -43,28 +45,41 @@ export class SidebarComponent {
     private store: Store) {
     this.store.dispatch(new GetSidebar())
     this.menu$.subscribe((menuItems) => {
-      this.menuItems = menuItems?.data;
-      this.router.events.subscribe((event) => {
-        if (event instanceof NavigationEnd) {
-          this.menuItems?.forEach((menu: Sidebar) => {
-              menu.active = false;
-              this.activeMenuRecursive(menu, (event.url.split("?")[0].toString().split("/")[1].toString()));
-          });
-        }
-      });
+      // setTimeout(() => {
+        console.log(menuItems?.data);        
+      // }, 200);
+      // // this.menuItems = menuItems?.data;
+      // this.router.events.subscribe((event) => {
+      //   if (event instanceof NavigationEnd) {
+      //     this.menuOption = this.menuOption?.map((menu: SidebarMenuResVM) => {
+      //         menu.active = false;
+      //         this.activeMenuRecursive(menu, (event.url.split("?")[0].toString().split("/")[1].toString()));
+      //         return menu
+      //     });
+      //   }
+      // });
     });
     this.user$.subscribe(user => this.role = user?.role?.name);
   }
 
-  hasMainLevelMenuPermission(acl_permission?: string[]) {
+  ngOnInit(){
+      console.log(this.menuOption); 
+    // this.menuItems = menuItems?.data;
+        this.menuOption = this.menuOption?.map((menu: SidebarMenuResVM) => {
+            menu.active = false;
+            this.activeMenuRecursive(menu, (this.router.url.split("?")[0].toString().split("/")[1].toString()));
+            return menu
+        });
+  }
+
+  hasMainLevelMenuPermission(acl_permission: ActionType[]) {
     let status = true;
-    if(acl_permission?.length) {
-      this.permissions$.subscribe(permission => {
-        this.permissions = permission?.map((value: Permission) => value?.name);
-        if(!acl_permission?.some(action => this.permissions?.includes(<any>action))) {
-          status = false;
-        }
-      });
+    if(acl_permission?.length > 0) {
+      if (acl_permission.find((res: any) => res?.ActionName === "View")) {
+        status = true;        
+      }else{
+        status = false;
+      }
     }
     return status;
   }
@@ -81,16 +96,18 @@ export class SidebarComponent {
       item.active = !item.active;
   }
 
-  activeMenuRecursive(menu: Sidebar, url: string, item?: Sidebar) {
-    if(menu && menu.path && menu.path == (url.charAt(0) !== '/' ? '/'+url : url)) {
+  activeMenuRecursive(menu: SidebarMenuResVM, url: string, item?: SidebarMenuResVM) {
+    if(menu && menu.route && menu.route === (url.charAt(0) !== '/' ? '/'+url : url)) {
       if(item) {
         item.active = true;
         this.onItemSelected(item, true);
       }
       menu.active = true;
+    }else{
+      menu.active = false;
     }
-    if(menu?.children?.length) {
-      menu?.children.forEach((child: Sidebar) => {
+    if(menu?.formMenu?.length) {
+      menu?.formMenu.forEach((child: SidebarMenuResVM) => {
         this.activeMenuRecursive(child, (url.charAt(0) !== '/' ? '/'+url : url.toString()), menu)
       })
     }

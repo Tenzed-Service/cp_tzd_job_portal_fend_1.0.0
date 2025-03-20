@@ -13,6 +13,8 @@ import { GetCountries } from './shared/store/action/country.action';
 import { GetSettingOption } from './shared/store/action/setting.action';
 import { GetStates } from './shared/store/action/state.action';
 import { SettingState } from './shared/store/state/setting.state';
+import { GetTZDAllActiveDDLList } from './shared/store/action/tzd-product-master.action';
+import { GetCommonDetails } from './shared/store/action/common.action';
 
 @Component({
   selector: 'app-root',
@@ -32,10 +34,21 @@ export class AppComponent {
     private actions: Actions, private router: Router,
     private titleService: Title, private store: Store,
     private translate: TranslateService) {
-    this.translate.use('en');
-    this.store.dispatch(new GetCountries());
-    // this.store.dispatch(new GetStates());
-    // this.store.dispatch(new GetSettingOption());
+      this.translate.use('en');
+      this.store.dispatch(new GetCountries());
+      // this.store.dispatch(new GetStates());
+      // this.store.dispatch(new GetSettingOption());
+      this.store.dispatch(new GetCommonDetails()).subscribe({
+        next: (resData:any) => {
+          if (resData?.common) {
+            if (resData?.common?.data?.CompanyId) {
+              this.store.dispatch(new GetTZDAllActiveDDLList());
+            }          
+          }
+        },
+        error: (error: any) => {            
+        },
+      });
     this.setting$.subscribe(setting => {
       // Set Direction
       if(setting?.general?.admin_site_language_direction === 'rtl'){

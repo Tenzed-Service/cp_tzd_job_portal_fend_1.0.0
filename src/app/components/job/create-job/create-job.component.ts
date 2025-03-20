@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { SingletonStoreService } from './../../../core/services/helper/singleton-store.service';
+import { Component, OnDestroy } from '@angular/core';
 import { PageWrapperComponent } from '../../../shared/components/page-wrapper/page-wrapper.component';
 import { FormJobComponent } from '../form-job/form-job.component';
 
@@ -9,6 +10,15 @@ import { FormJobComponent } from '../form-job/form-job.component';
   templateUrl: './create-job.component.html',
   styleUrl: './create-job.component.scss'
 })
-export class CreateJobComponent {
+export class CreateJobComponent implements OnDestroy {
 
+  constructor(
+    private singletonStoreService: SingletonStoreService
+  ){
+    this.singletonStoreService.sectionHeader.next('Add Job');
+  }
+
+  ngOnDestroy(): void {
+    this.singletonStoreService.sectionHeader.next('');
+  }
 }

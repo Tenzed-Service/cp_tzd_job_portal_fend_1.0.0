@@ -1,0 +1,134 @@
+@if(topBar){
+   <div class="show-box mb-2">
+      <div class="selection-box">
+         <label>{{ 'show' | translate }} :</label>
+         <select class="form-control" [ngModel]="tableConfig.filter.pageSize" (change)="onChangeTable($event, 'paginate')">
+            @for(item of rows; track item){
+               <option [value]="item">{{item}}</option>
+            }
+         </select>
+         <label>{{ 'items_per_page' | translate }}</label>
+         <!-- @if(deleteButtonStatus){
+            <a href="javascript:void(0)" class="align-items-center btn btn-light-bg btn-sm d-flex" (click)="DeleteModal.openModal('deleteAll', selected)">
+               <i [class]="'ri-delete-bin-line'"></i> {{ 'delete' | translate }}
+            </a>
+         } -->
+
+      </div>
+      <div class="role-search">
+         <div class="role-search product-search justify-content-end w-auto">
+            <label for="role-search" class="form-label">{{ 'search' | translate }} :</label>
+            <input type="search" class="form-control" id="role-search" [formControl]="term">
+         </div>
+         <ng-content select="[filter]"></ng-content>
+      </div>
+   </div>
+}
+<ng-content select="[advanceFilter]"></ng-content>
+<div>
+   <div class="table-responsive datatable-wrapper border-table">
+      @if((loadingStatus$ | async) && loading){
+         <div class="table-loader">
+            <span>{{ 'please_wait' | translate }}...</span>
+         </div>
+      }
+      <table class="table all-package theme-table no-footer d-block">
+         <thead>
+            <tr>
+               @for(columnHead of tableConfig?.columns; track columnHead){
+                  <th class="cursor-pointer">
+                     <div [ngStyle]="{'text-align' : columnHead?.alignment}">
+                        {{ columnHead?.displayFieldName }}
+                        <!-- <div class="filter-arrow">
+                           <div>
+                              @if(!columnHead?.sortType || (columnHead?.sortType && columnHead?.sortType === 'desc')){
+                                 <i class="ri-arrow-up-s-fill"></i>
+                              }
+   
+                              @if(columnHead?.sortType && columnHead?.sortType === 'asc'){
+                                 <i class="ri-arrow-down-s-fill"></i>
+                              }
+                           </div>
+                        </div> -->
+                     </div>
+                  </th>                  
+               }
+
+               @if(tableConfig?.rowActions?.length){
+                  <th>{{ 'actions' | translate }}</th>
+               }
+            </tr>
+         </thead>
+         <tbody>
+            @for(columnData of tableConfig?.data; track columnData; let i = $index){
+               <tr>
+                  @for(columnHead of tableConfig?.columns; track columnHead){
+                     <td class="cursor-pointer" (click)="onRowClicked(columnData)">
+                       @if (columnHead && columnHead?.fieldDataType && columnHead?.fieldDataType == fieldDataTypeEnum.VARCHAR) {
+                        <div [ngStyle]="{'text-align' : columnHead?.alignment}">
+                           {{showColumnValue(columnData, columnHead.fieldName)}}
+                        </div>
+                       }@else if (columnHead && columnHead?.fieldDataType && columnHead?.fieldDataType == fieldDataTypeEnum.INT) {
+                        <div [ngStyle]="{'text-align' : columnHead?.alignment}">
+                           {{showColumnValue(columnData, columnHead.fieldName)}}
+                        </div>
+                       }@else if (columnHead && columnHead?.fieldDataType && columnHead?.fieldDataType == fieldDataTypeEnum.DATE) {
+                        <div [ngStyle]="{'text-align' : columnHead?.alignment}">
+                           {{showColumnValue(columnData, columnHead.fieldName)}}
+                        </div>
+                       }@else if (columnHead && columnHead?.fieldDataType && columnHead?.fieldDataType == fieldDataTypeEnum.TIME) {
+                        <div [ngStyle]="{'text-align' : columnHead?.alignment}">
+                           {{showColumnValue(columnData, columnHead.fieldName)}}
+                        </div>
+                       }@else if (columnHead && columnHead?.fieldDataType && columnHead?.fieldDataType == fieldDataTypeEnum.DECIMAL) {
+                        <div [ngStyle]="{'text-align' : columnHead?.alignment}">
+                           {{showColumnValue(columnData, columnHead.fieldName)}}
+                        </div>
+                       }
+                     </td>
+                  }
+
+                  @if(tableConfig?.rowActions?.length){
+                     <td>
+                        <ul id="actions">                          
+                              @for(action of tableConfig?.rowActions; track action){
+                                 <li>
+                                    <a href="javascript:void(0)" (click)="action?.actionToPerform == 'delete' 
+                                                       ? DeleteModal.openModal('delete', columnData) 
+                                                       : onActionClicked(action?.actionToPerform, columnData)">
+                                       <i [class]="action?.icon"></i>
+                                    </a>
+                                 </li>
+                              }
+                        </ul>
+                     </td>
+                  }
+               </tr>
+            }
+
+            @if(!tableConfig?.data?.length){
+               <tr>
+                  <td [attr.colspan]="tableConfig?.columns?.length">
+                     <div class="no-data-added">
+                        <h4>{{ 'no_records_found' | translate }}</h4>
+                     </div>
+                  </td>
+               </tr>
+            }
+         </tbody>
+      </table>
+   </div>
+</div>
+
+@if(pagination){
+   <nav class="custom-pagination">
+      <app-pagination [total]="tableConfig.totalRecords" [currentPage]="tableConfig.filter.pageNo" [pageSize]="tableConfig.filter.pageSize" (setPage)="onChangeTable($event, 'page')">
+      </app-pagination>
+   </nav>
+}
+
+<app-delete-modal #deleteModal (deleteItem)="onActionClicked($event?.actionToPerform, $event?.data)">
+</app-delete-modal>
+
+<app-confirmation-modal #confirmationModal (confirmed)="onActionClicked($event?.actionToPerform, $event?.data, $event?.value)">
+</app-confirmation-modal>

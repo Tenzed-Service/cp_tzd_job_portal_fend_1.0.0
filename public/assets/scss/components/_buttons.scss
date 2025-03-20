@@ -39,12 +39,15 @@
     }
 
     &-theme {
-        background-color: var(--theme-color);
-        color: $white;
+        // background-color: var(--theme-color);
+        background: var(--theme-background) !important;
+        color: $white !important;
+        border-color: transparent !important;
 
         &:hover {
-            background-color: var(--theme-color);
-            color: $white;
+            // background-color: var(--theme-color);
+            background: var(--theme-background) !important;
+            color: $white !important;
         }
     }
 
@@ -68,7 +71,8 @@
     &:disabled {
         color: $white !important;
         pointer-events: none;
-        background-color: var(--theme-color);
+        // background-color: var(--theme-color);
+        background: var(--theme-background);
         border-color: transparent;
         opacity: var(--bs-btn-disabled-opacity);
     }
@@ -111,8 +115,10 @@
         border: 1px solid var(--theme-color);
 
         &:hover {
-            color: var(--theme-color);
-            border-color: var(--theme-color);
+            // color: var(--theme-color);
+            // border-color: var(--theme-color);
+            color: $white;
+            border-color: transparent;
 
             &::after {
                 top: 0;
@@ -434,11 +440,17 @@ $btn-color in (theme, $primary-color),
 }
 
 .btn-outline {
-    border: 1px solid $primary-color !important;
-    color: $primary-color !important;
+    // border: 1px solid $primary-color !important;
+    color: var(--theme-background) !important;
+    background: $white !important;
+    border: 1px solid !important;
+    border-image-slice: 1 !important;
+    border-width: 1px !important;
+    border-image-source: var(--theme-background) !important;
 
     &:hover {
-        background-color: $primary-color !important;
+        // background-color: $primary-color !important;
+        background: var(--theme-background) !important;
         color: $white !important;
     }
 }

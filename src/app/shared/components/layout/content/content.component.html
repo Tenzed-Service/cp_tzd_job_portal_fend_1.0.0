@@ -1,4 +1,4 @@
-@if(isBrowser) {
+@if(isBrowser && sideBarOptions.length>0 && !isLoading) {
    <div class="page-wrapper compact-wrapper" id="pageWrapper">
       <div class="page-header" [class.close_icon]="navServices.collapseSidebar">
          <app-header></app-header>
@@ -6,12 +6,14 @@
       <div class="page-body-wrapper">
          <div class="sidebar-wrapper" [class.close_icon]="navServices.collapseSidebar">
             <app-sidebar-menu-skeleton [loading]="navServices.sidebarLoading"></app-sidebar-menu-skeleton>
-            <app-sidebar></app-sidebar>
+            <app-sidebar [menuOption]="sideBarOptions"></app-sidebar>
          </div>
          <div class="page-body">
             <router-outlet></router-outlet>
-            <app-footer></app-footer>
+            <!-- <app-footer></app-footer> -->
          </div>
       </div>
    </div>
+}@else {
+   <!-- <app-loader [loaderClass]="'custom-loader-wrapper blur-bg'"></app-loader> -->
 }

@@ -6,7 +6,7 @@ export const content: Routes = [
     loadChildren: () => import('../../components/dashboard/dashboard.routes').then(r => r.dashboardRoutes)
   },
   {
-    path: 'job',
+    path: 'jobs',
     loadChildren: () => import('../../components/job/job.routes').then(r => r.jobRoutes)
   },
   {
