@@ -27,6 +27,18 @@ export enum UserTypeEnum{
   COMPANY = 'COMPANY',
 }
 
+export enum JobTypeEnum{
+  FULL_TIME = 1,
+  PART_TIME = 2,
+  CONTRACT = 3,
+}
+
+
+export enum JobAmountTypeEnum{
+  MONTHLY = 1,
+  HOURLY = 2,
+}
+
 export enum RoleOptionEnum{
   SIDEBAR = "sidebarOptions",
   SETTING = "settingOptions",

@@ -1,8 +1,5 @@
-<form class="theme-form theme-form-2 mega-form" [formGroup]="jobForm"
-  (ngSubmit)="submit()">
-
+<form class="theme-form theme-form-2 mega-form" [formGroup]="jobForm">
   <div class="row">
-
     <!-- Job Type -->
     <div class="col-md-12 mt-3">
       <div class="d-md-flex d-block align-items-center">
@@ -275,23 +272,31 @@
   </div>
 
   <!-- Job Locations (FormArray) -->
-  <div class="card mt-3 border rounded shadow-sm mb-3 p-3">
+  <div class="my-3">
     <div
-      class="card-header d-flex justify-content-between align-items-center p-1 mb-1">
+      class="location-header d-flex justify-content-between align-items-center p-1 mb-1">
       <h6 class="mb-0 ">Job Locations</h6>
-      <button type="button" class="btn btn-success btn-sm"
-        (click)="addLocation()">+ Add Location</button>
+      <button type="button" class="btn btn-add btn-sm"
+        (click)="addLocation()">+ Add</button>
     </div>
 
-    <div class="card-body p-0" formArrayName="jobLocations">
+    <div class="location-body p-0" formArrayName="jobLocations">
       @for (location of jobLocations.controls; track location; let index =
       $index) {
       <div [formGroupName]="index"
-        class="mt-3 p-3 border rounded bg-white shadow-sm">
+        class="mt-3 p-3 pt-2 border rounded bg-white shadow-sm">
+
+        <!-- Remove Button -->
+        <div class="text-end">
+          <a type="button"
+            (click)="removeLocation(index)">
+            <i class="ri-delete-bin-line text-danger"></i>
+          </a>
+        </div>
 
         <div class="row">
           <!-- Address (Full-width row) -->
-          <div class="col-md-8">
+          <div class="col-md-8 mt-md-0 mt-3">
             <label class="form-label">Address<span
                 class="text-danger">*</span></label>
             <input class="form-control" type="text" formControlName="address"
@@ -303,7 +308,7 @@
             </div>
             }
           </div>
-          <div class="col-md-4">
+          <div class="col-md-4 mt-md-0 mt-3">
             <label class="form-label">Zip Code<span
                 class="text-danger">*</span></label>
             <input class="form-control" type="text" formControlName="zipCode"
@@ -396,15 +401,7 @@
             </div>
             }
           </div>
-        </div>
-
-        <!-- Remove Button -->
-        <div class="text-end mt-3">
-          <button type="button" class="btn btn-danger btn-sm"
-            (click)="removeLocation(index)">
-            <i class="ri-delete-bin-line"></i>
-          </button>
-        </div>
+        </div>        
       </div>
       }
     </div>
@@ -425,7 +422,7 @@
 
   <!-- Submit Button -->
   <div class="text-end mt-4">
-    <app-button [id]="'job_btn'">{{ (type == 'create' ? 'Save Job' :
+    <app-button [id]="'job_btn'" (click)="submit()">{{ (type == 'create' ? 'Save Job' :
       'Update Job') | translate }}</app-button>
   </div>
 

@@ -46,7 +46,7 @@ export class SidebarComponent {
     this.store.dispatch(new GetSidebar())
     this.menu$.subscribe((menuItems) => {
       // setTimeout(() => {
-        console.log(menuItems?.data);        
+        // console.log(menuItems?.data);        
       // }, 200);
       // // this.menuItems = menuItems?.data;
       // this.router.events.subscribe((event) => {
@@ -63,7 +63,7 @@ export class SidebarComponent {
   }
 
   ngOnInit(){
-      console.log(this.menuOption); 
+      // console.log(this.menuOption); 
     // this.menuItems = menuItems?.data;
         this.menuOption = this.menuOption?.map((menu: SidebarMenuResVM) => {
             menu.active = false;

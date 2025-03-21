@@ -2,11 +2,14 @@ import { GetTableListResponseVM } from "../common/common.model";
 
 export interface GetTZDJobListReqVM extends GetTableListResponseVM {
 	formTabTypeId: number | null,
-	searchValue: string | null,
-	searchField: string | null,
 }
 
-
+export interface SaveTZDJobApplyReqVM {
+	jobApplyId: number | null,
+	jobId: number,
+	jobApplyStatus: number,
+	comments: string,
+  }
 
 export interface SaveTZDJobListReqVM {
 	jobId: number,

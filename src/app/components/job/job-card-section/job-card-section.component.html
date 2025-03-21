@@ -1,0 +1,226 @@
+<!-- <div class="container my-4">
+  @if (jobConfig) {
+    <div class="row g-3">
+      @for (job of jobConfig; track $index) {
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="card shadow-sm border-0 rounded-3 p-3">
+            
+            
+            <div class="d-flex justify-content-between align-items-start">
+              <div>
+                <h5 class="text-success fw-bold mb-1">{{ job.jobTitle }}</h5>
+                <p class="text-muted small mb-0">{{ job.jobType }}</p>
+              </div>
+              <div>
+                <p class="text-danger fw-bold">{{ job.jobStartTime | date: 'dd MMMM yyyy' }}</p>
+              </div>
+            </div>
+
+            <div class="d-flex align-items-center my-3">
+              <i class="bi bi-geo-alt text-danger me-2"></i>
+              <p class="text-muted mb-0">Ajax, British Columbia</p>
+            </div>
+            
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <p class="text-success fw-bold mb-0">${{ job.amount }}</p>
+                <p class="text-muted small">per hour</p>
+              </div>
+            </div>
+
+            <div class="mt-3">
+              <p class="fw-bold text-primary mb-0">Joining Date:</p>
+              <p class="text-dark">{{ job.createdDate }}</p>
+            </div>
+
+            <div class="text-end">
+              <a href="#" class="text-primary text-decoration-none fw-bold">
+                View Details →
+              </a>
+            </div>
+
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>
+
+
+
+
+
+<div class="section-1 container my-4">
+  @if (jobConfig) {
+    <div class="row g-3">
+      @for (job of jobConfig; track $index) {
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="card shadow-sm border-0 rounded-3 p-3">
+
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="d-flex align-items-center">
+                <div class="logo-box me-3">
+                  <span class="logo-text">{{ job.jobTitle.charAt(0) }}</span>
+                </div>
+                <div>
+                  <h6 class="fw-bold mb-0">{{ job.jobTitle }}</h6>
+                  <p class="text-muted small mb-0">{{ job.nameOfOwner }}</p>
+                </div>
+              </div>
+              <span class="badge bg-light text-primary">Sent</span>
+            </div>
+
+            <div class="d-flex align-items-center my-3">
+              <i class="bi bi-geo-alt text-primary me-2"></i>
+              <p class="text-muted mb-0">New York, USA</p>
+            </div>
+
+            <div class="d-flex justify-content-start flex-wrap">
+              <span class="badge bg-secondary text-white me-2">Full-Time</span>
+              <span class="badge bg-light text-dark me-2">Remote</span>
+              <span class="badge bg-light text-dark">Internship</span>
+            </div>
+
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div> -->
+
+<div class="section-2 container my-4">
+  @if (jobConfig) {
+  <div class="row g-3">
+    @for (profile of jobConfig; track $index) {
+    <div class="col-xl-3 col-lg-4 col-sm-6">
+      <div class="coupon-box">
+        <div class="coupon-name">
+          <h6 class="fw-semibold dark-text mb-1">{{ profile?.jobTitle }}</h6>
+        </div>
+        <div class="d-flex justify-content-between">
+          @if (profile.jobTypeId==jobTypeEnum.FULL_TIME) {
+          <span class="new-badge new-bg-success me-2">{{ profile.jobType }}</span>
+          }
+          @if (profile.jobTypeId==jobTypeEnum.PART_TIME) {
+          <span class="new-badge new-bg-green me-2">{{ profile.jobType }}</span>
+          }
+          @if (profile.jobTypeId==jobTypeEnum.CONTRACT) {
+          <span class="new-badge new-bg-orange me-2">{{ profile.jobType }}</span>
+          }
+          <small class="fw-semibold">{{profile?.createdDate}}</small>
+        </div>
+        <div class="coupon-content mt-2">
+          @for (location of profile?.jobLocation; track $index) {
+            @if ($index == 0) {
+            <p>
+              <strong><i class="ri-map-pin-line dark-text"></i></strong>
+              {{location?.address ? location?.address+',' : ''}}
+              {{location?.cityName ? location?.cityName+',' : ''}}
+              {{location?.stateName ? location?.stateName+',' : ''}}
+              {{location?.countryName ? location?.countryName : ''}}
+              {{location?.zipCode ? ' - '+location?.zipCode+',' : ''}}
+            </p>
+            }
+          }
+          @if (profile?.experience) {
+            <p>{{profile?.experience}} Year of Experience</p>
+          }
+          <div class="d-flex align-items-center justify-content-between">
+            @if (profile?.dueDate) {
+              <div>
+                <strong>Due Date : </strong>
+                <p class="text-danger">{{profile?.dueDate}}</p>
+              </div>
+            }
+            <span class="new-badge bg-success me-2">
+              <i class="ri-star-s-line"></i> 4.2
+            </span>
+          </div>
+          <div class="d-flex align-items-center justify-content-between">
+            @if (profile?.jobSkills) {
+              <div>
+                <strong>Contact No : </strong>
+                <p>{{(profile?.dialCode? '+'+profile?.dialCode : '') +' '+profile?.contactNo}} </p>
+              </div>
+            }    
+            @if (profile?.amount) {
+              <div class="amount-text">
+                <h6 class="fw-semibold">₹{{profile?.amount}} </h6>
+              </div>
+            }        
+          </div>
+        </div>
+        <div class="coupon-apply">
+          <app-button 
+            [class]="'btn-sm fw-bold btn btn-outline'" 
+            [spinner]="false">
+            View
+          </app-button>
+          <app-button 
+            [class]="'btn-sm fw-bold btn btn-theme'" 
+            [spinner]="false"
+            (click)="applyJob(profile?.jobId)">
+            Apply Now
+          </app-button>
+        </div>
+      </div>
+    </div>
+    <!-- <div class="col-12 col-md-6 col-lg-4">
+          <div class="card shadow-sm border-0 rounded-4 p-4">
+
+            <div class="d-flex justify-content-between">
+              <img 
+                src="assets/images/user.png" 
+                alt="Profile Image" 
+                class="profile-img me-3"
+              />
+              <div>
+                <h5 class="fw-bold mb-0">{{ profile.jobTitle }}</h5>
+                <p class="text-muted small mb-0">{{ profile.jobType }}</p>
+                @if (profile.jobTypeId==jobTypeEnum.FULL_TIME) {
+                    <span class="badge bg-success me-2">{{ profile.jobType }}</span>
+                  }
+                 @if (profile.jobTypeId==jobTypeEnum.PART_TIME) {
+                    <span class="badge bg-secondary me-2">{{ profile.jobType }}</span>
+                  }
+                 @if (profile.jobTypeId==jobTypeEnum.CONTRACT) {
+                    <span class="badge bg-primary me-2">{{ profile.jobType }}</span>
+                  }
+              </div>
+              <div>{{profile?.createdDate}}</div>
+            </div>
+
+            <div class="d-flex align-items-center mt-3">
+              <span class="badge bg-success me-2">
+                <i class="bi bi-star-fill text-white me-1"></i> 5.0
+              </span>
+              <i class="bi bi-geo-alt text-primary me-2"></i>
+              <p class="text-muted mb-0">New York, USA</p>
+            </div>
+
+            <div class="mt-2">
+              <p class="text-muted small mb-0">{{ profile.experience }} years of exp.</p>
+              <p class="text-muted small">1000+ consultations</p>
+            </div>
+
+            <div class="d-flex flex-wrap mt-3">
+              <span class="badge bg-light text-dark me-2">Anxiety</span>
+              <span class="badge bg-light text-dark me-2">Depression</span>
+              <span class="badge bg-light text-dark me-2">PTSD</span>
+              <span class="badge bg-light text-dark">+3</span>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center mt-4">
+              <div>
+                <span class="fw-bold text-primary">${{ profile.amount }}/h</span>
+                <p class="text-muted small">Online/Offline</p>
+              </div>
+              <button class="btn btn-primary btn-sm">Apply</button>
+            </div>
+
+          </div>
+        </div> -->
+    }
+  </div>
+  }
+</div>

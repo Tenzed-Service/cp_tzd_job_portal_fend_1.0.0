@@ -77,7 +77,7 @@
 .theme-form {
     .ck-toolbar {
         border-color: $form-input-border-color !important;
-        background-color: $inner-bg !important;
+        background-color: $white !important;//$inner-bg
     }
 
     .select2-selection__rendered {
@@ -110,7 +110,7 @@
         input[type="url"],
         textarea,
         select {
-            padding: 10px 10px !important;
+            padding: 5px 10px !important;
 
             &.intl-input-padding {
                 padding-left: calc(98px + (130 - 98) * ((100vw - 320px) / (1920 - 320))) !important;
@@ -185,6 +185,7 @@
         letter-spacing: 0.02em !important;
         font-weight: 300 !important;
         text-transform: capitalize !important;
+        margin-top: 0px !important;
     }
 
     input[type="file"] {
@@ -268,7 +269,7 @@
 .theme-form-2 {
     .custom-select {
         &.intl-tel-input {
-            height: calc(43px + (46 - 43) * ((100vw - 320px) / (1920 - 320)));
+            height: calc(29px + (46 - 43) * ((100vw - 320px) / (1920 - 320)));
 
             .select2 {
                 height: 100%;

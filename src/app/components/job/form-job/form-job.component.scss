@@ -1,18 +1,21 @@
-.form-label {
-    font-weight: bold;
-    margin-bottom: 5px;
-  }
   
-  .card {
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  }
-  
-  .card-header {
+  .location-header {
     border-bottom: 1px solid #ddd;
     h6{
       font-size: larger;
       font-weight: 600;
+    }
+    .btn-add{
+      background-color: #527c88;
+      color: #fff;
+    }
+  }
+
+  .location-body{
+    a{
+      i{
+        font-size: large;
+      }
     }
   }
   

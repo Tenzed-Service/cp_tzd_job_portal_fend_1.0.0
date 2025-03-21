@@ -1,19 +1,10 @@
-import { Component } from "@angular/core";
+import { Component, OnDestroy } from "@angular/core";
 import { Router, RouterModule } from "@angular/router";
 import { TranslateModule } from "@ngx-translate/core";
 import { PageWrapperComponent } from "../../shared/components/page-wrapper/page-wrapper.component";
-import { Select, Store } from "@ngxs/store";
+import { Select } from "@ngxs/store";
 import { Observable } from "rxjs";
-import { User } from "../../shared/interface/user.interface";
 import { TableClickedAction } from "../../shared/interface/table.interface";
-import { Params } from "../../shared/interface/core.interface";
-import {
-  DeleteAllUser,
-  DeleteUser,
-  ExportUser,
-  GetUsers,
-  UpdateUserStatus,
-} from "../../shared/store/action/user.action";
 import { HasPermissionDirective } from "../../shared/directive/has-permission.directive";
 import { CommonModule } from "@angular/common";
 import { ActionTypeEnum, ResponseCodeEnum } from "../../core/enums/common.enum";
@@ -28,6 +19,7 @@ import { GetTZDJobListReqVM } from "../../core/models/api/tzd-job.model";
 import { TZDJobService } from "../../core/services/api/tzd-job.service";
 import { NotificationService } from "../../shared/services/notification.service";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { JobCardSectionComponent } from "./job-card-section/job-card-section.component";
 
 @Component({
   selector: "app-job",
@@ -39,15 +31,16 @@ import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
     PageWrapperComponent,
     DynamicTableComponent,
     CommonModule,
+    JobCardSectionComponent
   ],
   templateUrl: "./job.component.html",
   styleUrl: "./job.component.scss",
 })
-export class JobComponent {
+export class JobComponent implements OnDestroy {
   @Select(RoleAuthorizeState.roleAuthorizeMenu)
   roleAuthorizeMenu$: Observable<any>;
 
-  public tableConfig: TableConfigVM<any> = {
+  tableConfig: TableConfigVM<any> = {
     columns: [
       {
         layoutName: "",
@@ -178,15 +171,45 @@ export class JobComponent {
     },
   };
   formCode: any;
+  jobConfig:any[]=[];
+  selectedStatus: string;
+  filterPills: any[] = [
+    {
+      value: 'pending',
+      label: 'Applied',
+      countKey: 'total_pending_orders',
+      color: 'pending',
+    },
+    {
+      value: 'processing',
+      label: 'Reviewed',
+      countKey: 'total_processing_orders',
+      color: 'processing',
+
+    },
+    {
+      value: 'cancel',
+      label: 'Rejected',
+      countKey: 'total_cancelled_orders',
+      color: 'cancel',
+    },
+    {
+      value: 'completed',
+      label: 'Approved',
+      countKey: 'total_delivered_orders',
+      color: 'completed',
+    },
+  ]
 
   constructor(
-    private store: Store,
     public router: Router,
     private singletonStoreService: SingletonStoreService,
     private tzdJobService: TZDJobService,
     private notificationService: NotificationService,
     private modalService: NgbModal,
-  ) {}
+  ) {
+    this.singletonStoreService.sectionHeader.next('Jobs');
+  }
 
   ngOnInit() {
     this.roleAuthorizeMenu$.subscribe({
@@ -223,10 +246,9 @@ export class JobComponent {
       layoutId: this.tableConfig.filter?.layoutId,
       commonSearch: this.tableConfig.filter?.commonSearch,
       formTabTypeId: 0,
-      searchValue: "",
-      searchField: "",
     };
-    this.tzdJobService.get_job_list(payload).subscribe({
+    // this.tzdJobService.get_job_list(payload).subscribe({
+      this.tzdJobService.get_tzd_worker_job_list(payload).subscribe({
       next: (res: APIResponseVM<any[]>) => {
         if (res.responseCode === ResponseCodeEnum.SUCCESS) {
           // this.productMasterList = res?.data;
@@ -234,16 +256,16 @@ export class JobComponent {
           this.tableConfig.totalRecords = res?.pager?.totalRecords
             ? res?.pager?.totalRecords
             : 0;
+          this.jobConfig = res?.data;
+          console.log(this.jobConfig);
+          
           // if (res?.layout && res?.layout.length > 0) {
           //   this.tableConfig.columns = res.layout;
           // }
         } else {
           this.notificationService.showError(res?.message);
         }
-      },
-      error: (err) => {
-        this.notificationService.showError(err?.message);
-      },
+      }
     });
   }
 
@@ -289,16 +311,17 @@ export class JobComponent {
     }
   }
 
-  status(data: User) {
-    this.store.dispatch(new UpdateUserStatus(data.id, data.status));
+  filterOrder(status: string) {
+    // this.renderer.addClass(this.document.body, 'loader-none');
+    // this.router.navigate([], {
+    //   queryParams: {
+    //     'status': status ? status : null,
+    //   },
+    //   queryParamsHandling: 'merge'
+    // });
   }
 
-
-  deleteAll(ids: number[]) {
-    this.store.dispatch(new DeleteAllUser(ids));
-  }
-
-  export() {
-    this.store.dispatch(new ExportUser());
+  ngOnDestroy(): void {
+    this.singletonStoreService.sectionHeader.next('');
   }
 }

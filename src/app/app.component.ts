@@ -49,25 +49,25 @@ export class AppComponent {
         error: (error: any) => {            
         },
       });
-    this.setting$.subscribe(setting => {
-      // Set Direction
-      if(setting?.general?.admin_site_language_direction === 'rtl'){
-        document.getElementsByTagName('html')[0].setAttribute('dir', 'rtl');
-        document.body.classList.add('ltr');
-      }else {
-        document.getElementsByTagName('html')[0].removeAttribute('dir');
-        document.body.classList.remove('ltr');
-      }
+    // this.setting$.subscribe(setting => {
+    //   // Set Direction
+    //   if(setting?.general?.admin_site_language_direction === 'rtl'){
+    //     document.getElementsByTagName('html')[0].setAttribute('dir', 'rtl');
+    //     document.body.classList.add('ltr');
+    //   }else {
+    //     document.getElementsByTagName('html')[0].removeAttribute('dir');
+    //     document.body.classList.remove('ltr');
+    //   }
 
-      // Set Favicon
-      this.favIcon = document.querySelector('#appIcon');
-      if(this.favIcon && this.favIcon.href)
-        this.favIcon.href = setting?.general?.favicon_image?.original_url!;
+    //   // Set Favicon
+    //   this.favIcon = document.querySelector('#appIcon');
+    //   if(this.favIcon && this.favIcon.href)
+    //     this.favIcon.href = setting?.general?.favicon_image?.original_url!;
 
-      // Set site title
-      this.titleService.setTitle(setting?.general?.site_title && setting?.general?.site_tagline ?
-        `${setting?.general?.site_title} | ${setting?.general?.site_tagline}` : 'Marketplace: Where Vendors Shine Together' )
-    });
+    //   // Set site title
+    //   this.titleService.setTitle(setting?.general?.site_title && setting?.general?.site_tagline ?
+    //     `${setting?.general?.site_title} | ${setting?.general?.site_tagline}` : 'Marketplace: Where Vendors Shine Together' )
+    // });
 
     // customize default values of navs used by this component tree
 		config.destroyOnHide = false;

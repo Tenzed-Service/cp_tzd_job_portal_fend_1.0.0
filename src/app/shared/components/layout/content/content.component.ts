@@ -44,7 +44,6 @@ export class ContentComponent {
   constructor(
     private store: Store,
     public navServices: NavService,
-    private router: Router,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);

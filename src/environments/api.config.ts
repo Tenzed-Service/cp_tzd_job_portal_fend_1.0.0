@@ -39,5 +39,7 @@ export const apiConfig = {
         get_tzd_job: environment.apiURL+'TZDJob/get_tzd_job/',
         get_job_list: environment.apiURL+'TZDJob/get_job_list',
         delete_tzd_job: environment.apiURL+'TZDJob/delete_tzd_job/',
+        get_tzd_worker_job_list: environment.apiURL+'TZDJob/get_tzd_worker_job_list',
+        save_tzd_job_apply: environment.apiURL+'TZDJob/save_tzd_job_apply',
     },
 }

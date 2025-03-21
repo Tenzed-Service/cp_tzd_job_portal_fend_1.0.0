@@ -1,13 +1,12 @@
 
 import { Component, Inject, Input, PLATFORM_ID } from '@angular/core';
-import { Select, Store } from '@ngxs/store';
+import { Select } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { Select2Data, Select2Module, Select2SearchEvent, Select2UpdateEvent } from 'ng-select2-component';
 import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { countryCodes } from '../../../shared/data/country-code';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { FormFieldsComponent } from '../../../shared/components/ui/form-fields/form-fields.component';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { ButtonComponent } from '../../../shared/components/ui/button/button.component';
 import { TZDAllActiveDDLListState } from '../../../shared/store/state/tzd-product-master.state';
@@ -27,7 +26,7 @@ import moment from 'moment';
   standalone: true,
   imports: [
     TranslateModule, FormsModule, ReactiveFormsModule,
-    Select2Module, CommonModule, ButtonComponent, FormFieldsComponent,
+    Select2Module, CommonModule, ButtonComponent,
     ],
   templateUrl: './form-job.component.html',
   styleUrl: './form-job.component.scss'
@@ -65,7 +64,6 @@ export class FormJobComponent {
 
   constructor(
     @Inject(PLATFORM_ID) platformId: Object,
-    private store: Store, 
     private singletonStoreService: SingletonStoreService,
     private router: Router, 
     private formBuilder: FormBuilder,
@@ -381,10 +379,7 @@ export class FormJobComponent {
           } else {
             this.notificationService.showError(res?.message);
           }
-        },
-        error: (err) => {
-          this.notificationService.showError(err?.message);
-        },
+        }
       });
   }
 

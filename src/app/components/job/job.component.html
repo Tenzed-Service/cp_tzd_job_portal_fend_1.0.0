@@ -1,14 +1,30 @@
-<app-page-wrapper [gridClass]="'col-sm-12'" [title]="'jobs'">
+<app-page-wrapper [gridClass]="'col-sm-12'" [title]="''">
   <div class="d-flex flex-wrap gap-2" *hasPermission="'user.create'" button>
     <a [routerLink]="['/jobs/create']" class="align-items-center btn btn-theme">
       <i class="ri-add-line"></i> {{ 'add_job' | translate }}
     </a>
   </div>
-  <app-dynamic-table
+  <!-- <app-dynamic-table
     [tableConfig]="tableConfig"
     [pagination]="true"
     (tableChanged)="onTableChange($event)"
     (rowClicked)="edit($event)"
     (action)="onActionClicked($event)">
-  </app-dynamic-table>
+  </app-dynamic-table> -->
+
+  <div advanceFilter class="show-box mb-4 d-block">
+    <ul class="order-tab-content">
+      <li [class.active]="!selectedStatus">
+        <a href="javascript:void(0)" (click)="filterOrder('')">{{ 'all' | translate}}<span>{{jobConfig.length}}</span></a>
+      </li>
+
+      @for(status of filterPills; track status){
+        <li [class.active]="selectedStatus === status.value ? 'active' : ''" [class]="status.color">
+          <a href="javascript:void(0)" (click)="filterOrder(status.value)">{{ status.label }} <span>{{status.count}}</span></a>
+        </li>
+      }
+    </ul>
+  </div>
+
+  <app-job-card-section [jobConfig]="jobConfig"></app-job-card-section> 
 </app-page-wrapper>
