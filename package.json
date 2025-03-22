@@ -3,14 +3,17 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "node --max-old-space-size=4000 ./node_modules/@angular/cli/bin/ng serve",
+    "start": "node --max-old-space-size=8000 ./node_modules/@angular/cli/bin/ng serve",
     "build": "ng build",
-    "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "serve:ssr": "node dist/multikart-admin/server/server.mjs",
     "build:ssr": "ng build && ng run multikart-admin:server",
     "vercel-build": "npm run build:ssr",
-    "prerender": "ng run multikart-admin:prerender"
+    "prerender": "ng run multikart-admin:prerender",
+    "build-job-portal-dev": "npx rimraf dist && node --max_old_space_size=8000 ./node_modules/@angular/cli/bin/ng build --configuration development",
+    "publish-job-portal-dev": "npm run build-job-portal-dev && npx wrangler pages deploy ./dist/multikart-admin --project-name job-portal-dev",
+    "build-job-portal-prod": "npx rimraf dist && node --max_old_space_size=8000 ./node_modules/@angular/cli/bin/ng build --configuration production",
+    "publish-job-portal-prod": "npm run build-job-portal-prod && npx wrangler pages deploy ./dist/multikart-admin --project-name job-portal-prod"
   },
   "private": true,
   "dependencies": {
@@ -44,8 +47,10 @@
     "ngx-editor": "^16.0.1",
     "ngx-owl-carousel-o": "^18.0.0",
     "ngx-toastr": "^18.0.0",
+    "rimraf": "^6.0.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
+    "wrangler": "^4.3.0",
     "zone.js": "~0.14.2"
   },
   "devDependencies": {
