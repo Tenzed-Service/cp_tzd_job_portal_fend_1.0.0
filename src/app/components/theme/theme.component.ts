@@ -10,7 +10,7 @@ import { Themes, ThemesModel } from '../../shared/interface/theme.interface';
 import { GetThemes, UpdateTheme } from '../../shared/store/action/theme.action';
 import { ThemeState } from '../../shared/store/state/theme.state';
 import { HasPermissionDirective } from '../../shared/directive/has-permission.directive';
-import { environment } from '../../../environments/environment.development';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-theme',

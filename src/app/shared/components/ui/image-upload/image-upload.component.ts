@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core
 import { Attachment } from '../../../interface/attachment.interface';
 import { MediaModalComponent } from '../modal/media-modal/media-modal.component';
 import { CommonModule } from '@angular/common';
-import { environment } from "../../../../../environments/environment.development";
+import { environment } from "../../../../../environments/environment";
 
 @Component({
   selector: 'app-image-upload',
