@@ -67,7 +67,8 @@ export class LoginComponent {
         }, 
         error: (err)=>{
           if (err?.status === 409) {
-            this.ConfirmationModal.openModal('credit');
+            const message = 'You are already logged in on a different device. If you proceed, that login will be terminated.';
+            this.ConfirmationModal.openModal('','','',message);
           }else{
             this.notificationService.showError(err?.message);
           }          

@@ -1,4 +1,4 @@
-@if(loadingStatus$ | async){
+@if(isLoading | async){
    <app-loader></app-loader>
 }
 
@@ -10,12 +10,16 @@
                @if(title){
                   <div class="title-header pb-0">
                      <div class="d-flex align-items-center">
+                        @if(showTitle){
                         <h5 class="mb-0">{{ title | translate }}</h5>
                         <ng-content select="[option]"></ng-content>
+                        }
                      </div>
                      <ng-content select="[button]"></ng-content>
                   </div>
+                  @if(border){
                   <hr class="mt-2">
+                  }
                }
                <ng-content></ng-content>
             </div>

@@ -47,22 +47,24 @@ export class ContentComponent {
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
-    this.commonHeaderDetails$.subscribe({
-      next: (resData: APIResponseVM<APIHeaderVM>) => {
-        if (resData?.data?.CompanyId) {
-          this.store.dispatch(new GetRoleAuthorizeDetails()).subscribe({
-            next: (res) => {
-              
-              if (res?.roleManagement?.data?.length > 0) {
-                this.sideBarOptions = res?.roleManagement?.data.find((option:any)=>option?.PositionName === RoleOptionEnum.SIDEBAR)?.Menu;
-              }
-              this.isLoading = false;
-            },
-            error:(err)=>{this.isLoading = false;}
-          });
-        }
-      },
-    });
+    if (this.isBrowser) {
+      this.commonHeaderDetails$.subscribe({
+        next: (resData: APIResponseVM<APIHeaderVM>) => {
+          if (resData?.data?.CompanyId) {
+            this.store.dispatch(new GetRoleAuthorizeDetails()).subscribe({
+              next: (res) => {
+                
+                if (res?.roleManagement?.data?.length > 0) {
+                  this.sideBarOptions = res?.roleManagement?.data.find((option:any)=>option?.PositionName === RoleOptionEnum.SIDEBAR)?.Menu;
+                }
+                this.isLoading = false;
+              },
+              error:(err)=>{this.isLoading = false;}
+            });
+          }
+        },
+      });      
+    }
     // this.router.events.subscribe((event) => {
     //   if (event instanceof NavigationEnd) {
     //     if (event.url === "/order/create") {

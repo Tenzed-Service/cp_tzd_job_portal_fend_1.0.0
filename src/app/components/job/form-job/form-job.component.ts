@@ -1,7 +1,7 @@
 
 import { Component, Inject, Input, PLATFORM_ID } from '@angular/core';
 import { Select } from '@ngxs/store';
-import { Observable, Subject } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Select2Data, Select2Module, Select2SearchEvent, Select2UpdateEvent } from 'ng-select2-component';
 import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { countryCodes } from '../../../shared/data/country-code';
@@ -15,7 +15,7 @@ import { APIResponseVM } from '../../../core/models/common/common.model';
 import { ActionTypeEnum, ResponseCodeEnum } from '../../../core/enums/common.enum';
 import { TZDJobService } from '../../../core/services/api/tzd-job.service';
 import { NotificationService } from '../../../shared/services/notification.service';
-import { SaveTZDJobListReqVM } from '../../../core/models/api/tzd-job.model';
+import { GetJobDetailsResVM, SaveTZDJobListReqVM } from '../../../core/models/api/tzd-job.model';
 import { CountryState } from '../../../shared/store/state/country.state';
 import { SingletonStoreService } from '../../../core/services/helper/singleton-store.service';
 import { RoleAuthorizeState } from '../../../shared/store/state/role-management.state';
@@ -44,8 +44,6 @@ export class FormJobComponent {
   public jobForm: FormGroup;
   public id: number;
   public codes = countryCodes;
-  
-  private destroy$ = new Subject<void>();
   latitude: number = 0;
 	longitude: number = 0;
   allSkillList:any[] = [];
@@ -69,7 +67,7 @@ export class FormJobComponent {
     private formBuilder: FormBuilder,
     private tzdJobService: TZDJobService,
     private notificationService: NotificationService,
-    private activeRouter: ActivatedRoute
+    private activeRouter: ActivatedRoute,
   ) {
     this.platformId = isPlatformBrowser(platformId);
     this.jobId = Number(this.activeRouter.snapshot.paramMap.get("id")!);    
@@ -78,60 +76,62 @@ export class FormJobComponent {
   ngOnInit() {
     this.getLocation();
 
-    this.countries$.subscribe((option) => {
-      this.countryList = option;
-      if (this.countryList) {
-        this.allCountryList = [...this.countryList];
-      }
-    });
-
-    this.activeDDLList$.subscribe((result: any) => {
-      if (result) {
-        if (result?.skill) {
-          this.skillList = result?.skill.map((cn: Skill) => {
-            return { ...cn, label: cn?.skillName, value: cn?.skillIMasterId };
-          });
-          this.allSkillList = [...this.skillList];          
+    if (this.platformId) {
+      this.countries$.subscribe((option) => {
+        this.countryList = option;
+        if (this.countryList) {
+          this.allCountryList = [...this.countryList];
         }
-        if (result?.amountType) {
-          this.amountTypeList = result?.amountType.map((cn: AmountType) => {
-            return { ...cn, label: cn?.amountTypeName, value: cn?.amountTypeId };
-          });       
-        }
-        if (result?.bpLanguage) {
-          this.languageList = result?.bpLanguage.map((cn: BpLanguage) => {
-            return { ...cn, label: cn?.bpLanguageName, value: cn?.bpLanguageId };
-          });
-          this.allLanguageList = [...this.languageList];          
-        }
-      }
-    });
-
-      this.jobForm = this.formBuilder.group({
-        jobTitle: ['', Validators.required],
-        description: ['', Validators.required],
-        comment: [''],
-        nameOfOwner: ['', Validators.required],
-        email: ['', [Validators.required, Validators.email]],
-        dialCode: ['91'],
-        contactNo: ['', Validators.required],
-        amount: [null, Validators.required],
-        jobType: [null, Validators.required],
-        jobStartTime: ['', Validators.required],
-        jobEndTime: ['', Validators.required],
-        experience: [null, Validators.required],
-        amountType: [null, Validators.required],
-        status: [true],
-        dueDate: ['', Validators.required],
-        jobLocations: this.formBuilder.array([]),
-        jobSkillIds: ['', Validators.required],
-        jobLanguageIds: ['', Validators.required]
       });
-      if (this.jobId === 0) {
-        // Initialize with one location by default
-        this.addLocation();
-      }
-      this.masterAPICall();
+  
+      this.activeDDLList$.subscribe((result: any) => {
+        if (result) {
+          if (result?.skill) {
+            this.skillList = result?.skill.map((cn: Skill) => {
+              return { ...cn, label: cn?.skillName, value: cn?.skillIMasterId };
+            });
+            this.allSkillList = [...this.skillList];          
+          }
+          if (result?.amountType) {
+            this.amountTypeList = result?.amountType.map((cn: AmountType) => {
+              return { ...cn, label: cn?.amountTypeName, value: cn?.amountTypeId };
+            });       
+          }
+          if (result?.bpLanguage) {
+            this.languageList = result?.bpLanguage.map((cn: BpLanguage) => {
+              return { ...cn, label: cn?.bpLanguageName, value: cn?.bpLanguageId };
+            });
+            this.allLanguageList = [...this.languageList];          
+          }
+        }
+      });
+  
+        this.jobForm = this.formBuilder.group({
+          jobTitle: ['', Validators.required],
+          description: [''],
+          comment: [''],
+          nameOfOwner: ['', Validators.required],
+          email: ['', [Validators.required, Validators.email]],
+          dialCode: ['91'],
+          contactNo: ['', Validators.required],
+          amount: [null, Validators.required],
+          jobType: [null, Validators.required],
+          jobStartTime: ['', Validators.required],
+          jobEndTime: ['', Validators.required],
+          experience: [null, Validators.required],
+          amountType: [null, Validators.required],
+          status: [true],
+          dueDate: ['', Validators.required],
+          jobLocations: this.formBuilder.array([]),
+          jobSkillIds: ['', Validators.required],
+          jobLanguageIds: ['', Validators.required]
+        });
+        if (this.jobId === 0) {
+          // Initialize with one location by default
+          this.addLocation();
+        }
+        this.masterAPICall();
+    }
   }
 
    // Getter for form array
@@ -184,8 +184,9 @@ export class FormJobComponent {
   }
 
   getJobData(){
+    this.singletonStoreService.isLoading.next(true);
     this.tzdJobService.get_tzd_job(this.jobId).subscribe({
-      next: (res) => {
+      next: (res:APIResponseVM<GetJobDetailsResVM>) => {
         if (res.responseCode === ResponseCodeEnum.SUCCESS) {
           this.formControl['jobTitle'].setValue(res?.data?.jobTitle);
           this.formControl['description'].setValue(res?.data?.description);
@@ -210,8 +211,8 @@ export class FormJobComponent {
             const jobLanguageIds = res?.data?.languages.map((data:BpLanguage)=>data?.bpLanguageId);
             this.formControl['jobLanguageIds'].setValue(jobLanguageIds ? jobLanguageIds : []);
           }
-          this.latitude = res?.data?.latitude;
-          this.longitude = res?.data?.longitude;
+          this.latitude = +res?.data?.latitude;
+          this.longitude = +res?.data?.longitude;
           if (res?.data?.jobLocation) {
             res?.data?.jobLocation.forEach((location:any) => {
               this.selectCountryState(location?.countryId,'country');
@@ -231,9 +232,10 @@ export class FormJobComponent {
         } else {
           this.notificationService.showError(res?.message);
         }
+        this.singletonStoreService.isLoading.next(false);
       },
       error: (err) => {
-        console.log(err);
+        this.singletonStoreService.isLoading.next(false);
       },
     });
   }
@@ -297,7 +299,7 @@ export class FormJobComponent {
       }
     }
   
-    selectCountryState(data: Select2UpdateEvent, type: string, index:number = 0) {
+    selectCountryState(data: Select2UpdateEvent, type: string) {
       if (type === "country") {
         // this.registrationForm.get("stateId")?.setValue("");
         // this.registrationForm.get("cityId")?.setValue("");
@@ -375,7 +377,7 @@ export class FormJobComponent {
         next: (res: APIResponseVM<any[]>) => {
           if (res.responseCode === ResponseCodeEnum.SUCCESS) {
             this.notificationService.showSuccess(res?.message);
-            this.router.navigateByUrl("/jobs");
+            this.closeSection();
           } else {
             this.notificationService.showError(res?.message);
           }
@@ -383,8 +385,7 @@ export class FormJobComponent {
       });
   }
 
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
+  closeSection(){
+    this.router.navigateByUrl("/jobs");
   }
 }

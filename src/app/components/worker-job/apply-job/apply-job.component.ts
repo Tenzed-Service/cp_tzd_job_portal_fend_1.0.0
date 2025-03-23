@@ -63,12 +63,16 @@ export class ApplyJobComponent implements OnInit, OnDestroy {
             next: (res: APIResponseVM<any[]>) => {
               if (res.responseCode === ResponseCodeEnum.SUCCESS) {
                 this.notificationService.showSuccess(res?.message);
-                this.router.navigateByUrl("/jobs");
+                this.closeSection();
               } else {
                 this.notificationService.showError(res?.message);
               }
             }
           });
+  }
+
+  closeSection(){
+    this.router.navigateByUrl("/worker-jobs");
   }
 
   ngOnDestroy(): void {

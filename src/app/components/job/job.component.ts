@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from "@angular/core";
+import { Component, Inject, OnDestroy, PLATFORM_ID, ViewChild } from "@angular/core";
 import { Router, RouterModule } from "@angular/router";
 import { TranslateModule } from "@ngx-translate/core";
 import { PageWrapperComponent } from "../../shared/components/page-wrapper/page-wrapper.component";
@@ -6,8 +6,8 @@ import { Select } from "@ngxs/store";
 import { Observable } from "rxjs";
 import { TableClickedAction } from "../../shared/interface/table.interface";
 import { HasPermissionDirective } from "../../shared/directive/has-permission.directive";
-import { CommonModule } from "@angular/common";
-import { ActionTypeEnum, ResponseCodeEnum } from "../../core/enums/common.enum";
+import { CommonModule, isPlatformBrowser } from "@angular/common";
+import { ActionTypeEnum, ResponseCodeEnum, UserTypeEnum } from "../../core/enums/common.enum";
 import { SingletonStoreService } from "../../core/services/helper/singleton-store.service";
 import { RoleAuthorizeState } from "../../shared/store/state/role-management.state";
 import {
@@ -19,7 +19,8 @@ import { GetTZDJobListReqVM } from "../../core/models/api/tzd-job.model";
 import { TZDJobService } from "../../core/services/api/tzd-job.service";
 import { NotificationService } from "../../shared/services/notification.service";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { JobCardSectionComponent } from "./job-card-section/job-card-section.component";
+import { JobCardSectionComponent } from "../worker-job/job-card-section/job-card-section.component";
+import { DeleteModalComponent } from "../../shared/components/ui/modal/delete-modal/delete-modal.component";
 
 @Component({
   selector: "app-job",
@@ -31,7 +32,8 @@ import { JobCardSectionComponent } from "./job-card-section/job-card-section.com
     PageWrapperComponent,
     DynamicTableComponent,
     CommonModule,
-    JobCardSectionComponent
+    JobCardSectionComponent,
+    DeleteModalComponent
   ],
   templateUrl: "./job.component.html",
   styleUrl: "./job.component.scss",
@@ -39,6 +41,8 @@ import { JobCardSectionComponent } from "./job-card-section/job-card-section.com
 export class JobComponent implements OnDestroy {
   @Select(RoleAuthorizeState.roleAuthorizeMenu)
   roleAuthorizeMenu$: Observable<any>;
+
+  @ViewChild("deleteModal") DeleteModal: DeleteModalComponent;
 
   tableConfig: TableConfigVM<any> = {
     columns: [
@@ -172,34 +176,7 @@ export class JobComponent implements OnDestroy {
   };
   formCode: any;
   jobConfig:any[]=[];
-  selectedStatus: string;
-  filterPills: any[] = [
-    {
-      value: 'pending',
-      label: 'Applied',
-      countKey: 'total_pending_orders',
-      color: 'pending',
-    },
-    {
-      value: 'processing',
-      label: 'Reviewed',
-      countKey: 'total_processing_orders',
-      color: 'processing',
-
-    },
-    {
-      value: 'cancel',
-      label: 'Rejected',
-      countKey: 'total_cancelled_orders',
-      color: 'cancel',
-    },
-    {
-      value: 'completed',
-      label: 'Approved',
-      countKey: 'total_delivered_orders',
-      color: 'completed',
-    },
-  ]
+  userTypeEnum = UserTypeEnum;
 
   constructor(
     public router: Router,
@@ -207,11 +184,13 @@ export class JobComponent implements OnDestroy {
     private tzdJobService: TZDJobService,
     private notificationService: NotificationService,
     private modalService: NgbModal,
+    @Inject(PLATFORM_ID) private platformId: Object
   ) {
     this.singletonStoreService.sectionHeader.next('Jobs');
   }
 
   ngOnInit() {
+    if (isPlatformBrowser(this.platformId)) {
     this.roleAuthorizeMenu$.subscribe({
       next: (res) => {
         if (res) {
@@ -236,6 +215,7 @@ export class JobComponent implements OnDestroy {
       },
     });
   }
+  }
 
   loadJobList() {
     const payload: GetTZDJobListReqVM = {
@@ -247,8 +227,7 @@ export class JobComponent implements OnDestroy {
       commonSearch: this.tableConfig.filter?.commonSearch,
       formTabTypeId: 0,
     };
-    // this.tzdJobService.get_job_list(payload).subscribe({
-      this.tzdJobService.get_tzd_worker_job_list(payload).subscribe({
+    this.tzdJobService.get_job_list(payload).subscribe({
       next: (res: APIResponseVM<any[]>) => {
         if (res.responseCode === ResponseCodeEnum.SUCCESS) {
           // this.productMasterList = res?.data;
@@ -283,14 +262,15 @@ export class JobComponent implements OnDestroy {
     if (action.actionToPerform == 'edit')
       this.edit(action.data)
     else if (action.actionToPerform == 'delete')
-      this.delete(action.data)
+      // this.delete(action.data)
+    this.DeleteModal.openModal('delete',action.data)
   }
 
   edit(data: any) {
     this.router.navigateByUrl(`/jobs/edit/${data?.jobId}`);
   }
 
-  delete(data: any) {
+  delete(data: any) {     
     if (data.jobId) {
       this.tzdJobService.delete_tzd_job(data?.jobId).subscribe({
         next: (res) => {
@@ -309,16 +289,6 @@ export class JobComponent implements OnDestroy {
     }else{
       this.notificationService.showError('This job not found.');
     }
-  }
-
-  filterOrder(status: string) {
-    // this.renderer.addClass(this.document.body, 'loader-none');
-    // this.router.navigate([], {
-    //   queryParams: {
-    //     'status': status ? status : null,
-    //   },
-    //   queryParamsHandling: 'merge'
-    // });
   }
 
   ngOnDestroy(): void {

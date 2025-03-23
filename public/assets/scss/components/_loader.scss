@@ -14,12 +14,12 @@
     position: fixed;
     left: 0;
     width: 100vw;
-    height: calc(100vh - 138px);
-    background-color: #f8f8f8;
+    height: 100vh;
+    background-color: #00000073;
     z-index: 6;
     text-align: center;
     gap: 15px;
-    top: 90px;
+    // top: 90px;
     padding-left: 320px;
 
     [dir="rtl"] & {

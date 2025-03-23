@@ -16,6 +16,7 @@ export class ConfirmationModalComponent {
   public closeResult: string;
   public modalOpen: boolean = false;
   public userAction: TableClickedAction;
+  confirmationMassage:string = '';
 
   @ViewChild("confirmationModal", { static: false }) ConfirmationModal: TemplateRef<any>;
 
@@ -23,8 +24,9 @@ export class ConfirmationModalComponent {
 
   constructor(private modalService: NgbModal) { }
 
-  async openModal(action: string, data?: any, value?: any) {
+  async openModal(action: string, data?: any, value?: any, message:string = '') {
     this.modalOpen = true;
+    this.confirmationMassage = message;
     this.userAction = {
       actionToPerform: action,
       data: data,

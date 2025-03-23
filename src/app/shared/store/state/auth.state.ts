@@ -58,6 +58,11 @@ export class AuthState {
     return state.token;
   }
 
+  @Selector()
+  static loginUserDetails(state: AuthStateModel) {
+    return state;
+  }
+
   @Action(Login)
   login(ctx: StateContext<AuthStateModel>, action: Login) {
     // this.notificationService.notification = false;

@@ -4,7 +4,7 @@ import { SaveUserReqVM } from '../../models/api/user.model';
 import { apiConfig } from '../../../../environments/api.config';
 import { Observable } from 'rxjs';
 import { APIResponseVM } from '../../models/common/common.model';
-import { GetTZDJobListReqVM, SaveTZDJobApplyReqVM, SaveTZDJobListReqVM } from '../../models/api/tzd-job.model';
+import { GetJobDetailsResVM, GetTZDJobListReqVM, SaveTZDJobApplyReqVM, SaveTZDJobListReqVM } from '../../models/api/tzd-job.model';
 
 @Injectable({
   providedIn: 'root'
@@ -28,9 +28,9 @@ export class TZDJobService {
     return this.http.post<APIResponseVM<any>>(url,payload);
   }
 
-  get_tzd_job(jobId:number): Observable<APIResponseVM<any>>{
+  get_tzd_job(jobId:number): Observable<APIResponseVM<GetJobDetailsResVM>>{
     const url = apiConfig.tzdJob.get_tzd_job + jobId;
-    return this.http.get<APIResponseVM<any>>(url);
+    return this.http.get<APIResponseVM<GetJobDetailsResVM>>(url);
   }
 
   get_job_list(payload:GetTZDJobListReqVM): Observable<APIResponseVM<any>>{

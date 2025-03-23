@@ -1,9 +1,9 @@
-import { routes } from './../../../app.routes';
-import { Component, Input, OnInit } from '@angular/core';
+import { UserTypeEnum } from './../../../core/enums/common.enum';
+
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { JobTypeEnum } from '../../../core/enums/common.enum';
+import { JobTypeEnum } from '../../../core/enums/job.enum';
 import { ButtonComponent } from '../../../shared/components/ui/button/button.component';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-job-card-section',
@@ -18,17 +18,23 @@ import { Router } from '@angular/router';
 export class JobCardSectionComponent implements OnInit {
 
   @Input() jobConfig:any[]=[];
+  @Input() userType:string = UserTypeEnum.COMPANY;
+  @Output() cardAction = new EventEmitter();
   jobTypeEnum = JobTypeEnum;
+  userTypeEnum = UserTypeEnum;
 
   constructor(
-    private router: Router
   ){
   }
 
-  ngOnInit(): void { 
+  ngOnInit(): void {
   }
 
-  applyJob(jobId:number){
-    this.router.navigate([`/jobs/apply/${jobId}`]);
+  action(type:string,data:any){
+    this.cardAction.emit({
+      actionToPerform: type,
+      data: data,
+      value: ''
+  });
   }
 }

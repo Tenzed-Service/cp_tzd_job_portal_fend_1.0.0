@@ -1,8 +1,8 @@
 <ng-template #confirmationModal let-modal>
    <div class="modal-body">
       <i class="ri-question-line icon-box wo-bg"></i>
-      <h5 class="modal-title">{{ 'confirmation' | translate }}</h5>
-      <p>{{ 'confirmation_massage' | translate }}</p>
+      <h5 class="modal-title">Are you sure?</h5>
+      <p>{{ confirmationMassage ? confirmationMassage :('confirmation_massage' | translate) }}</p>
       <div class="button-box">
          <app-button 
             [class]="'btn-md fw-bold btn btn-outline'" 

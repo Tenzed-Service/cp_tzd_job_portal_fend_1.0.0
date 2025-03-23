@@ -7,4 +7,5 @@ export class SingletonStoreService {
     public formCode = new BehaviorSubject(null);
     public userSelected = new BehaviorSubject('');
     public sectionHeader = new BehaviorSubject('');
+    public isLoading = new BehaviorSubject(false);
 }

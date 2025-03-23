@@ -108,7 +108,7 @@ export interface BpRating {
 export interface BpLanguage {
     bpLanguageId: number,
     bpLanguageName: string,
-    status: boolean
+    status?: boolean
 }
 
 export interface AmountType {
@@ -120,7 +120,7 @@ export interface AmountType {
 export interface Skill {
     skillIMasterId:number,
     skillName:string,
-    status: boolean
+    status?: boolean
 }
 
 export interface GetTZDProductMasterListReqVM extends GetTableListResponseVM {

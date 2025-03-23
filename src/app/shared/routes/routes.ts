@@ -10,6 +10,10 @@ export const content: Routes = [
     loadChildren: () => import('../../components/job/job.routes').then(r => r.jobRoutes)
   },
   {
+    path: 'worker-jobs',
+    loadChildren: () => import('../../components//worker-job//worker-job.routes').then(r => r.workerJobRoutes)
+  },
+  {
     path: 'account',
     loadChildren: () => import('../../components/account/account.routes').then(r => r.accountRoutes)
   },

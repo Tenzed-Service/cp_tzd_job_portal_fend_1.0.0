@@ -11,6 +11,14 @@
     border-color: inherit;
 }
 
+.btn-outline-success{
+    border: 1px solid #198754 !important;
+}
+
+.btn-outline-danger{
+    border: 1px solid #dc3545 !important;
+}
+
 .btn {
     @include flex_common;
     gap: 8px;

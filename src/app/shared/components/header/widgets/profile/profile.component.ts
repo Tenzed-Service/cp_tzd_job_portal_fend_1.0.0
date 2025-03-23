@@ -1,3 +1,4 @@
+import { AuthState } from './../../../../store/state/auth.state';
 import { Component, ViewChild } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { AccountState } from '../../../../store/state/account.state';
@@ -24,6 +25,7 @@ import { ResponseCodeEnum } from '../../../../../core/enums/common.enum';
 export class ProfileComponent {
 
   @Select(AccountState.user) user$: Observable<AccountUser>;
+  @Select(AuthState.loginUserDetails) loginUserDetails$: Observable<any>;
 
   // @ViewChild("confirmationModal") ConfirmationModal: ConfirmationModalComponent;
 
