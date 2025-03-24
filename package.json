@@ -11,9 +11,9 @@
     "vercel-build": "npm run build:ssr",
     "prerender": "ng run multikart-admin:prerender",
     "build-job-portal-dev": "npx rimraf dist && node --max_old_space_size=8000 ./node_modules/@angular/cli/bin/ng build --configuration development",
-    "publish-job-portal-dev": "npm run build-job-portal-dev && npx wrangler pages deploy ./dist/multikart-admin --project-name job-portal-dev",
+    "publish-job-portal-dev": "npm run build-job-portal-dev && npx wrangler pages deploy ./dist/multikart-admin/browser --project-name job-portal-dev",
     "build-job-portal-prod": "npx rimraf dist && node --max_old_space_size=8000 ./node_modules/@angular/cli/bin/ng build --configuration production",
-    "publish-job-portal-prod": "npm run build-job-portal-prod && npx wrangler pages deploy ./dist/multikart-admin --project-name job-portal-prod"
+    "publish-job-portal-prod": "npm run build-job-portal-prod && npx wrangler pages deploy ./dist/multikart-admin/browser --project-name job-portal-prod"
   },
   "private": true,
   "dependencies": {
