@@ -84,7 +84,7 @@
         width: 100%;
         display: flex !important;
         align-items: center;
-        background-color: $inner-bg !important;
+        background-color: $white !important;
     }
 
     .ck-content {
@@ -157,7 +157,7 @@
     textarea,
     select {
         border-color: $form-input-border-color !important;
-        background-color: $inner-bg !important;
+        background-color: $white !important;
         font-size: $form-placeholder-font-size;
         color: #444;
         padding: calc(10px + (12 - 10) * ((100vw - 320px) / (1920 - 320))) 10px;

@@ -61,12 +61,12 @@
          </thead>
          <tbody>
             @for(columnData of tableConfig?.data; track columnData; let i = $index){
-               <tr>
+               <tr class="w-100">
                   @for(columnHead of tableConfig?.columns; track columnHead){
                      <td class="cursor-pointer" (click)="onRowClicked(columnData)">
                        @if (columnHead && columnHead?.fieldDataType && columnHead?.fieldDataType == fieldDataTypeEnum.VARCHAR) {
                         <div [ngStyle]="{'text-align' : columnHead?.alignment}">
-                           {{showColumnValue(columnData, columnHead.fieldName)}}
+                           {{(showColumnValue(columnData, columnHead.aliasName) ? showColumnValue(columnData, columnHead.aliasName)+' ' : '') + showColumnValue(columnData, columnHead.fieldName)}}
                         </div>
                        }@else if (columnHead && columnHead?.fieldDataType && columnHead?.fieldDataType == fieldDataTypeEnum.INT) {
                         <div [ngStyle]="{'text-align' : columnHead?.alignment}">
@@ -83,6 +83,21 @@
                        }@else if (columnHead && columnHead?.fieldDataType && columnHead?.fieldDataType == fieldDataTypeEnum.DECIMAL) {
                         <div [ngStyle]="{'text-align' : columnHead?.alignment}">
                            {{showColumnValue(columnData, columnHead.fieldName)}}
+                        </div>
+                       }@else if (columnHead && columnHead?.fieldDataType && columnHead?.fieldDataType == fieldDataTypeEnum.STATUS) {
+                        <div [ngStyle]="{'text-align' : columnHead?.alignment}">
+                           @if (showColumnValue(columnData, columnHead.fieldName)==jobListTypeEnum.JOB_APPLIED) {
+                           <span class="new-badge new-bg-success me-2">Job Applied</span>
+                           }
+                           @if (showColumnValue(columnData, columnHead.fieldName)==jobListTypeEnum.JOB_APPROVED) {
+                           <span class="new-badge new-bg-green me-2">Job Approved</span>
+                           }
+                           @if (showColumnValue(columnData, columnHead.fieldName)==jobListTypeEnum.JOB_REJECTED) {
+                           <span class="new-badge new-bg-danger me-2">Job Rejected</span>
+                           }
+                           @if (showColumnValue(columnData, columnHead.fieldName)==jobListTypeEnum.JOB_REVIEWED) {
+                              <span class="new-badge bg-primary me-2">Job Reviewed</span>
+                           }
                         </div>
                        }
                      </td>

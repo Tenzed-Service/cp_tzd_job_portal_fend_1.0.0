@@ -5,9 +5,15 @@ export interface GetTZDJobListReqVM extends GetTableListResponseVM {
 	jobApplyStatus?: number
 }
 
+export interface GetTZDCompanyJobApplyWorkerListReqVM extends GetTableListResponseVM {
+	formTabTypeId: number | null,
+	jobApplyStatus?: number,
+	jobId: number,
+}
+
 export interface SaveTZDJobApplyReqVM {
 	jobApplyId: number | null,
-	jobId: number,
+	jobId?: number,
 	jobApplyStatus: number,
 	comments: string,
   }

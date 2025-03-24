@@ -20,6 +20,7 @@ export enum FieldDataTypeEnum{
   DATE = 'DATE',
   BIT = 'BIT',
   DECIMAL = 'DECIMAL',
+  STATUS = 'STATUS',
 }
 
 export enum UserTypeEnum{

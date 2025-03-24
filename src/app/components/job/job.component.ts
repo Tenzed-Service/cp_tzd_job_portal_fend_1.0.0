@@ -259,11 +259,16 @@ export class JobComponent implements OnDestroy {
   }
 
   onActionClicked(action: TableClickedAction) {
-    if (action.actionToPerform == 'edit')
+    if (action.actionToPerform == 'edit'){
       this.edit(action.data)
-    else if (action.actionToPerform == 'delete')
+    } else if (action.actionToPerform == 'delete'){
       // this.delete(action.data)
-    this.DeleteModal.openModal('delete',action.data)
+      this.DeleteModal.openModal('delete',action.data)
+    }else if (action.actionToPerform == 'job_apply'){
+      if (action?.data?.jobId) {
+        this.router.navigateByUrl(`jobs/job-apply-workers/${action?.data?.jobId}`)
+      }
+    }
   }
 
   edit(data: any) {

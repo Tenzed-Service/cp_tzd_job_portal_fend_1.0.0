@@ -257,17 +257,43 @@
     </div>
 
     <!-- Description -->
-    <div class="col-md-6 mt-3">
+    <div class="col-md-12 mt-3">
       <label class="form-label">Description</label>
-      <textarea rows="1" class="form-control" placeholder="Enter Description"
-        formControlName="description" ></textarea>
+      <!-- <textarea rows="1" class="form-control" placeholder="Enter Description"
+        formControlName="description" ></textarea> -->
+        <div class="custom-editor editor-checkbox">
+          <div class="form-check form-switch">
+            <input class="form-check-input" id="ckcheck" type="checkbox" name="isCodeEditor" [(ngModel)]="isCodeEditor" [ngModelOptions]="{standalone: true}">
+            <label for="ckcheck" class="cursor-pointer">
+              <span class="edit">
+                <i class="ri-edit-box-line"></i>
+              </span>
+              <span class="code">
+                <i class="ri-code-s-slash-line"></i>
+              </span>
+            </label>
+          </div>
+          <div [ngClass]="!isCodeEditor ? 'd-none' : 'd-block'">
+            <ngx-editor-menu [editor]="editor"></ngx-editor-menu>
+            <ngx-editor [editor]="editor" [placeholder]="'Type here...'" formControlName="description" [(ngModel)]="html" (ngModelChange)="getData($event)"></ngx-editor>
+          </div>
+          <div class="editor-textarea" [ngClass]="isCodeEditor ? 'd-none' : 'd-block'">
+            <textarea class="form-control" id="sort_description" placeholder="{{ 'enter_html_content' | translate }}" rows="3" [formControl]="textArea" (keyup)="getText($event)"></textarea>
+            <p class="mt-2">*{{"only_accept_html_tags" | translate}}</p>
+          </div>
+          <!-- @if(jobForm.controls['description'].touched && jobForm.controls['description'].errors?.['required']){
+            <div class="invalid-feedback">
+              {{ 'description_is_required' | translate }}
+            </div>
+          } -->
+        </div>
     </div>
 
     <!-- Comment -->
-    <div class="col-md-6 mt-3">
+    <div class="col-md-12 mt-3">
       <label class="form-label">Comment</label>
-      <input type="text" class="form-control" placeholder="Enter Comment"
-        formControlName="comment" />
+      <textarea rows="4" class="form-control" placeholder="Enter Comment"
+        formControlName="comment" ></textarea>
     </div>
   </div>
 

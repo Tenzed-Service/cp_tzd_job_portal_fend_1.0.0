@@ -63,24 +63,43 @@
         </div>
         <div class="coupon-apply">
           @if(userType === userTypeEnum.COMPANY){
-            <div>
-              <a class="edit-action" (click)="action('edit',profile)"><i class="ri-pencil-line"></i></a>
-              <a class="delete-action" (click)="action('delete',profile)"><i class="ri-delete-bin-line"></i></a>
+            <div class="d-flex align-items-center justify-content-between w-100">
+              <div class="avatar-group">
+                @if (profile?.jobApplyList?.userList?.length>0) {
+                @for (user of profile?.jobApplyList?.userList.slice(0, 4); track $index) {
+                <div class="avatar">
+                  <span >{{ user.userName }}</span>
+                </div>
+                }
+                }
+              
+                <!-- More users indicator -->
+                @if (profile?.jobApplyList?.recordCount > 0) {
+                  <div class="avatar more-users" (click)="action('job_apply',profile)">
+                    +{{ profile?.jobApplyList?.recordCount}}
+                  </div>
+                  }
+              </div>
+              
+              <div>
+                <a class="edit-action" (click)="action('edit',profile)"><i class="ri-pencil-line"></i></a>
+                <a class="delete-action" (click)="action('delete',profile)"><i class="ri-delete-bin-line"></i></a>
+              </div>
             </div>
           }
           @else{
-            <app-button 
-              [class]="'btn-sm fw-bold btn btn-outline'" 
-              [spinner]="false"
-              (click)="action('view',profile)">
-              View
-            </app-button>
-            <app-button 
-              [class]="'btn-sm fw-bold btn btn-theme'" 
-              [spinner]="false"
-              (click)="action('apply',profile)">
-              Apply Now
-            </app-button>
+                <app-button 
+                  [class]="'btn-sm fw-bold btn btn-outline'" 
+                  [spinner]="false"
+                  (click)="action('view',profile)">
+                  View
+                </app-button>
+                <app-button 
+                  [class]="'btn-sm fw-bold btn btn-theme'" 
+                  [spinner]="false"
+                  (click)="action('apply',profile)">
+                  Apply Now
+                </app-button>
           }
         </div>
       </div>

@@ -3,7 +3,7 @@ import { Component, Inject, Input, PLATFORM_ID } from '@angular/core';
 import { Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { Select2Data, Select2Module, Select2SearchEvent, Select2UpdateEvent } from 'ng-select2-component';
-import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { countryCodes } from '../../../shared/data/country-code';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
@@ -20,6 +20,7 @@ import { CountryState } from '../../../shared/store/state/country.state';
 import { SingletonStoreService } from '../../../core/services/helper/singleton-store.service';
 import { RoleAuthorizeState } from '../../../shared/store/state/role-management.state';
 import moment from 'moment';
+import { Editor, NgxEditorModule } from 'ngx-editor';
 
 @Component({
   selector: 'app-form-job',
@@ -27,6 +28,7 @@ import moment from 'moment';
   imports: [
     TranslateModule, FormsModule, ReactiveFormsModule,
     Select2Module, CommonModule, ButtonComponent,
+    NgxEditorModule
     ],
   templateUrl: './form-job.component.html',
   styleUrl: './form-job.component.scss'
@@ -41,6 +43,9 @@ export class FormJobComponent {
   
   @Input() type: string;
 
+  public textArea = new FormControl('');
+
+  public editor: Editor;
   public jobForm: FormGroup;
   public id: number;
   public codes = countryCodes;
@@ -59,6 +64,8 @@ export class FormJobComponent {
   cityList: any[] = [];
   allCityList: any[] = [];
   jobId: number = 0;
+  public html = '';
+  public isCodeEditor = true;
 
   constructor(
     @Inject(PLATFORM_ID) platformId: Object,
@@ -74,6 +81,7 @@ export class FormJobComponent {
   }
 
   ngOnInit() {
+    this.editor = new Editor();
     this.getLocation();
 
     if (this.platformId) {
@@ -142,6 +150,14 @@ export class FormJobComponent {
   // Getter for form array
   get jobLocations(): FormArray {
     return this.jobForm.get('jobLocations') as FormArray;
+  }
+
+  getText(event:any){
+    this.jobForm.controls['description'].setValue(this.textArea.value)
+  }
+
+  getData(description:any){
+    this.textArea.setValue(this.html)
   }
 
   // Add new location
@@ -370,6 +386,9 @@ export class FormJobComponent {
       latitude: this.latitude ? this.latitude?.toString() : '',
       longitude: this.latitude ? this.latitude?.toString() : ''
     }
+
+    console.log(payload);
+    
 
     this.tzdJobService
       .save_tzd_job(payload)

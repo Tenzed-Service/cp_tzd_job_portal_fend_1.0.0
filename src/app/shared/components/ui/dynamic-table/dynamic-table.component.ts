@@ -13,6 +13,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { PaginationComponent } from '../pagination/pagination.component';
 import { Pager, TableConfigVM } from '../../../../core/models/common/common.model';
 import { FieldDataTypeEnum } from '../../../../core/enums/common.enum';
+import { JobListTypeEnum, JobTypeEnum } from '../../../../core/enums/job.enum';
 
 @Component({
   selector: 'app-dynamic-table',
@@ -45,7 +46,8 @@ export class DynamicTableComponent {
   public rows = [1,10, 25, 50, 100];
 
   fieldDataTypeEnum = FieldDataTypeEnum;
-
+  jobTypeEnum = JobTypeEnum;
+  jobListTypeEnum = JobListTypeEnum;
 
   constructor(
   @Inject(DOCUMENT) private document: Document,
@@ -70,6 +72,7 @@ export class DynamicTableComponent {
   onChangeTable(data: TableColumn | any, type: string) {
     switch (type) {
       case 'paginate':
+        this.tableConfig.filter.pageNo = 1;
         this.tableConfig.filter.pageSize = +data?.target?.value;        
         break;
       case 'page':

@@ -1,0 +1,8 @@
+<app-page-wrapper>
+  <app-dynamic-table
+    [tableConfig]="tableConfig"
+    [pagination]="true"
+    (tableChanged)="onTableChange($event)"
+    (action)="onActionClicked($event)">
+  </app-dynamic-table>
+</app-page-wrapper>
