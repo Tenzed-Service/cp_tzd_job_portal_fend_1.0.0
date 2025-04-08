@@ -236,8 +236,6 @@ export class JobComponent implements OnDestroy {
             ? res?.pager?.totalRecords
             : 0;
           this.jobConfig = res?.data;
-          console.log(this.jobConfig);
-          
           // if (res?.layout && res?.layout.length > 0) {
           //   this.tableConfig.columns = res.layout;
           // }

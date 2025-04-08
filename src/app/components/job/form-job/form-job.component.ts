@@ -405,6 +405,8 @@ export class FormJobComponent {
   }
 
   closeSection(){
+    setTimeout(() => {
     this.router.navigateByUrl("/jobs");
+    });
   }
 }

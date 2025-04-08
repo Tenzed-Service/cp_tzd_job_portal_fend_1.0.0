@@ -24,7 +24,7 @@ export const jobRoutes: Routes = [
     component: JobApplyListComponent,
   },
   {
-    path: "apply-confirmation/:id",
+    path: "apply-confirmation/:jobId/:jobApplyId",
     component: ApplyJobComponent,
   },
 ];

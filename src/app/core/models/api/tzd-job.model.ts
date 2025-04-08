@@ -15,7 +15,8 @@ export interface SaveTZDJobApplyReqVM {
 	jobApplyId: number | null,
 	jobId?: number,
 	jobApplyStatus: number,
-	comments: string,
+	comments?: string,
+	remark?: string
   }
 
 export interface SaveTZDJobListReqVM {

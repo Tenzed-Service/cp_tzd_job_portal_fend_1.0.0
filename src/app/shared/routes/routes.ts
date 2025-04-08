@@ -14,8 +14,8 @@ export const content: Routes = [
     loadChildren: () => import('../../components//worker-job//worker-job.routes').then(r => r.workerJobRoutes)
   },
   {
-    path: 'account',
-    loadChildren: () => import('../../components/account/account.routes').then(r => r.accountRoutes)
+    path: 'user-profile',
+    loadChildren: () => import('../../components/user-profile/user-profile.routes').then(r => r.userProfileRoutes)
   },
   // {
   //   path: 'user',

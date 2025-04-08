@@ -57,4 +57,9 @@ export class TZDJobService {
     const url = apiConfig.tzdJob.get_tzd_company_job_apply_worker_list;
     return this.http.post<APIResponseVM<any>>(url,payload);
   }
+
+  save_tzd_company_worker_job_status(payload:SaveTZDJobApplyReqVM): Observable<APIResponseVM<any>>{
+    const url = apiConfig.tzdJob.save_tzd_company_worker_job_status;
+    return this.http.post<APIResponseVM<any>>(url,payload);
+  }
 }

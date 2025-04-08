@@ -1,10 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { NavigationEnd, Router, RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { Select, Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
-import { HasPermissionDirective } from '../../directive/has-permission.directive';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { AccountUser } from '../../interface/account.interface';
 import { Permission } from '../../interface/role.interface';
 import { Values } from '../../interface/setting.interface';
@@ -19,7 +18,7 @@ import { ActionType, SidebarMenuResVM } from '../../../core/models/api/role-mana
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [CommonModule, RouterModule, TranslateModule, HasPermissionDirective],
+  imports: [CommonModule, RouterModule, TranslateModule],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss'
 })
@@ -39,7 +38,8 @@ export class SidebarComponent {
   public sidebarTitleKey: string = 'sidebar';
   public width: any = window?.innerWidth;
   public role: string;
-
+  activeMenu = new BehaviorSubject(0);
+  
   constructor(public navServices: NavService,
     private router: Router,
     private store: Store) {
@@ -63,7 +63,7 @@ export class SidebarComponent {
   }
 
   ngOnInit(){
-      // console.log(this.menuOption); 
+      console.log(this.menuOption); 
     // this.menuItems = menuItems?.data;
         this.menuOption = this.menuOption?.map((menu: SidebarMenuResVM) => {
             menu.active = false;
@@ -88,19 +88,22 @@ export class SidebarComponent {
     this.navServices.collapseSidebar = !this.navServices.collapseSidebar;
   }
 
-  onItemSelected(item: Sidebar, onRoute: boolean = false) {
+  onItemSelected(item: any, onRoute: boolean = false) {
     this.menuItems.forEach((menu: Sidebar) => {
       this.deActiveAllMenu(menu, item);
     });
-    if(!onRoute)
+    
+    if(!onRoute){
       item.active = !item.active;
+    }
   }
 
-  activeMenuRecursive(menu: SidebarMenuResVM, url: string, item?: SidebarMenuResVM) {
+  activeMenuRecursive(menu: SidebarMenuResVM, url: string, item?: SidebarMenuResVM) {    
     if(menu && menu.route && menu.route === (url.charAt(0) !== '/' ? '/'+url : url)) {
       if(item) {
         item.active = true;
         this.onItemSelected(item, true);
+        this.activeMenu.next(menu.formCode);
       }
       menu.active = true;
     }else{

@@ -7,23 +7,46 @@
             class="text-danger">*</span></label>
         <div class="d-flex ps-md-3 ps-0">
           <div class="library-box d-flex align-items-center">
-            <input type="radio"
-              name="jobType" class="media-checkbox mb-0" [value]="1"
-              id="full-time" formControlName="jobType" />
-            <label for="full-time" class="mb-0 mx-2">Full Time</label>
+            <div class="form-check">
+              <input type="radio"
+                name="jobType" class="form-check-input mb-0" [value]="1"
+                id="full-time" formControlName="jobType" />
+            </div>
+            <label for="full-time" class="mb-0 mx-2">
+              <span class="new-badge new-bg-success me-2">Full Time</span>
+            </label>
           </div>
           <div class="library-box d-flex align-items-center">
+            <div class="form-check">
             <input type="radio"
-              name="jobType" class="media-checkbox mb-0" [value]="2"
+              name="jobType" class="form-check-input mb-0" [value]="2"
               id="part-time" formControlName="jobType" />
-            <label for="part-time" class="mb-0 mx-2">Part Time</label>
+              </div>
+            <label for="part-time" class="mb-0 mx-2">
+              <span class="new-badge new-bg-green me-2">Part Time</span>
+            </label>
           </div>
           <div class="library-box d-flex align-items-center">
+            <div class="form-check">
             <input type="radio"
-              name="jobType" class="media-checkbox mb-0" [value]="3"
+              name="jobType" class="form-check-input mb-0" [value]="3"
               id="contract"
               formControlName="jobType" />
-            <label for="contract" class="mb-0 mx-2">Contract</label>
+              </div>
+            <label for="contract" class="mb-0 mx-2">
+              <span class="new-badge new-bg-orange me-2">Contract</span>
+            </label>
+          </div>
+          <div class="library-box d-flex align-items-center">
+            <div class="form-check">
+            <input type="radio"
+              name="jobType" class="form-check-input mb-0" [value]="4"
+              id="contract"
+              formControlName="jobType" />
+              </div>
+            <label for="contract" class="mb-0 mx-2">
+              <span class="new-badge bg-primary me-2">Casual</span>
+            </label>
           </div>
         </div>
       </div>
@@ -290,11 +313,11 @@
     </div>
 
     <!-- Comment -->
-    <div class="col-md-12 mt-3">
+    <!-- <div class="col-md-6 col-sm-12 mt-3">
       <label class="form-label">Comment</label>
-      <textarea rows="4" class="form-control" placeholder="Enter Comment"
+      <textarea rows="6" class="form-control" placeholder="Enter Comment"
         formControlName="comment" ></textarea>
-    </div>
+    </div> -->
   </div>
 
   <!-- Job Locations (FormArray) -->
@@ -302,7 +325,7 @@
     <div
       class="location-header d-flex justify-content-between align-items-center p-1 mb-1">
       <h6 class="mb-0 ">Job Locations</h6>
-      <button type="button" class="btn btn-add btn-sm"
+      <button type="button" class="btn btn-primary btn-sm"
         (click)="addLocation()">+ Add</button>
     </div>
 

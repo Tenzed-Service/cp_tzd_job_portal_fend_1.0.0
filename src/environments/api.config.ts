@@ -42,5 +42,6 @@ export const apiConfig = {
         get_tzd_worker_job_list: environment.apiURL+'TZDJob/get_tzd_worker_job_list',
         save_tzd_job_apply: environment.apiURL+'TZDJob/save_tzd_job_apply',
         get_tzd_company_job_apply_worker_list: environment.apiURL+'TZDJob/get_tzd_company_job_apply_worker_list',
+        save_tzd_company_worker_job_status: environment.apiURL+'TZDJob/save_tzd_company_worker_job_status',
     },
 }

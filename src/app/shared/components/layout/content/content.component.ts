@@ -26,7 +26,6 @@ import { LoaderComponent } from "../../loader/loader.component";
     FooterComponent,
     SidebarMenuSkeletonComponent,
     SidebarComponent,
-    RouterModule,
     LoaderComponent
   ],
   templateUrl: "./content.component.html",

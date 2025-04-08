@@ -238,7 +238,7 @@ export class JobApplyListComponent implements OnInit, OnDestroy {
   onActionClicked(action: TableClickedAction) {
     if (action.actionToPerform == "edit") {
       if (action.data && action?.data?.jobApplyId) {
-        this.router.navigateByUrl(`jobs/apply-confirmation/${action?.data?.jobApplyId}`)
+        this.router.navigateByUrl(`jobs/apply-confirmation/${action?.data?.jobId}/${action?.data?.jobApplyId}`)
       }
     }
   }

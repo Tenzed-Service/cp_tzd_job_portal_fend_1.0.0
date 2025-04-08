@@ -2,6 +2,7 @@ export enum JobTypeEnum{
     FULL_TIME = 1,
     PART_TIME = 2,
     CONTRACT = 3,
+    CASUAL = 4
   }
   
   

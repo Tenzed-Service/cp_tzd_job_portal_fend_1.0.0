@@ -10,7 +10,7 @@ export const workerJobRoutes: Routes = [
     component: WorkerJobComponent,
   },
   {
-    path: "apply/:id",
+    path: "apply/:jobId",
     component: ApplyJobComponent,
   },
   {

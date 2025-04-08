@@ -13,7 +13,7 @@ import { CommonModule } from '@angular/common';
 })
 export class ButtonComponent {
 
-  @Input() class: string = 'btn btn-theme ms-auto mt-4';
+  @Input() class: string = 'btn-sm btn btn-theme ms-auto mt-4';
   @Input() iconClass: string | null;
   @Input() id: string;
   @Input() label: string = 'Submit';
