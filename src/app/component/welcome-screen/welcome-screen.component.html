@@ -1,0 +1,21 @@
+<div class="surface-ground flex align-items-center justify-content-center">
+    <div class="wave-background"></div>
+    <div class="map-background"></div>
+    <div class="surface-section flex flex-column align-items-center">
+        <div class="text-center mb-5">
+            <h1 class="welcome-title font-bold text-white mb-3">Welcome to Employer</h1>
+            <h2 class="welcome-subtitle font-medium text-white mb-5">Worker Portal</h2>
+            <p class="welcome-description text-white line-height-3 mb-6">
+                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem 
+                Ipsum has been the industry's standard dummy text ever since the 1500s, when an 
+                unknown printer took a galley of type and scrambled.
+            </p>
+        </div>
+        <div class="button-container">
+            <p-button label="Login" styleClass="p-button-outlined p-button-secondary"
+            (click)="action('/auth/login')"></p-button>
+            <p-button label="Register" styleClass="p-button-primary"
+            (click)="action('/auth/user-selection')"></p-button>
+        </div>
+    </div>
+</div>

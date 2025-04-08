@@ -1,0 +1,73 @@
+:host ::ng-deep {
+    .p-inputtext {
+        padding: 0.4rem 0.75rem;
+        font-size: 0.8rem;
+        &::placeholder {
+                color: #cbcccd;
+            }
+    }
+
+    .p-dropdown {
+        .p-dropdown-label {
+            padding: 0.4rem 0.75rem;
+            font-size: 0.8rem;
+            color: #cbcccd;
+            &::placeholder {
+                color: #cbcccd;
+            }
+        }
+    }
+
+    .p-password {
+        .p-password-input {
+            padding: 0.4rem 0.75rem;
+            font-size: 0.8rem;
+            &::placeholder {
+                color: #cbcccd;
+            }
+        }
+    }
+
+    .p-inputmask {
+        padding: 0.4rem 0.75rem;
+        font-size: 0.8rem;
+        &::placeholder {
+                color: #cbcccd;
+            }
+    }
+
+    .p-button.p-button-sm {
+        padding: 0.4rem 1rem;
+        font-size: 0.875rem;
+    }
+
+
+}
+
+.text-center {
+    text-align: center;
+}
+
+.grid {
+    display: flex;
+    flex-wrap: wrap;
+    margin: -0.5rem;
+
+    [class*="col-"] {
+        padding: 0.5rem;
+    }
+}
+// Responsive Grid
+.col-12 {
+    width: 100%;
+}
+
+@media screen and (min-width: 768px) {
+    .md\:col-6 {
+        width: 50%;
+    }
+
+    .md\:col-4 {
+        width: 33.3333%;
+    }
+}

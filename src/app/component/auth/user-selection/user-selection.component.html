@@ -1,0 +1,32 @@
+<div class="selection-container">
+    <div class="selection-content">
+        <div class="illustration">
+            <div class="back-button">
+                <button pButton icon="pi pi-arrow-left" (click)="goBack()" class="p-button-text"></button>
+            </div>
+            <img src="assets/images/auth/left-side.png" alt="Work Illustration">
+        </div>
+        <div class="selection-cards">
+            @if (selectedUserType) {
+                {{selectedUserType}}
+            }
+            @else {
+                <p-card styleClass="selection-card">
+                    <div class="card-content">
+                        <i class="pi pi-building"></i>
+                        <h2>I want to manage my company</h2>
+                        <p-button size="small" (click)="action(userType.EMPLOYER)" label="Register" styleClass="p-button-outlined"></p-button>
+                    </div>
+                </p-card>
+    
+                <p-card styleClass="selection-card">
+                    <div class="card-content">
+                        <i class="pi pi-user"></i>
+                        <h2>I want to Work</h2>
+                        <p-button size="small" (click)="action(userType.EMPLOYEE)" label="Register" styleClass="p-button-outlined"></p-button>
+                    </div>
+                </p-card>
+            }
+        </div>
+    </div>
+</div>

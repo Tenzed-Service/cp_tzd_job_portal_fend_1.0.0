@@ -1,0 +1,36 @@
+<div class="success-container">
+    <div class="success-card">
+        <div class="success-icon">
+            <img src="assets/images/auth/success.png" alt="">
+        </div>
+        
+        <h2>Registration Successful!</h2>
+        <p class="message">Your registration has been submitted successfully. Our team will review your details, and you will receive an email once your account is approved.</p>
+        
+        <div class="info-list">
+            <div class="info-item">
+                <i class="pi pi-clock"></i>
+                <span>Approval process may take up to 24-48 hours.</span>
+            </div>
+            <div class="info-item">
+                <i class="pi pi-envelope"></i>
+                <span>Check your email for updates.</span>
+            </div>
+            <div class="info-item">
+                <i class="pi pi-lock"></i>
+                <span>Once approved, log in to manage your jobs and workers.</span>
+            </div>
+        </div>
+
+        <div class="button-container">
+            <p-button label="Go to Login page" 
+                    styleClass="p-button-primary p-button-sm" 
+                    (click)="goToLogin()">
+            </p-button>
+            <p-button label="Back to Home page" 
+                    styleClass="p-button-outlined p-button-sm" 
+                    (click)="goToHome()">
+            </p-button>
+        </div>
+    </div>
+</div>

@@ -11,11 +11,12 @@
     <!-- Right Section -->
     <div class="login-form-section">
         <div class="login-box p-card">
-            <h2>Log in</h2>
+            <h2 class="text-center">Log in</h2>
             <form [formGroup]="loginForm" class="p-fluid">
                 <div class="field">
                     <label for="email">Login ID/Email</label>
-                    <input pInputText id="email" formControlName="email" placeholder="Enter your id/email"/>
+                    <input pInputText id="email" formControlName="email" placeholder="Enter your id/email"
+                    [class.ng-dirty]="formControl['email'].invalid && formControl['email'].touched"/>
                     @if (formControl['email'].invalid && formControl['email'].touched) {
                         <small class="p-error">
                             @if (formControl['email'].errors?.['required']) {
@@ -30,17 +31,18 @@
 
                 <div class="field">
                     <label for="password">Password</label>
-                    <p-password id="password" [feedback]="false" formControlName="password" [toggleMask]="true" placeholder="Enter password" size="small"></p-password>
+                    <p-password id="password" [feedback]="false" formControlName="password" [toggleMask]="true" placeholder="Enter password" size="small"
+                    [class.ng-dirty]="formControl['password'].invalid && formControl['password'].touched"></p-password>
                     @if (formControl['password'].invalid && formControl['password'].touched) {
                         <small class="p-error">Password is required</small>
                     }
                 </div>
 
                 <div class="forgot-password">
-                    <a href="#">Forgot Password</a>
+                    <a (click)="action('/auth/forgot-password')">Forgot Password</a>
                 </div>
 
-                <p-button label="Login" styleClass="w-full" [disabled]="loginForm.invalid" (onClick)="onSubmit()"></p-button>
+                <p-button label="Login" styleClass="w-full p-button-sm" (click)="onSubmit()"></p-button>
 
                 <div class="divider">
                     <span>or</span>
@@ -48,7 +50,7 @@
 
                 <div class="sign-up">
                     <span>Create a new account? </span>
-                    <a (click)="goToRegister()">Sign Up</a>
+                    <a (click)="action('/auth/user-selection')">Sign Up</a>
                 </div>
             </form>
         </div>

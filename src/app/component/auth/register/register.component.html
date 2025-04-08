@@ -1,32 +1,196 @@
-<div class="selection-container">
-    <div class="selection-content">
-        <div class="illustration">
-            <div class="back-button">
-                <button pButton icon="pi pi-arrow-left" (click)="goBack()" class="p-button-text"></button>
-            </div>
-            <img src="assets/images/auth/left-side.png" alt="Work Illustration">
+@if (true) {
+<div class="register-container">
+    <!-- Left Section -->
+    <div class="illustration-section">
+        <div class="back-button">
+            <p-button icon="pi pi-arrow-left" (onClick)="goBack()" styleClass="p-button-text p-button-sm"></p-button>
         </div>
-        <div class="selection-cards">
-            @if (selectedUserType) {
-                {{selectedUserType}}
-            }
-            @else {
-                <p-card styleClass="selection-card">
-                    <div class="card-content">
-                        <i class="pi pi-building"></i>
-                        <h2>I want to manage my company</h2>
-                        <p-button size="small" (click)="selectedUserType = userType.EMPLOYER" label="Register" styleClass="p-button-outlined"></p-button>
+        <img src="assets/images/auth/register-image.png" alt="Registration illustration">
+    </div>
+
+    <!-- Right Section -->
+    <div class="form-section">
+        <div class="form-container">
+            <h1 class="text-center">Register your profile {{selectedUserType === userType.EMPLOYER ? 'Employer' : 'Employee'}}</h1>
+            
+            <form [formGroup]="registerForm" class="p-fluid">
+                <div class="grid">
+                    <!-- Personal Info -->
+                    <div class="col-12 md:col-6">
+                        <div class="field">
+                            <label for="name">Name</label>
+                            <input pInputText id="name" formControlName="name" placeholder="Enter your name"
+                            [class.ng-dirty]="formControl['name'].invalid && formControl['name'].touched"/>
+                            @if (formControl['name'].invalid && formControl['name'].touched) {
+                                <small class="p-error">Name is required</small>
+                            }
+                        </div>
                     </div>
-                </p-card>
-    
-                <p-card styleClass="selection-card">
-                    <div class="card-content">
-                        <i class="pi pi-user"></i>
-                        <h2>I want to Work</h2>
-                        <p-button size="small" (click)="selectedUserType = userType.EMPLOYEE" label="Register" styleClass="p-button-outlined"></p-button>
+
+                    <!-- Company Info -->
+                    @if (selectedUserType === userType.EMPLOYER) {
+                        <div class="col-12 md:col-6">
+                            <div class="field">
+                                <label for="companyName">Company Name</label>
+                                <input pInputText id="companyName" formControlName="companyName" placeholder="Enter company name"
+                                [class.ng-dirty]="formControl['companyName'].invalid && formControl['companyName'].touched"/>
+                                @if (formControl['companyName'].invalid && formControl['companyName'].touched) {
+                                    <small class="p-error">Company name is required</small>
+                                }
+                            </div>
+                        </div>
+                    }
+
+                    <div class="col-12 md:col-6">
+                        <div class="field">
+                            <label for="email">Email</label>
+                            <input pInputText id="email" formControlName="email" placeholder="Enter email"
+                            [class.ng-dirty]="formControl['email'].invalid && formControl['email'].touched"/>
+                            @if (formControl['email'].invalid && formControl['email'].touched) {
+                                <small class="p-error">
+                                    @if (formControl['email'].errors?.['required']) {
+                                        Email is required
+                                    }
+                                    @if (formControl['email'].errors?.['email']) {
+                                        Please enter a valid email address
+                                    }
+                                </small>
+                            }
+                        </div>
                     </div>
-                </p-card>
-            }
+
+                    <div class="col-12 md:col-6">
+                        <div class="field">
+                            <label for="contact">Contact Number</label>
+                            <p-inputMask id="contact" formControlName="contact" mask="(999) 999-9999" placeholder="Enter number"
+                            [class.ng-dirty]="formControl['contact'].invalid && formControl['contact'].touched"></p-inputMask>
+                            @if (formControl['contact'].invalid && formControl['contact'].touched) {
+                                <small class="p-error">Contact number is required</small>
+                            }
+                        </div>
+                    </div>
+
+                    <!-- Location -->
+                    <div class="col-12 md:col-4" [ngClass]="{'md:col-6':selectedUserType === userType.EMPLOYEE}">
+                        <div class="field">
+                            <label for="country">Country</label>
+                            <p-dropdown id="country" [options]="countries" formControlName="country" optionLabel="name" placeholder="Select"></p-dropdown>
+                        </div>
+                    </div>
+
+                    <div class="col-12 md:col-4" [ngClass]="{'md:col-6':selectedUserType === userType.EMPLOYEE}">
+                        <div class="field">
+                            <label for="state">State</label>
+                            <p-dropdown id="state" [options]="states" formControlName="state" optionLabel="name" placeholder="Select"></p-dropdown>
+                        </div>
+                    </div>
+
+                    <div class="col-12 md:col-4" [ngClass]="{'md:col-6':selectedUserType === userType.EMPLOYEE}">
+                        <div class="field">
+                            <label for="city">City</label>
+                            <p-dropdown id="city" [options]="cities" formControlName="city" optionLabel="name" placeholder="Select"></p-dropdown>
+                        </div>
+                    </div>
+
+                    <!-- Additional Fields -->
+                    @if (selectedUserType === userType.EMPLOYER) {
+                    <div class="col-12 md:col-4">
+                        <div class="field">
+                            <label for="legalEntity">Legal Entity</label>
+                            <input pInputText id="legalEntity" formControlName="legalEntity" placeholder="Enter legal entity"/>
+                        </div>
+                    </div>
+
+                    <div class="col-12 md:col-4">
+                        <div class="field">
+                            <label for="industry">Industry</label>
+                            <p-dropdown id="industry" [options]="industries" formControlName="industry" optionLabel="name" placeholder="Select industry"></p-dropdown>
+                        </div>
+                    </div>
+
+                    <div class="col-12 md:col-4">
+                        <div class="field">
+                            <label for="legalName">Legal Name</label>
+                            <input pInputText id="legalName" formControlName="legalName" placeholder="Enter legal Name"/>
+                        </div>
+                    </div>
+                    }
+
+                    <!-- Password Fields -->
+                    <div class="col-12 md:col-6">
+                        <div class="field">
+                            <label for="password">Password</label>
+                            <p-password id="password" formControlName="password" [toggleMask]="true" [feedback]="false" placeholder="Enter password"
+                            [class.ng-dirty]="formControl['password'].invalid && formControl['password'].touched"></p-password>
+                            @if (formControl['password'].invalid && formControl['password'].touched) {
+                                <small class="p-error">Password is required</small>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="col-12 md:col-6">
+                        <div class="field">
+                            <label for="confirmPassword">Confirm Password</label>
+                            <p-password id="confirmPassword" formControlName="confirmPassword" [toggleMask]="true" [feedback]="false" placeholder="Confirm password"
+                            [class.ng-dirty]="formControl['confirmPassword'].invalid && formControl['confirmPassword'].touched"></p-password>
+                            @if (formControl['confirmPassword'].invalid && formControl['confirmPassword'].touched) {
+                                <small class="p-error">Passwords must match</small>
+                            }
+                        </div>
+                    </div>
+
+                    <!-- Document Upload -->
+                    <div class="col-12">
+                        <div class="field upload-section">
+                            <label>Upload Documents</label>
+                            <div class="upload-container" 
+                                 (dragover)="onDragOver($event)" 
+                                 (dragleave)="onDragLeave($event)"
+                                 (drop)="onDrop($event)"
+                                 (click)="fileInput.click()">
+                                <div class="upload-content">
+                                    <i class="pi pi-upload"></i>
+                                    <h3>Drag & Drop your document</h3>
+                                    <p>Only .jpeg, .jpg, .png, max 5MB.</p>
+                                </div>
+                                <input type="file" 
+                                       #fileInput 
+                                       (change)="onFileSelected($event)" 
+                                       accept=".jpg,.jpeg,.png" 
+                                       multiple
+                                       style="display: none">
+                                <p-button label="Browse" 
+                                         styleClass="p-button-outlined p-button-sm" 
+                                         (onClick)="fileInput.click()">
+                                </p-button>
+                            </div>
+                            @if (uploadedFiles.length > 0) {
+                                <div class="file-list">
+                                    @for (file of uploadedFiles; track file; let i = $index) {
+                                        <div class="file-item">
+                                            <i class="pi pi-image"></i>
+                                            <span class="file-name">{{file.name}}</span>
+                                            <button pButton 
+                                                    icon="pi pi-times" 
+                                                    class="p-button-text p-button-danger p-button-sm" 
+                                                    (click)="removeFile(i)">
+                                            </button>
+                                        </div>
+                                    }
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="submit-button">
+                    <p-button label="Sign Up" styleClass="p-button-sm" (onClick)="onSubmit()"></p-button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
+}@else {
+    <app-register-success-screen></app-register-success-screen>
+}

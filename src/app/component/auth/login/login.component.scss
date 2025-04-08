@@ -69,8 +69,10 @@
 
     label {
         display: block;
-        margin-bottom: 0.5rem;
-        color: #495057;
+        margin-bottom: 0.25rem;
+        color: #626568;
+        font-size: 0.9rem;
+        font-weight: 500;
     }
 }
 
@@ -82,6 +84,7 @@
         color: #10217D;
         text-decoration: none;
         font-size: 0.875rem;
+        cursor: pointer;
 
         &:hover {
             text-decoration: underline;
@@ -139,6 +142,30 @@
         &:hover {
             text-decoration: underline;
         }
+    }
+}
+
+:host ::ng-deep {
+    .p-inputtext {
+        padding: 0.6rem 0.75rem;
+        font-size: 0.8rem;
+        &::placeholder {
+                color: #cbcccd;
+            }
+    }
+    .p-password {
+        .p-password-input {
+            padding: 0.6rem 0.75rem;
+            font-size: 0.8rem;
+            &::placeholder {
+                color: #cbcccd;
+            }
+        }
+    }
+
+    .p-button.p-button-sm {
+        padding: 0.6rem 1rem;
+        font-size: 0.875rem;
     }
 }
 

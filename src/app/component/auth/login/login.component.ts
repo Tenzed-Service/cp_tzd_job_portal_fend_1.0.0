@@ -40,12 +40,14 @@ export class LoginComponent {
   }
 
   onSubmit() {
-    if (this.loginForm.valid) {
+    this.loginForm.markAllAsTouched();
+    if (this.loginForm.invalid) {
       // Handle login logic
+      return
     }
   }
 
-  goToRegister() {
-    this.router.navigate(['/auth/register']);
+  action(route:string) {
+    this.router.navigateByUrl(route);
   } 
 }
