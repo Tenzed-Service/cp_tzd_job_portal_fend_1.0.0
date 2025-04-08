@@ -1,2 +1,10 @@
-/* You can add global styles to this file, and also import other style files */
-@import "../public/assets/scss/app.scss";
+$scale: .875; // smaller scale for smaller components
+@import "primeflex/primeflex.css";
+@import "primeng/resources/themes/lara-light-blue/theme.css";
+@import "primeng/resources/primeng.css";
+@import "primeicons/primeicons.css";
+
+
+body{
+    margin: 0;
+}
