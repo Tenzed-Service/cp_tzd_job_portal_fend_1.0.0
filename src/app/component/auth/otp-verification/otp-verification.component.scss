@@ -1,0 +1,127 @@
+.otp-container {
+    display: flex;
+    min-height: 100vh;
+    background-color: #f8f9fa;
+
+    @media (max-width: 768px) {
+        flex-direction: column;
+    }
+    
+    .illustration-section {
+        flex: 1;
+        background-color: #e5eafb;
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    
+        .portal-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #10217D;
+        }
+    
+        .illustration {
+            max-width: 400px;
+            width: 100%;
+            margin: auto;
+    
+            img {
+                width: 100%;
+                height: auto;
+            }
+        }
+    }
+    
+    .form-section {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+    
+        .form-container {
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+    
+            h1 {
+                font-size: 1.75rem;
+                // color: #10217D;
+                margin-bottom: 1rem;
+            }
+    
+            .subtitle {
+                color: #6c757d;
+                margin-bottom: 2rem;
+            }
+        }
+    }
+    
+    .otp-inputs {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        margin-bottom: 2rem;
+    
+        .otp-input {
+            width: 3rem;
+            height: 3rem;
+            text-align: center;
+            font-size: 1.5rem;
+            border-radius: 8px;
+            border: 2px solid #ced4da;
+    
+            // &:focus {
+            //     border-color: #10217D;
+            //     box-shadow: 0 0 0 0.2rem rgba(16, 33, 125, 0.25);
+            // }
+    
+            @media (max-width: 480px) {
+                width: 2.5rem;
+                height: 2.5rem;
+                font-size: 1.25rem;
+            }
+        }
+    }
+    
+    .button-section {
+        margin-bottom: 1.5rem;  
+    }
+    
+    .resend-section {
+        text-align: center;
+        color: #6c757d;
+    
+        a {
+            color: #10217D;
+            text-decoration: none;
+            cursor: pointer;
+            font-weight: 500;
+    
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .illustration-section {
+            padding: 1.5rem;
+    
+            .illustration {
+                max-width: 250px;
+            }
+        }
+    
+        .form-section {
+            padding: 1.5rem;
+        }
+    }
+}
+:host ::ng-deep {
+    .p-button.p-button-sm {
+        padding: 0.6rem 1rem;
+        font-size: 0.875rem;
+    }
+}

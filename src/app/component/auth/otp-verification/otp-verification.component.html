@@ -1,0 +1,40 @@
+<div class="otp-container">
+    <div class="illustration-section">
+        <div class="portal-title">EMPLOYER WORKER PORTAL</div>
+        <div class="illustration">
+            <img src="assets/images/auth/forgot-password.png" alt="OTP Verification">
+        </div>
+    </div>
+
+    <div class="form-section">
+        <div class="form-container">
+            <h1>OTP Verification</h1>
+            <p class="subtitle">Enter the OTP sent to your registered email ID</p>
+
+            <form [formGroup]="otpForm" class="p-fluid">
+                <div class="otp-inputs">
+                    @for (item of otpArray; track $index) {
+                        <input type="text" 
+                               pInputText 
+                               maxlength="1"
+                               (input)="onOtpInput($event, $index)"
+                               (keydown)="onOtpKeyDown($event, $index)"
+                               class="otp-input">
+                    }
+                </div>
+
+                <div class="button-section">
+                    <p-button label="Verify & Process" 
+                             styleClass="p-button-primary w-full p-button-sm" 
+                             (onClick)="onSubmit()">
+                    </p-button>
+                </div>
+
+                <div class="resend-section">
+                    <span>Don't received the OTP? </span>
+                    <a (click)="resendOtp()">Resend OTP</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
