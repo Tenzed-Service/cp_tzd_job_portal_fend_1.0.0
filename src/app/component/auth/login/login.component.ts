@@ -2,10 +2,6 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ButtonModule } from 'primeng/button';
-import { InputTextModule } from 'primeng/inputtext';
-import { PasswordModule } from 'primeng/password';
-import { CardModule } from 'primeng/card';
 
 @Component({
   selector: 'app-login',
@@ -14,10 +10,6 @@ import { CardModule } from 'primeng/card';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    ButtonModule,
-    InputTextModule,
-    PasswordModule,
-    CardModule
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
@@ -25,6 +17,7 @@ import { CardModule } from 'primeng/card';
 export class LoginComponent {
 
   loginForm!: FormGroup;
+  showPassword: boolean = false;
 
   constructor(
     private router: Router
@@ -32,6 +25,8 @@ export class LoginComponent {
     this.loginForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required]),
+      userRole: new FormControl('', [Validators.required]),
+      rememberMe: new FormControl(false)
     });
   }
 

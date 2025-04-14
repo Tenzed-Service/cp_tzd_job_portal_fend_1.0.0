@@ -2,15 +2,13 @@ import { SingletonStoreService } from './../../../core/services/helper/singleton
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { ButtonModule } from 'primeng/button';
-import { CardModule } from 'primeng/card';
 import { UserType } from '../../../core/enums/common-enum';
 
 @Component({
   selector: 'app-user-selection',
   standalone: true,
   imports: [
-    CommonModule, ButtonModule, CardModule,
+    CommonModule
   ],
   templateUrl: './user-selection.component.html',
   styleUrl: './user-selection.component.scss'

@@ -1,9 +1,20 @@
-$scale: .875; // smaller scale for smaller components
-@import "primeflex/primeflex.css";
-@import "primeng/resources/themes/lara-light-blue/theme.css";
-@import "primeng/resources/primeng.css";
-@import "primeicons/primeicons.css";
+/* Add this import to include Quill styles */
 
+// $scale: .875;
+// @import "../node_modules/quill/dist/quill.core.css";
+// @import "../node_modules/quill/dist/quill.snow.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@font-face {
+    font-family: 'Pacifico';
+    src: url('/assets/fonts/pacifico/Pacifico-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
 
 body{
     margin: 0;

@@ -1,0 +1,58 @@
+:where([class^="ri-"])::before { content: "\f3c2"; }
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+-webkit-appearance: none;
+margin: 0;
+}
+input[type=number] {
+-moz-appearance: textfield;
+}
+.job-type-badge {
+position: relative;
+padding-left: 2.5rem;
+transition: all 0.3s ease;
+background: #f8fafc;
+font-weight: 500;
+}
+.badge-dot {
+position: absolute;
+left: 0.75rem;
+top: 50%;
+transform: translateY(-50%);
+width: 1rem;
+height: 1rem;
+border-radius: 50%;
+border: 2px solid #e5e7eb;
+transition: all 0.3s ease;
+}
+.job-type-badge[data-type="full-time"] .badge-dot {
+border-color: #10B981;
+}
+.job-type-badge[data-type="part-time"] .badge-dot {
+border-color: #6366F1;
+}
+.job-type-badge[data-type="contract"] .badge-dot {
+border-color: #F59E0B;
+}
+.job-type-badge[data-type="casual"] .badge-dot {
+border-color: #EC4899;
+}
+input[name="jobType"]:checked + .job-type-badge {
+background: linear-gradient(135deg, rgba(22, 194, 213, 0.15) 0%, rgba(16, 33, 125, 0.15) 100%);
+color: #16C2D5;
+border-color: #16C2D5;
+box-shadow: 0 2px 4px rgba(0, 153, 204, 0.1);
+}
+input[name="jobType"]:checked + .job-type-badge .badge-dot {
+background-color: #16C2D5;
+border-color: #16C2D5;
+transform: translateY(-50%) scale(0.8);
+}
+.job-type-badge:hover {
+background: linear-gradient(135deg, rgba(22, 194, 213, 0.05) 0%, rgba(16, 33, 125, 0.05) 100%);
+transform: translateY(-1px);
+}
+#editorContent:empty:before {
+content: 'Enter job description...';
+color: #9CA3AF;
+}

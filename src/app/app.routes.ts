@@ -1,21 +1,25 @@
 import { Routes } from '@angular/router';
+import { LayoutComponent } from './layout/layout.component';
+import { content } from './shared/routes/routes';
 
 export const routes: Routes = [
-  // {
-  //   path: '',
-  //   redirectTo: '/auth/login',
-  //   pathMatch: 'full'
-  // },
+  {
+    path: '',
+    redirectTo: '/auth/login',
+    pathMatch: 'full'
+  },
   {
     path: "",
-    loadChildren: () => import('./component/welcome-screen/welcome-screen.routes').then(m => m.welcomeScreenRoutes),
+    component: LayoutComponent,
+    children: content
   },
+  
   {
     path: "auth",
     loadChildren: () => import('./component/auth/auth.routes').then(m => m.auth),
   },
-  {
-    path: '**',
-    redirectTo: 'auth/login'
-  }
+  // {
+  //   path: '**',
+  //   redirectTo: 'auth/login'
+  // }
 ];

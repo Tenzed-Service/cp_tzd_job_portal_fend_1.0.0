@@ -1,0 +1,53 @@
+<aside
+      class="bg-white shadow-sm fixed top-0 left-0 bottom-0 w-64 z-10 overflow-y-auto"
+    >
+      <div>
+        <div class="text-2xl font-['Pacifico'] text-[#10217d] border-b border-r p-3 border-gray-100 flex items-center justify-center">logo</div>
+        <nav class="flex flex-col space-y-2 p-3">
+          @for (item of menus; track $index) {
+            @if (item.children && item.children.length > 0) {
+              <div class="text-gray-600">
+                <div
+                  class="flex items-center p-2 rounded cursor-pointer hover:bg-[#16c2d5]/10"
+                  id="verification-menu-toggle"
+                  (click)="toggleSubmenu(item)"
+                  [ngClass]="item.expanded || currentUrl.includes(item.route) ? 'bg-[#16c2d5]/10' : ''"
+                >
+                  <div class="w-5 h-5 flex items-center justify-center mr-3">
+                    <i [ngClass]="item.icon"></i>
+                  </div>
+                  <div class="flex-1 font-medium hover:text-[#16c2d5]" [ngClass]="item.expanded || currentUrl.includes(item.route) ? '!text-[#16c2d5]' : ''">{{item?.name}}</div>
+                  <div class="w-5 h-5 flex items-center justify-center">
+                    <i [ngClass]="item.expanded || currentUrl.includes(item.route) ? 'ri-arrow-down-s-line' : 'ri-arrow-up-s-line'" id="verification-arrow"></i>
+                  </div>
+                </div>
+                <div class="pl-10 pt-2 space-y-2" id="verification-submenu" [ngClass]="{'hidden': !item.expanded}">
+                  @for (child of item.children; track $index) {
+                    <a (click)="action(child.route)"  [ngClass]="{'!text-[#16c2d5] bg-[#16c2d5]/10':currentUrl === child.route}"
+                    data-readdy="true"
+                    class="text-gray-600 hover:text-[#16c2d5] cursor-pointer font-medium flex items-center p-2 rounded hover:bg-[#16c2d5]/10"
+                  >
+                    <div class="w-5 h-5 flex items-center justify-center mr-3">
+                      <i [ngClass]="child.icon"></i>
+                    </div>
+                    {{child?.name}}
+                  </a>
+                  }
+                </div>
+              </div>
+            }
+            @else {
+              <a 
+              (click)="action(item.route)" [ngClass]="{'!text-[#16c2d5] bg-[#16c2d5]/10':currentUrl === item.route}"
+                class="text-gray-600 hover:text-[#16c2d5] cursor-pointer font-medium flex items-center p-2 rounded hover:bg-[#16c2d5]/10"
+              >
+                <div class="w-5 h-5 flex items-center justify-center mr-3">
+                  <i [ngClass]="item.icon"></i>
+                </div>
+                {{item?.name}}
+              </a>
+            }
+          }
+        </nav>
+      </div>
+    </aside>

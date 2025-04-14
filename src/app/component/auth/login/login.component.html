@@ -1,58 +1,137 @@
-<div class="login-container">
-    <!-- Left Section -->
-    <div class="welcome-section">
+
+<div class="login-container flex h-[100vh] bg-white">
+    <div class="welcome-section flex justify-center flex-col md:w-2/4">
+        <div class="map-background"></div>
         <h1>Welcome to</h1>
         <h1 class="portal-title">Employer Worker Portal</h1>
         <p class="welcome-text">
-            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled.
+            Lorem Ipsum is simply dummy text of the printing and typesetting
+            industry. Lorem Ipsum has been the industry's standard dummy text
+            ever since the 1500s, when an unknown printer took a galley of type
+            and scrambled.
         </p>
     </div>
+    <div
+        class="form-container md:w-2/4 w-full flex items-center justify-center">
+        <div class="login-box md:shadow-md">
+            <div class="mb-8 flex items-center">
+                <div
+                    class="w-8 h-8 bg-secondary rounded-full flex items-center justify-center text-white">
+                    <i class="ri-user-line"></i>
+                </div>
+                <h1 class="text-2xl font-bold text-gray-800 ml-3">
+                    Login into your account
+                </h1>
+            </div>
 
-    <!-- Right Section -->
-    <div class="login-form-section">
-        <div class="login-box p-card">
-            <h2 class="text-center">Log in</h2>
-            <form [formGroup]="loginForm" class="p-fluid">
-                <div class="field">
-                    <label for="email">Login ID/Email</label>
-                    <input pInputText id="email" formControlName="email" placeholder="Enter your id/email"
-                    [class.ng-dirty]="formControl['email'].invalid && formControl['email'].touched"/>
-                    @if (formControl['email'].invalid && formControl['email'].touched) {
-                        <small class="p-error">
-                            @if (formControl['email'].errors?.['required']) {
-                                Email is required
-                            }
-                            @if (formControl['email'].errors?.['email']) {
-                                Please enter a valid email address
-                            }
-                        </small>
+            <form [formGroup]="loginForm">
+                <div class="mb-4">
+                    <label class="block text-gray-700 mb-1">Email</label>
+                    <input
+                        type="email"
+                        id="email"
+                        formControlName="email"
+                        placeholder="Enter your email address"
+                        class="w-full px-3 py-1 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-primary"
+                        [class.border-red-500]="formControl['email'].invalid && formControl['email'].touched" />
+                    @if (formControl['email'].invalid &&
+                    formControl['email'].touched) {
+                    <small class="text-red-500">
+                        @if (formControl['email'].errors?.['required']) {
+                        Email is required
+                        }
+                        @if (formControl['email'].errors?.['email']) {
+                        Please enter a valid email address
+                        }
+                    </small>
                     }
                 </div>
 
-                <div class="field">
-                    <label for="password">Password</label>
-                    <p-password id="password" [feedback]="false" formControlName="password" [toggleMask]="true" placeholder="Enter password" size="small"
-                    [class.ng-dirty]="formControl['password'].invalid && formControl['password'].touched"></p-password>
-                    @if (formControl['password'].invalid && formControl['password'].touched) {
-                        <small class="p-error">Password is required</small>
+                <div class="mb-4">
+                    <label class="block text-gray-700 mb-1">Password</label>
+                    <div class="relative">
+                        <input
+                            [type]="showPassword ? 'text' : 'password'"
+                            id="password"
+                            formControlName="password"
+                            placeholder="Enter password"
+                            class="w-full px-3 py-1 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-primary"
+                            [class.border-red-500]="formControl['password'].invalid && formControl['password'].touched" />
+
+                        <button
+                            type="button" (click)="showPassword = !showPassword"
+                            class="absolute inset-y-0 right-0 flex items-center px-3 text-gray-500 toggle-password">
+                            <i
+                                [ngClass]="{'ri-eye-line' : !showPassword, 'ri-eye-off-line' : showPassword}"></i>
+                        </button>
+                    </div>
+                    @if (formControl['password'].invalid &&
+                    formControl['password'].touched) {
+                    <small class="text-red-500">
+                        @if (formControl['password'].errors?.['required']) {
+                        Password is required
+                        }
+                    </small>
                     }
                 </div>
 
-                <div class="forgot-password">
-                    <a (click)="action('/auth/forgot-password')">Forgot Password</a>
+                <div class="mb-4">
+                    <label class="block text-gray-700 mb-1">Login As</label>
+                    <div class="relative">
+                        <select
+                            id="userRole"
+                            [class.border-red-500]="formControl['userRole'].invalid && formControl['userRole'].touched"
+                            formControlName="userRole"
+                            class="appearance-none w-full px-3 py-1 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-primary pr-8">
+                            <option value="admin">Administrator</option>
+                            <option value="manager">Manager</option>
+                            <option value="employee">Employee</option>
+                            <option value="client">Client</option>
+                        </select>
+
+                        <div
+                            class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                            <i
+                                class="ri-arrow-down-s-line text-gray-400"></i>
+                        </div>
+                    </div>
+                    @if (formControl['userRole'].invalid &&
+                    formControl['userRole'].touched) {
+                    <small class="text-red-500">
+                        @if (formControl['userRole'].errors?.['required']) {
+                        User role is required
+                        }
+                    </small>
+                    }
                 </div>
 
-                <p-button label="Login" styleClass="w-full p-button-sm" (click)="onSubmit()"></p-button>
-
-                <div class="divider">
-                    <span>or</span>
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center justify-between">
+                        <input type="checkbox" formControlName="rememberMe" class="accent-primary" />
+                        <label
+                            class="text-gray-700 text-sm cursor-pointer ml-1">Remember
+                            me</label>
+                    </div>
+                    <a (click)="action('/auth/forgot-password')"
+                        class="text-sm text-secondary hover:underline cursor-pointer">Forgot
+                        password?</a>
                 </div>
 
-                <div class="sign-up">
-                    <span>Create a new account? </span>
-                    <a (click)="action('/auth/user-selection')">Sign Up</a>
-                </div>
+                <button
+                    type="button"
+                    (click)="onSubmit()"
+                    class="submit-btn w-full py-2 px-4 mt-4 text-white font-medium rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-opacity-50 !rounded-button whitespace-nowrap">
+                    Login
+                </button>
+
             </form>
+
+            <div class="mt-6 text-center text-gray-600">
+                Don't have an account?
+                <a (click)="action('/auth/user-selection')"
+                    class="text-secondary hover:underline cursor-pointer">Sign
+                    up</a>
+            </div>
         </div>
     </div>
 </div>

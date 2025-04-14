@@ -1,127 +1,66 @@
 .otp-container {
-    display: flex;
-    min-height: 100vh;
-    background-color: #f8f9fa;
 
-    @media (max-width: 768px) {
-        flex-direction: column;
-    }
-    
-    .illustration-section {
-        flex: 1;
-        background-color: #e5eafb;
-        padding: 2rem;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    
-        .portal-title {
-            font-size: 1.25rem;
-            font-weight: 600;
-            color: #10217D;
-        }
-    
-        .illustration {
-            max-width: 400px;
-            width: 100%;
-            margin: auto;
-    
-            img {
-                width: 100%;
-                height: auto;
-            }
+    .welcome-section {
+        background: linear-gradient(135deg, #10217d 0%, #2e4450 100%);
+        img{
+            width: 80%;
         }
     }
-    
-    .form-section {
-        flex: 1;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 2rem;
-    
-        .form-container {
+
+    .form-container {
+        .otp-box {
             width: 100%;
-            max-width: 400px;
+            max-width: 450px;
+            padding: 2rem;
+            border-radius: 1rem;
+        }
+
+        .divider {
+            position: relative;
             text-align: center;
-    
-            h1 {
-                font-size: 1.75rem;
-                // color: #10217D;
-                margin-bottom: 1rem;
+            margin: 1.5rem 0;
+
+            &::before,
+            &::after {
+                content: '';
+                position: absolute;
+                top: 50%;
+                width: 45%;
+                height: 1px;
+                background: #dee2e6;
             }
-    
-            .subtitle {
+
+            &::before {
+                left: 0;
+            }
+
+            &::after {
+                right: 0;
+            }
+
+            span {
+                background: white;
+                padding: 0 1rem;
                 color: #6c757d;
-                margin-bottom: 2rem;
+                position: relative;
+                z-index: 1;
             }
         }
-    }
-    
-    .otp-inputs {
-        display: flex;
-        gap: 1rem;
-        justify-content: center;
-        margin-bottom: 2rem;
-    
-        .otp-input {
-            width: 3rem;
-            height: 3rem;
-            text-align: center;
-            font-size: 1.5rem;
-            border-radius: 8px;
-            border: 2px solid #ced4da;
-    
-            // &:focus {
-            //     border-color: #10217D;
-            //     box-shadow: 0 0 0 0.2rem rgba(16, 33, 125, 0.25);
-            // }
-    
-            @media (max-width: 480px) {
-                width: 2.5rem;
-                height: 2.5rem;
-                font-size: 1.25rem;
-            }
-        }
-    }
-    
-    .button-section {
-        margin-bottom: 1.5rem;  
-    }
-    
-    .resend-section {
-        text-align: center;
-        color: #6c757d;
-    
-        a {
-            color: #10217D;
-            text-decoration: none;
-            cursor: pointer;
-            font-weight: 500;
-    
-            &:hover {
-                text-decoration: underline;
-            }
-        }
-    }
-    
-    @media (max-width: 768px) {
-        .illustration-section {
-            padding: 1.5rem;
-    
-            .illustration {
-                max-width: 250px;
-            }
-        }
-    
-        .form-section {
-            padding: 1.5rem;
+
+        .submit-btn {
+            background: linear-gradient(96deg, rgba(22, 194, 213, 1) 0%, rgba(16, 33, 125, 1) 100%);
         }
     }
 }
-:host ::ng-deep {
-    .p-button.p-button-sm {
-        padding: 0.6rem 1rem;
-        font-size: 0.875rem;
+
+@media (max-width: 768px) {
+    .otp-container {
+        .welcome-section {
+            display: none;
+        }
+    
+        .otp-form-section {
+            padding: 1rem;
+        }
     }
 }

@@ -1,30 +1,25 @@
 
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ButtonModule } from 'primeng/button';
-import { InputTextModule } from 'primeng/inputtext';
 
 @Component({
   selector: 'app-otp-verification',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, ButtonModule, InputTextModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './otp-verification.component.html',
   styleUrls: ['./otp-verification.component.scss']
 })
 export class OtpVerificationComponent {
-  otpForm: FormGroup;
   otpLength = 4;
   otpArray = Array(this.otpLength).fill('');
+  showError:boolean = false;
 
   constructor(
     private fb: FormBuilder,
     private router: Router
   ) {
-    this.otpForm = this.fb.group({
-      otp: ['', [Validators.required, Validators.minLength(4)]]
-    });
   }
 
   onOtpInput(event: any, index: number) {
@@ -40,6 +35,11 @@ export class OtpVerificationComponent {
         nextInput.focus();
       }
     }
+    if (this.otpArray.some(value => value === '')) {
+      this.showError = true;
+    }else{
+      this.showError = false; 
+    }
   }
 
   onOtpKeyDown(event: KeyboardEvent, index: number) {
@@ -53,9 +53,11 @@ export class OtpVerificationComponent {
 }
 
   onSubmit() {
-    if (this.otpForm.valid) {
-      console.log('OTP Verified');
-      // Add your verification logic here
+    if (this.otpArray.some(value => value === '')) {
+      // Handle incomplete OTP error
+      console.error('Please fill in all OTP digits');
+      this.showError = true;
+      return;
     }
   }
 

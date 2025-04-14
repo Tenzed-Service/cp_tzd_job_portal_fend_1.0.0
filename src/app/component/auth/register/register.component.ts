@@ -2,12 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ButtonModule } from 'primeng/button';
-import { InputTextModule } from 'primeng/inputtext';
-import { PasswordModule } from 'primeng/password';
-import { DropdownModule } from 'primeng/dropdown';
-import { InputMaskModule } from 'primeng/inputmask';
-import { FileUploadModule } from 'primeng/fileupload';
 import { SingletonStoreService } from '../../../core/services/helper/singleton-store.service';
 import { UserType } from '../../../core/enums/common-enum';
 import { RegisterSuccessScreenComponent } from '../../../shared/component/register-success-screen/register-success-screen.component';
@@ -18,27 +12,41 @@ import { RegisterSuccessScreenComponent } from '../../../shared/component/regist
     imports: [
         CommonModule,
         ReactiveFormsModule,
-        ButtonModule,
-        InputTextModule,
-        PasswordModule,
-        DropdownModule,
-        InputMaskModule,
-        FileUploadModule,
         RegisterSuccessScreenComponent
     ],
     templateUrl: './register.component.html',
     styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit {
+    isVisibleModel:boolean = false;
     registerForm: FormGroup;
     countries: any[] = [];
     states: any[] = [];
     cities: any[] = [];
     industries: any[] = [];
+    legalEntities: any[] = [];
     uploadedFiles: File[] = [];
     maxFileSize = 5 * 1024 * 1024; // 5MB
     userType = UserType;
     selectedUserType: string = this.userType.EMPLOYER;
+    showPassword: boolean = false;
+    showConfirmPassword: boolean = false;
+    symbols = "!@#$%^&*()<>?/'\";:}{[]\\|+=~`";
+    passRequirement = {
+      passwordMinLowerCase: 1,
+      passwordMinNumber: 1,
+      passwordMinSymbol: 1,
+      passwordMinUpperCase: 1,
+      passwordMinCharacters: 8,
+      passwordMaxCharacters: 50
+    };
+    pattern = [
+        `(?=(.*[${this.symbols.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')}]){${this.passRequirement.passwordMinSymbol},})`,
+        `(?=(.*[a-z]){${this.passRequirement.passwordMinLowerCase},})`,
+        `(?=(.*[A-Z]){${this.passRequirement.passwordMinUpperCase},})`,
+        `(?=(.*\\d){${this.passRequirement.passwordMinNumber},})`,
+        `[A-Za-z\\d${this.symbols.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')}.]{${this.passRequirement.passwordMinCharacters},${this.passRequirement.passwordMaxCharacters}}`
+      ].map(item => item.toString()).join('');
 
     constructor(
         private fb: FormBuilder,
@@ -50,18 +58,17 @@ export class RegisterComponent implements OnInit {
             name: ['', Validators.required],
             companyName: ['', Validators.required],
             email: ['', [Validators.required, Validators.email]],
+            countryCode: ['+91'],
             contact: ['', Validators.required],
             country: ['', Validators.required],
             state: ['', Validators.required],
             city: ['', Validators.required],
             password: ['', Validators.required],
             confirmPassword: ['', Validators.required],
-            legalEntity: [''],
+            legalEntity: ['', Validators.required],
             industry: ['', Validators.required],
             legalName: ['', Validators.required],
-        }, {
-            validators: this.passwordMatchValidator
-        });
+        }, { validator: this.ConfirmedValidator('password', 'confirmPassword') });
     }
 
     get formControl() {
@@ -79,12 +86,23 @@ export class RegisterComponent implements OnInit {
         this.states = [{ name: 'California' }, { name: 'Texas' }];
         this.cities = [{ name: 'Los Angeles' }, { name: 'Houston' }];
         this.industries = [{ name: 'Technology' }, { name: 'Healthcare' }];
+        this.legalEntities = [{ name: 'Corporation', value:'Corporation' }, { name: 'Limited Liability Company (LLC)', value:'LLC' }, { name: 'Partnership', value:'Partnership' }, { name: 'Sole Proprietorship', value:'SoleProprietorship' },, { name: 'Non-Profit Organization', value:'NonProfit' },];
     }
 
-    passwordMatchValidator(g: FormGroup) {
-        return g.get('password')?.value === g.get('confirmPassword')?.value
-            ? null : { mismatch: true };
-    }
+    ConfirmedValidator(controlName: string, matchingControlName: string) {
+        return (formGroup: FormGroup) => {
+          const control = formGroup.controls[controlName];
+          const matchingControl:any = formGroup.controls[matchingControlName];
+          if (matchingControl.errors && !matchingControl.errors.confirmedValidator) {
+            return;
+          }
+          if (control.value !== matchingControl.value) {
+            matchingControl.setErrors({ confirmedValidator: true });
+          } else {
+            matchingControl.setErrors(null);
+          }
+        }
+      }
 
     onDragOver(event: DragEvent) {
         event.preventDefault();
@@ -146,6 +164,7 @@ export class RegisterComponent implements OnInit {
 
     onSubmit() {
         this.registerForm.markAllAsTouched();
+        // this.isVisibleModel = true;
         if (this.registerForm.invalid) {
             return;
         }
@@ -154,6 +173,6 @@ export class RegisterComponent implements OnInit {
     }
 
     goBack() {
-        this.router.navigate(['/auth/selection']);
+        this.router.navigate(['/auth/user-selection']);
     }
 }
