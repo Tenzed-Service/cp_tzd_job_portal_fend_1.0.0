@@ -56,7 +56,7 @@ export class RegisterComponent implements OnInit {
         this.selectedUserType = this.singletonStoreService.selectedUserType.getValue() ? this.singletonStoreService.selectedUserType.getValue() : this.userType.EMPLOYER
         this.registerForm = this.fb.group({
             name: ['', Validators.required],
-            companyName: ['', Validators.required],
+            companyName: [''],
             email: ['', [Validators.required, Validators.email]],
             countryCode: ['+91'],
             contact: ['', Validators.required],
@@ -65,10 +65,11 @@ export class RegisterComponent implements OnInit {
             city: ['', Validators.required],
             password: ['', Validators.required],
             confirmPassword: ['', Validators.required],
-            legalEntity: ['', Validators.required],
-            industry: ['', Validators.required],
-            legalName: ['', Validators.required],
+            legalName: [''],
+            industry: [''],
+            entityType: [''],
         }, { validator: this.ConfirmedValidator('password', 'confirmPassword') });
+        
     }
 
     get formControl() {
@@ -78,6 +79,16 @@ export class RegisterComponent implements OnInit {
     ngOnInit() {
         // Initialize dropdown data
         this.loadDropdownData();
+        if(this.selectedUserType == this.userType.EMPLOYER) {
+            this.formControl['companyName'].setValidators([Validators.required]);
+            this.formControl['companyName'].updateValueAndValidity();
+            this.formControl['legalName'].setValidators([Validators.required]);
+            this.formControl['legalName'].updateValueAndValidity();
+            this.formControl['industry'].setValidators([Validators.required]);
+            this.formControl['industry'].updateValueAndValidity();
+            this.formControl['entityType'].setValidators([Validators.required]);
+            this.formControl['entityType'].updateValueAndValidity();
+        }
     }
 
     loadDropdownData() {
@@ -86,7 +97,7 @@ export class RegisterComponent implements OnInit {
         this.states = [{ name: 'California' }, { name: 'Texas' }];
         this.cities = [{ name: 'Los Angeles' }, { name: 'Houston' }];
         this.industries = [{ name: 'Technology' }, { name: 'Healthcare' }];
-        this.legalEntities = [{ name: 'Corporation', value:'Corporation' }, { name: 'Limited Liability Company (LLC)', value:'LLC' }, { name: 'Partnership', value:'Partnership' }, { name: 'Sole Proprietorship', value:'SoleProprietorship' },, { name: 'Non-Profit Organization', value:'NonProfit' },];
+        this.legalEntities = [{ name: 'Corporation', value:'Corporation' }, { name: 'Limited Liability Company (LLC)', value:'LLC' }, { name: 'Partnership', value:'Partnership' }, { name: 'Sole Proprietorship', value:'SoleProprietorship' }, { name: 'Non-Profit Organization', value:'NonProfit' }];
     }
 
     ConfirmedValidator(controlName: string, matchingControlName: string) {
@@ -164,7 +175,7 @@ export class RegisterComponent implements OnInit {
 
     onSubmit() {
         this.registerForm.markAllAsTouched();
-        // this.isVisibleModel = true;
+        this.isVisibleModel = true;
         if (this.registerForm.invalid) {
             return;
         }

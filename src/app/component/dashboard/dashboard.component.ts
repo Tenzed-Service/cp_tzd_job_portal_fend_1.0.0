@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { SingletonStoreService } from '../../core/services/helper/singleton-store.service';
 
 @Component({
     selector: 'app-dashboard',
@@ -9,12 +10,15 @@ import { Router } from '@angular/router';
     standalone: true,
     imports: [CommonModule]
 })
-export class DashboardScreenComponent {
+export class DashboardComponent {
     
   constructor(
-    private router: Router
-  ) {
-    
+    private router: Router,
+    private singletonStoreService: SingletonStoreService,
+  ) { 
+    this.singletonStoreService.breadCrumbItems.next([
+      { label: 'Dashboard', active: true },
+    ]);     
   }
 
   action(route: string) {

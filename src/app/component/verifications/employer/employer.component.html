@@ -1,0 +1,594 @@
+<div class="employer-section">
+    <!-- Filters Section -->
+    <div class="bg-white p-4 rounded shadow-sm border border-gray-100 my-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+            <div class="relative">
+                <div
+                    class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                    <div
+                        class="w-5 h-5 flex items-center justify-center text-gray-400">
+                        <i class="ri-search-line"></i>
+                    </div>
+                </div>
+                <input
+                    type="text"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded w-full pl-10 pr-2.5 py-2 focus:outline-none focus:ring-2 focus:ring-[#16c2d5]/20 focus:border-[#16c2d5]"
+                    placeholder="Search by company name or ID..." />
+            </div>
+            <div class="relative">
+                <div
+                    class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                    <div
+                        class="w-5 h-5 flex items-center justify-center text-gray-400">
+                        <i class="ri-building-line"></i>
+                    </div>
+                </div>
+                <select
+                    id="industry"
+                    class="appearance-none bg-gray-50 border border-gray-300 text-gray-700 text-sm rounded pl-10 pr-8 py-2 w-full focus:outline-none focus:ring-2 focus:ring-[#16c2d5]/20 focus:border-[#16c2d5] text-left">
+                    @for (industry of industries; track $index) {
+                    <option
+                        [value]="industry.value">{{industry.name}}</option>
+                    }
+                </select>
+                <div
+                    class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                    <i
+                        class="ri-arrow-down-s-line text-gray-400"></i>
+                </div>
+            </div>
+            <div class="relative">
+                <div
+                    class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                    <div
+                        class="w-5 h-5 flex items-center justify-center text-gray-400">
+                        <i class="ri-filter-3-line"></i>
+                    </div>
+                </div>
+                <select
+                    id="status"
+                    class="appearance-none bg-gray-50 border border-gray-300 text-gray-700 text-sm rounded pl-10 pr-8 py-2 w-full focus:outline-none focus:ring-2 focus:ring-[#16c2d5]/20 focus:border-[#16c2d5] text-left">
+                    @for (status of statusList; track $index) {
+                    <option
+                        [value]="status.value">{{status.name}}</option>
+                    }
+                </select>
+                <div
+                    class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                    <i
+                        class="ri-arrow-down-s-line text-gray-400"></i>
+                </div>
+            </div>            
+            <div class="relative">
+                <div
+                    class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                    <div
+                        class="w-5 h-5 flex items-center justify-center text-gray-400">
+                        <i class="ri-calendar-line"></i>
+                    </div>
+                </div>
+                <select
+                    id="calender"
+                    class="appearance-none bg-gray-50 border border-gray-300 text-gray-700 text-sm rounded pl-10 pr-8 py-2 w-full focus:outline-none focus:ring-2 focus:ring-[#16c2d5]/20 focus:border-[#16c2d5] text-left">
+                    @for (calender of calenders; track $index) {
+                    <option [value]="calender.value">{{calender.name}}</option>
+                    }
+                </select>
+                <div
+                    class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                    <i
+                        class="ri-arrow-down-s-line text-gray-400"></i>
+                </div>
+            </div>
+            <button
+                class="bg-[#16c2d5]/10 text-[#16c2d5] px-4 py-2 rounded-button font-medium flex items-center justify-center whitespace-nowrap">
+                <div class="w-5 h-5 flex items-center justify-center mr-1.5">
+                    <i class="ri-refresh-line"></i>
+                </div>
+                Reset Filters
+            </button>
+        </div>
+    </div>
+    <!-- Employer Verification Table -->
+    <div
+        class="bg-white p-4 rounded shadow-sm border border-gray-100 relative">
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th
+                            scope="col"
+                            class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Employer
+                        </th>
+                        <th
+                            scope="col"
+                            class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Industry
+                        </th>
+                        <th
+                            scope="col"
+                            class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Submitted
+                        </th>
+                        <th
+                            scope="col"
+                            class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Status
+                        </th>
+                        <th
+                            scope="col"
+                            class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Documents
+                        </th>
+                        <th
+                            scope="col"
+                            class="px-4 py-3 whitespace-nowrap text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Last Updated
+                        </th>
+                        <th
+                            scope="col"
+                            class="px-4 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Actions
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    @for (employer of employerList; track employer.id) {
+                    <tr>
+                        <td class="px-4 py-2 whitespace-nowrap">
+                            <div class="flex items-center">
+                                <div class="h-7 w-7 text-xs rounded-full flex items-center justify-center"
+                                    [ngClass]="employer.initialsClass">
+                                    {{employer.initials}}
+                                </div>
+                                <div class="ml-4">
+                                    <div class="text-sm font-medium text-gray-900">
+                                        {{employer.name}}
+                                    </div>
+                                    <div class="text-sm text-gray-500">
+                                        {{employer.email}}
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-4 py-2 whitespace-nowrap">
+                            <div class="text-sm text-gray-900">{{employer.industry}}</div>
+                        </td>
+                        <td class="px-4 py-2 whitespace-nowrap">
+                            <div class="text-sm text-gray-900">{{employer.submittedDate}}</div>
+                        </td>
+                        <td class="px-4 py-2 whitespace-nowrap">
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full"
+                                [ngClass]="employer.status.class">
+                                {{employer.status.name}}
+                            </span>
+                        </td>
+                        <td class="px-4 py-2 whitespace-nowrap">
+                            <div class="text-sm text-gray-900 flex items-center">
+                                <div class="w-5 h-5 flex items-center justify-center mr-1 text-gray-500">
+                                    <i class="ri-file-line"></i>
+                                </div>
+                                {{employer.documents.count}} files
+                            </div>
+                        </td>
+                        <td class="px-4 py-2 whitespace-nowrap">
+                            <div class="text-sm text-gray-500">{{employer.lastUpdated}}</div>
+                        </td>
+                        <td class="px-4 py-2 whitespace-nowrap text-right text-sm font-medium">
+                            <div class="flex justify-end space-x-2">
+                                <button (click)="openDetails(employer.id)"
+                                    class="text-[#16c2d5] hover:text-[#16c2d5]/80 p-1">
+                                    <div class="w-5 h-5 flex items-center justify-center">
+                                        <i class="ri-file-search-line"></i>
+                                    </div>
+                                </button>
+                                <button class="text-[#16c2d5] hover:text-[#16c2d5]/80 p-1"
+                                [disabled]="employer.actions.canApprove">
+                                    <div class="w-5 h-5 flex items-center justify-center">
+                                        <i class="ri-check-line"></i>
+                                    </div>
+                                </button>
+                                <button class="text-[#2e4450] hover:text-[#2e4450]/80 p-1"
+                                [disabled]="employer.actions.canReject">
+                                    <div class="w-5 h-5 flex items-center justify-center">
+                                        <i class="ri-close-line"></i>
+                                    </div>
+                                </button>
+                                <button class="text-[#527c88] hover:text-[#2e4450] p-1"
+                                [disabled]="employer.actions.canRequestInfo">
+                                    <div class="w-5 h-5 flex items-center justify-center">
+                                        <i class="ri-question-line"></i>
+                                    </div>
+                                </button>
+                                <button class="text-[#16c2d5] hover:text-[#16c2d5]/80 p-1"
+                                [disabled]="employer.actions.canViewHistory">
+                                    <div class="w-5 h-5 flex items-center justify-center">
+                                        <i class="ri-history-line"></i>
+                                    </div>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <!-- Pagination -->
+        <app-pagination
+            [currentPage]="currentPage"
+            [itemsPerPage]="itemsPerPage"
+            [totalItems]="totalItems"
+            (changePagination)="onChangePagination($event)"></app-pagination>
+
+    </div>
+</div>
+<!-- Document Preview Panel -->
+<div
+    class="hidden document-preview-panel fixed top-0 right-0 bottom-0 w-full md:w-2/3 lg:w-1/2 bg-white shadow-xl z-20 overflow-y-auto">
+    <div class="p-6 border-b border-gray-200">
+        <div class="flex justify-between items-center">
+            <h2
+                class="text-xl font-bold text-gray-900"
+                id="preview-employer-name">
+                Company Documents
+            </h2>
+            <button
+                class="text-gray-500 hover:text-gray-700 close-preview-btn">
+                <div class="w-6 h-6 flex items-center justify-center">
+                    <i class="ri-close-line ri-lg"></i>
+                </div>
+            </button>
+        </div>
+    </div>
+    <div class="p-6">
+        <div class="mb-6">
+            <h3 class="text-lg font-medium text-gray-900 mb-4">
+                Document Checklist
+            </h3>
+            <div class="space-y-3">
+                <div class="flex items-center">
+                    <div class="w-5 h-5 mr-3">
+                        <div class="custom-checkbox checked"></div>
+                    </div>
+                    <span class="text-sm text-gray-700">Business
+                        Registration Certificate</span>
+                </div>
+                <div class="flex items-center">
+                    <div class="w-5 h-5 mr-3">
+                        <div class="custom-checkbox checked"></div>
+                    </div>
+                    <span class="text-sm text-gray-700">Tax
+                        Identification Document</span>
+                </div>
+                <div class="flex items-center">
+                    <div class="w-5 h-5 mr-3">
+                        <div class="custom-checkbox checked"></div>
+                    </div>
+                    <span class="text-sm text-gray-700">Proof of
+                        Business Address</span>
+                </div>
+                <div class="flex items-center">
+                    <div class="w-5 h-5 mr-3">
+                        <div class="custom-checkbox checked"></div>
+                    </div>
+                    <span class="text-sm text-gray-700">Director's
+                        ID</span>
+                </div>
+                <div class="flex items-center">
+                    <div class="w-5 h-5 mr-3">
+                        <div class="custom-checkbox"></div>
+                    </div>
+                    <span class="text-sm text-gray-700">Insurance
+                        Certificates</span>
+                </div>
+            </div>
+        </div>
+        <div class="mb-6">
+            <h3 class="text-lg font-medium text-gray-900 mb-4">
+                Submitted Documents
+            </h3>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                <div
+                    class="border border-gray-200 rounded p-3 hover:border-[#16c2d5] cursor-pointer">
+                    <div
+                        class="h-32 bg-gray-100 rounded flex items-center justify-center mb-2">
+                        <div
+                            class="w-10 h-10 flex items-center justify-center text-gray-500">
+                            <i class="ri-file-pdf-line ri-2x"></i>
+                        </div>
+                    </div>
+                    <div
+                        class="text-sm font-medium text-gray-900 truncate">
+                        Business_Registration.pdf
+                    </div>
+                    <div class="text-xs text-gray-500">PDF, 2.3 MB</div>
+                </div>
+                <div
+                    class="border border-gray-200 rounded p-3 hover:border-[#16c2d5] cursor-pointer">
+                    <div
+                        class="h-32 bg-gray-100 rounded flex items-center justify-center mb-2">
+                        <div
+                            class="w-10 h-10 flex items-center justify-center text-gray-500">
+                            <i class="ri-file-pdf-line ri-2x"></i>
+                        </div>
+                    </div>
+                    <div
+                        class="text-sm font-medium text-gray-900 truncate">
+                        Tax_ID_Certificate.pdf
+                    </div>
+                    <div class="text-xs text-gray-500">PDF, 1.5 MB</div>
+                </div>
+                <div
+                    class="border border-gray-200 rounded p-3 hover:border-[#16c2d5] cursor-pointer">
+                    <div
+                        class="h-32 bg-gray-100 rounded flex items-center justify-center mb-2">
+                        <div
+                            class="w-10 h-10 flex items-center justify-center text-gray-500">
+                            <i class="ri-image-line ri-2x"></i>
+                        </div>
+                    </div>
+                    <div
+                        class="text-sm font-medium text-gray-900 truncate">
+                        Office_Lease.jpg
+                    </div>
+                    <div class="text-xs text-gray-500">JPG, 3.8 MB</div>
+                </div>
+                <div
+                    class="border border-gray-200 rounded p-3 hover:border-[#16c2d5] cursor-pointer">
+                    <div
+                        class="h-32 bg-gray-100 rounded flex items-center justify-center mb-2">
+                        <div
+                            class="w-10 h-10 flex items-center justify-center text-gray-500">
+                            <i class="ri-file-pdf-line ri-2x"></i>
+                        </div>
+                    </div>
+                    <div
+                        class="text-sm font-medium text-gray-900 truncate">
+                        Director_ID_Scan.pdf
+                    </div>
+                    <div class="text-xs text-gray-500">PDF, 1.2 MB</div>
+                </div>
+                <div
+                    class="border border-gray-200 rounded p-3 hover:border-[#16c2d5] cursor-pointer">
+                    <div
+                        class="h-32 bg-gray-100 rounded flex items-center justify-center mb-2">
+                        <div
+                            class="w-10 h-10 flex items-center justify-center text-gray-500">
+                            <i class="ri-file-excel-line ri-2x"></i>
+                        </div>
+                    </div>
+                    <div
+                        class="text-sm font-medium text-gray-900 truncate">
+                        Employee_List.xlsx
+                    </div>
+                    <div class="text-xs text-gray-500">XLSX, 0.8
+                        MB</div>
+                </div>
+            </div>
+        </div>
+        <div class="mb-6">
+            <h3 class="text-lg font-medium text-gray-900 mb-4">
+                Document Preview
+            </h3>
+            <div
+                class="border border-gray-200 rounded p-4 h-96 flex items-center justify-center bg-gray-50">
+                <div class="text-center">
+                    <div
+                        class="w-16 h-16 mx-auto flex items-center justify-center text-gray-400">
+                        <i class="ri-file-pdf-line ri-3x"></i>
+                    </div>
+                    <p class="mt-2 text-sm text-gray-600">
+                        Select a document to preview
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="mb-6">
+            <h3 class="text-lg font-medium text-gray-900 mb-4">
+                Verification Notes
+            </h3>
+            <textarea
+                class="w-full h-32 border border-gray-300 rounded p-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#16c2d5]/20 focus:border-[#16c2d5]"
+                placeholder="Add notes about this verification..."></textarea>
+        </div>
+        <div
+            class="flex flex-col md:flex-row space-y-3 md:space-y-0 md:space-x-3">
+            <button
+                class="bg-gradient-to-r from-[#16c2d5] to-[#10217d] text-white px-4 py-2 rounded-button font-medium flex items-center justify-center whitespace-nowrap">
+                <div
+                    class="w-5 h-5 flex items-center justify-center mr-1.5">
+                    <i class="ri-check-line"></i>
+                </div>
+                Approve Verification
+            </button>
+            <button
+                class="bg-[#2e4450] text-white px-4 py-2 rounded-button font-medium flex items-center justify-center whitespace-nowrap">
+                <div
+                    class="w-5 h-5 flex items-center justify-center mr-1.5">
+                    <i class="ri-close-line"></i>
+                </div>
+                Reject Verification
+            </button>
+            <button
+                class="bg-[#527c88] text-white px-4 py-2 rounded-button font-medium flex items-center justify-center whitespace-nowrap">
+                <div
+                    class="w-5 h-5 flex items-center justify-center mr-1.5">
+                    <i class="ri-question-line"></i>
+                </div>
+                Request More Info
+            </button>
+        </div>
+    </div>
+</div>
+<!-- Approval Modal -->
+<div
+    class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-30 hidden"
+    id="approve-modal">
+    <div class="bg-white rounded-lg max-w-md w-full p-6">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="text-lg font-bold text-gray-900">Approve Employer</h3>
+            <button class="text-gray-500 hover:text-gray-700 close-modal">
+                <div class="w-6 h-6 flex items-center justify-center">
+                    <i class="ri-close-line ri-lg"></i>
+                </div>
+            </button>
+        </div>
+        <p class="text-gray-600 mb-4">
+            You are about to approve
+            <span class="font-medium text-gray-900"
+                id="approve-employer-name">this employer</span>. This will grant
+            them full access to post jobs and hire workers.
+        </p>
+        <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-700 mb-1">Approval
+                Notes (Optional)</label>
+            <textarea
+                class="w-full h-24 border border-gray-300 rounded p-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#16c2d5]/20 focus:border-[#16c2d5]"
+                placeholder="Add any notes about this approval..."></textarea>
+        </div>
+        <div class="flex space-x-3">
+            <button
+                class="flex-1 bg-gray-100 text-gray-700 px-4 py-2 rounded-button font-medium close-modal whitespace-nowrap">
+                Cancel
+            </button>
+            <button
+                class="flex-1 bg-gradient-to-r from-[#16c2d5] to-[#10217d] text-white px-4 py-2 rounded-button font-medium whitespace-nowrap">
+                Confirm Approval
+            </button>
+        </div>
+    </div>
+</div>
+<!-- Rejection Modal -->
+<div
+    class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-30 hidden"
+    id="reject-modal">
+    <div class="bg-white rounded-lg max-w-md w-full p-6">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="text-lg font-bold text-gray-900">Reject Employer</h3>
+            <button class="text-gray-500 hover:text-gray-700 close-modal">
+                <div class="w-6 h-6 flex items-center justify-center">
+                    <i class="ri-close-line ri-lg"></i>
+                </div>
+            </button>
+        </div>
+        <p class="text-gray-600 mb-4">
+            You are about to reject
+            <span class="font-medium text-gray-900"
+                id="reject-employer-name">this employer</span>. They will be
+            notified and may reapply with corrected information.
+        </p>
+        <div class="mb-4">
+            <label
+                class="block text-sm font-medium text-gray-700 mb-1">Rejection
+                Reason <span class="text-red-500">*</span></label>
+            <select
+                class="w-full border border-gray-300 rounded p-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#16c2d5]/20 focus:border-[#16c2d5] pr-8">
+                <option>Incomplete documentation</option>
+                <option>Invalid business information</option>
+                <option>Suspicious activity</option>
+                <option>Duplicate account</option>
+                <option>Other reason</option>
+            </select>
+        </div>
+        <div class="mb-4">
+            <label
+                class="block text-sm font-medium text-gray-700 mb-1">Additional
+                Comments <span class="text-red-500">*</span></label>
+            <textarea
+                class="w-full h-24 border border-gray-300 rounded p-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#16c2d5]/20 focus:border-[#16c2d5]"
+                placeholder="Provide detailed explanation for rejection..."></textarea>
+        </div>
+        <div class="flex space-x-3">
+            <button
+                class="flex-1 bg-gray-100 text-gray-700 px-4 py-2 rounded-button font-medium close-modal whitespace-nowrap">
+                Cancel
+            </button>
+            <button
+                class="flex-1 bg-[#2e4450] text-white px-4 py-2 rounded-button font-medium whitespace-nowrap">
+                Confirm Rejection
+            </button>
+        </div>
+    </div>
+</div>
+<!-- Request Info Modal -->
+<div
+    class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-30 hidden"
+    id="request-info-modal">
+    <div class="bg-white rounded-lg max-w-md w-full p-6">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="text-lg font-bold text-gray-900">
+                Request Additional Information
+            </h3>
+            <button class="text-gray-500 hover:text-gray-700 close-modal">
+                <div class="w-6 h-6 flex items-center justify-center">
+                    <i class="ri-close-line ri-lg"></i>
+                </div>
+            </button>
+        </div>
+        <p class="text-gray-600 mb-4">
+            You are requesting additional information from
+            <span
+                class="font-medium text-gray-900"
+                id="request-info-employer-name">this employer</span>. Please
+            specify what documents or information you need.
+        </p>
+        <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-700 mb-1">Required
+                Documents</label>
+            <div class="space-y-2">
+                <div class="flex items-center">
+                    <div class="w-5 h-5 mr-3">
+                        <div class="custom-checkbox"></div>
+                    </div>
+                    <span class="text-sm text-gray-700">Business License</span>
+                </div>
+                <div class="flex items-center">
+                    <div class="w-5 h-5 mr-3">
+                        <div class="custom-checkbox"></div>
+                    </div>
+                    <span class="text-sm text-gray-700">Insurance
+                        Certificate</span>
+                </div>
+                <div class="flex items-center">
+                    <div class="w-5 h-5 mr-3">
+                        <div class="custom-checkbox"></div>
+                    </div>
+                    <span class="text-sm text-gray-700">Financial
+                        Statements</span>
+                </div>
+                <div class="flex items-center">
+                    <div class="w-5 h-5 mr-3">
+                        <div class="custom-checkbox"></div>
+                    </div>
+                    <span class="text-sm text-gray-700">Proof of Address</span>
+                </div>
+                <div class="flex items-center">
+                    <div class="w-5 h-5 mr-3">
+                        <div class="custom-checkbox"></div>
+                    </div>
+                    <span class="text-sm text-gray-700">Company Structure
+                        Document</span>
+                </div>
+            </div>
+        </div>
+        <div class="mb-4">
+            <label
+                class="block text-sm font-medium text-gray-700 mb-1">Additional
+                Instructions <span class="text-red-500">*</span></label>
+            <textarea
+                class="w-full h-24 border border-gray-300 rounded p-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#16c2d5]/20 focus:border-[#16c2d5]"
+                placeholder="Provide detailed instructions on what information is needed..."></textarea>
+        </div>
+        <div class="flex space-x-3">
+            <button
+                class="flex-1 bg-gray-100 text-gray-700 px-4 py-2 rounded-button font-medium close-modal whitespace-nowrap">
+                Cancel
+            </button>
+            <button
+                class="flex-1 bg-[#527c88] text-white px-4 py-2 rounded-button font-medium whitespace-nowrap">
+                Send Request
+            </button>
+        </div>
+    </div>
+</div>

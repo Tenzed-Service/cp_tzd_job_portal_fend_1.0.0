@@ -1,7 +1,9 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { SingletonStoreService } from './../../core/services/helper/singleton-store.service';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, NavigationEnd } from '@angular/router';
-import { Subscription, filter } from 'rxjs';
+import { Router } from '@angular/router';
+
+export interface breadCrumb { label: string, url?: string, active?: boolean }
 
 @Component({
   selector: 'app-header',
@@ -10,36 +12,51 @@ import { Subscription, filter } from 'rxjs';
   standalone: true,
   imports: [CommonModule],
 })
-export class HeaderComponent implements OnInit, OnDestroy {
-  currentUrl: string[] = [];
-  private routerSubscription: Subscription | undefined;
+export class HeaderComponent implements OnInit {
 
-  constructor(private router: Router) {
-    // Initial URL parsing
-    this.updateCurrentUrl();
-  }
+  breadCrumbItemList: breadCrumb[] = [];
+  isSidebarOpen:boolean = true;
+  isNotificationOpen:boolean = false;
+  isProfileOpen:boolean = false;
 
-  ngOnInit(): void {
-    // Subscribe to router events to update currentUrl when navigation ends
-    this.routerSubscription = this.router.events.pipe(
-      filter(event => event instanceof NavigationEnd)
-    ).subscribe(() => {
-      this.updateCurrentUrl();
+  constructor(
+    private router: Router,
+    private singletonStoreService: SingletonStoreService,
+    private cdr: ChangeDetectorRef
+  ) {    
+    this.singletonStoreService.sidebarOpen.subscribe((res: boolean) => {
+      this.isSidebarOpen = res;
     });
   }
 
-  ngOnDestroy(): void {
-    // Clean up subscription when component is destroyed
-    if (this.routerSubscription) {
-      this.routerSubscription.unsubscribe();
+  ngOnInit(): void {
+  }
+
+  get isSmallScreen(): boolean {
+    return window.innerWidth < 960;
+  }
+
+  ngAfterViewInit() {
+    this.singletonStoreService.breadCrumbItems.subscribe((header:breadCrumb[])=>{
+      this.breadCrumbItemList = header;
+      this.cdr.detectChanges();
+     });
+  }
+
+  toggleSidebar() {
+    this.isSidebarOpen = !this.isSidebarOpen;
+    this.singletonStoreService.sidebarOpen.next(this.isSidebarOpen);
+  }
+
+  changeBreadCrumb(route: breadCrumb) {
+    if (route.url) {
+      this.router.navigateByUrl(route.url);
     }
   }
 
-  private updateCurrentUrl(): void {
-    this.currentUrl = this.router.url.split('/').filter((item) => item.trim() !== '');
-  }
-
   action(route: string) {
+    this.isNotificationOpen = false;
+    this.isProfileOpen = false;
     this.router.navigateByUrl(route);
   }
 }

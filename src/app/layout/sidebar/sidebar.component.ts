@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { LayoutMenuModel } from '../../core/models/api/layout.model';
+import { SingletonStoreService } from '../../core/services/helper/singleton-store.service';
 
 @Component({
     selector: 'app-sidebar',
@@ -16,11 +17,16 @@ import { LayoutMenuModel } from '../../core/models/api/layout.model';
 export class SidebarComponent implements OnInit {
   @Input() menus: LayoutMenuModel[] = [];
   currentUrl: string = '';
+  isSidebarOpen: boolean = true;
     
   constructor(
-    private router: Router
+    private router: Router,
+    private singletonStoreService: SingletonStoreService,
   ) {
-    this.currentUrl = this.router.url;    
+    this.currentUrl = this.router.url;
+    this.singletonStoreService.sidebarOpen.subscribe((res: boolean) => {
+      this.isSidebarOpen = res;
+    });  
   }
 
   ngOnInit(): void {

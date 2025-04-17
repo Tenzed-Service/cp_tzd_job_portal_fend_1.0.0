@@ -3,7 +3,7 @@ import { WelcomeScreenComponent } from "./welcome-screen.component";
 
 export const welcomeScreenRoutes: Routes = [
   {
-    path: "worker",
+    path: "",
     component: WelcomeScreenComponent,
   },
 ];
