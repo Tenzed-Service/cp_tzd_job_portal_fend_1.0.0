@@ -122,7 +122,7 @@ export class JobFormComponent implements OnInit {
       locations: this.fb.array([]),
       languages: [[], Validators.required],
       applicants: ['', [Validators.required, Validators.min(1)]],
-      status: ['active', Validators.required],
+      status: ['', Validators.required],
       description: ['', Validators.required],
     });
     this.addLocation();

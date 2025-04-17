@@ -111,7 +111,7 @@ export class LayoutComponent implements OnInit {
       {
         name: 'Reports',
         icon: 'ri-bar-chart-line',
-        route: '/Reports',
+        route: '/reports',
         children: [],
       },
     ]

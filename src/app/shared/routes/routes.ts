@@ -1,3 +1,4 @@
+import { applicantRoutes } from './../../component/applicant/applicant.routes';
 import { jobsRoutes } from './../../component/jobs/jobs.routes';
 import { Routes } from '@angular/router';
 import { DashboardComponent } from '../../component/dashboard/dashboard.component';
@@ -27,7 +28,15 @@ export const content: Routes = [
     loadChildren: () => import('../../component/jobs/jobs.routes').then(m => m.jobsRoutes),
   },
   {
+    path: "applicants",
+    loadChildren: () => import('../../component/applicant/applicant.routes').then(m => m.applicantRoutes),
+  },
+  {
     path: "verification",
     loadChildren: () => import('../../component/verifications/verification.routes').then(m => m.verificationRoutes),
+  },
+  {
+    path: "reports",
+    loadChildren: () => import('../../component/reports/reports.routes').then(m => m.reportsRoutes),
   },
 ];

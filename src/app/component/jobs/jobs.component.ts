@@ -39,12 +39,12 @@ export class JobsComponent {
           bgColor: 'bg-blue-50',
           textColor: 'text-blue-700',
         },
-        {
-          label: 'Full-time',
-          icon: 'ri-time-line',
-          bgColor: 'bg-purple-50',
-          textColor: 'text-purple-700',
-        },
+        // {
+        //   label: 'Full-time',
+        //   icon: 'ri-time-line',
+        //   bgColor: 'bg-purple-50',
+        //   textColor: 'text-purple-700',
+        // },
         {
           label: 'Senior Level',
           icon: 'ri-medal-line',
@@ -96,12 +96,12 @@ export class JobsComponent {
           bgColor: 'bg-blue-50',
           textColor: 'text-blue-700',
         },
-        {
-          label: 'Full-time',
-          icon: 'ri-time-line',
-          bgColor: 'bg-purple-50',
-          textColor: 'text-purple-700',
-        },
+        // {
+        //   label: 'Full-time',
+        //   icon: 'ri-time-line',
+        //   bgColor: 'bg-purple-50',
+        //   textColor: 'text-purple-700',
+        // },
         {
           label: 'Mid Level',
           icon: 'ri-medal-line',
@@ -153,12 +153,12 @@ export class JobsComponent {
           bgColor: 'bg-blue-50',
           textColor: 'text-blue-700',
         },
-        {
-          label: 'Full-time',
-          icon: 'ri-time-line',
-          bgColor: 'bg-purple-50',
-          textColor: 'text-purple-700',
-        },
+        // {
+        //   label: 'Full-time',
+        //   icon: 'ri-time-line',
+        //   bgColor: 'bg-purple-50',
+        //   textColor: 'text-purple-700',
+        // },
         {
           label: 'Senior Level',
           icon: 'ri-medal-line',
@@ -210,12 +210,12 @@ export class JobsComponent {
           bgColor: 'bg-blue-50',
           textColor: 'text-blue-700',
         },
-        {
-          label: 'Full-time',
-          icon: 'ri-time-line',
-          bgColor: 'bg-purple-50',
-          textColor: 'text-purple-700',
-        },
+        // {
+        //   label: 'Full-time',
+        //   icon: 'ri-time-line',
+        //   bgColor: 'bg-purple-50',
+        //   textColor: 'text-purple-700',
+        // },
         {
           label: 'Mid-Senior Level',
           icon: 'ri-medal-line',
