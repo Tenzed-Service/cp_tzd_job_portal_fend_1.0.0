@@ -1,0 +1,35 @@
+
+<div class="flex items-center gap-2">
+  <!-- Left Arrow -->
+  @if (showArrows) {
+  <button
+    (click)="$event.preventDefault();scrollTabs('left');"
+    class="px-1 rounded-full hover:bg-gray-100 text-gray-500 flex items-center justify-center">
+    <i class="ri-arrow-left-s-line text-xl"></i>
+  </button>
+  }
+
+  <!-- Scrollable Tab Container -->
+  <div class="overflow-hidden relative flex-1">
+    <nav class="flex no-wrap overflow-x-auto scrollbar-hide" #tabsContainer>
+      @for (tab of tabList; track $index) {
+      <button
+        class="tab-btn shrink-0 whitespace-nowrap px-4 py-1.5 rounded-xl font-medium text-sm transition-all flex items-center justify-center mr-2"
+        [ngClass]="activeTab == tab?.id ? 'bg-primary text-white shadow-sm' : 'bg-gray-100 text-gray-500 hover:text-primary hover:bg-primary/10'"
+        (click)="switchTab(tab?.id)">
+        <i class="mr-1" [ngClass]="tab?.icon"></i>
+        {{tab?.name}} ({{tab?.count}})
+      </button>
+      }
+    </nav>
+  </div>
+
+  <!-- Right Arrow -->
+  @if (showArrows) {
+  <button
+    (click)="$event.preventDefault();scrollTabs('right')"
+    class="px-1 rounded-full hover:bg-gray-100 text-gray-500 flex items-center justify-center">
+    <i class="ri-arrow-right-s-line text-xl"></i>
+  </button>
+  }
+</div>

@@ -16,7 +16,7 @@ export const routes: Routes = [
   
   {
     path: "auth",
-    loadChildren: () => import('./component/auth/auth.routes').then(m => m.auth),
+    loadChildren: () => import('./component/common/auth/auth.routes').then(m => m.auth),
   },
   // {
   //   path: '**',

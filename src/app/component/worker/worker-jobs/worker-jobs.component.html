@@ -1,0 +1,85 @@
+<div class="container mx-auto">
+  <!-- Job Status Tabs -->
+  <div class="bg-white rounded custom-shadow px-4 py-3 my-4">
+    <app-tabs
+    [activeTab]="activeTab"
+    [tabList]="tabList"
+    (tabChange)="switchTab($event)"
+    ></app-tabs>
+  </div>
+  <!-- Job Cards Grid -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    @for (job of jobList; track job.id) {
+      <div class="bg-white rounded-lg p-4 custom-shadow hover:shadow-lg transition-shadow duration-300">
+        <!-- Header -->
+        <div class="flex items-start justify-between mb-4">
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 rounded-full flex items-center justify-center p-2"
+                 [ngClass]="job.iconBgColor">
+              <i [class]="job.icon + ' text-2xl ' + job.iconTextColor"></i>
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold text-gray-900">
+                {{ job.title }}
+              </h3>
+              <div class="flex flex-col items-start gap-2 text-gray-500 text-sm mt-1">
+                <div class="flex items-center">
+                  <i class="ri-building-line mr-1"></i>
+                  <span>{{ job.department }}</span>
+                </div>
+                <div class="flex items-center">
+                  <i class="ri-map-pin-line mr-1"></i>
+                  <span>{{ job.location }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- <button class="transition-colors"
+                  [ngClass]="job.bookmark.textColor + ' hover:' + job.bookmark.hoverTextColor"
+                  >
+            <i [class]="job.bookmark.icon + ' text-xl'"></i>
+          </button> -->
+        </div>
+        <!-- Tags -->
+        <div class="flex items-center gap-2 mb-4 whitespace-nowrap flex-wrap">
+          @for (tag of job.tags; track tag.label) {
+            <span class="px-2 py-1 rounded-full text-xs font-medium flex items-center gap-1"
+                  [ngClass]="tag.bgColor + ' ' + tag.textColor">
+              @if (tag.icon) {
+                <i [class]="tag.icon"></i>
+              }
+              {{ tag.label }}
+            </span>
+          }
+        </div>
+        <!-- Details -->
+        <div class="border-t border-gray-100 pt-4 mb-4">
+          <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 text-sm text-gray-500">
+            <div class="flex items-center gap-1">
+              <i class="ri-user-3-line"></i>
+              <span>{{ job.details.applicants }}</span>
+            </div>
+            <div class="flex items-center gap-1">
+              <i class="ri-time-line"></i>
+              <span>{{ job.details.posted }}</span>
+            </div>
+          </div>
+        </div>
+        <!-- Actions -->
+        <div class="flex gap-3">
+          <button
+            class="flex-1 py-1.5 bg-primary text-white rounded !rounded-button hover:bg-primary/90 transition-colors font-medium"
+          >
+            Apply Now
+          </button>
+          <button (click)="jobDetails('worker-jobs/job-details/'+job.id)"
+            class="px-4 py-1.5 border border-gray-200 text-gray-700 rounded !rounded-button hover:bg-gray-50 transition-colors font-medium flex items-center justify-center"
+          >
+            <i class="ri-eye-line mr-1"></i>
+            View Details
+          </button>
+        </div>
+      </div>
+    }
+  </div>
+</div>

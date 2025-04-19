@@ -14,50 +14,7 @@ import { SingletonStoreService } from '../core/services/helper/singleton-store.s
   styleUrl: './layout.component.scss',
 })
 export class LayoutComponent implements OnInit {
-  menuItems: LayoutMenuModel[] = [
-    {
-      name: 'Dashboard',
-      icon: 'ri-dashboard-line',
-      route: '/dashboard',
-      children: [],
-    },
-    {
-      name: 'Verification',
-      icon: 'ri-shield-check-line',
-      route: '/verification',
-      expanded: false,
-      children: [
-        {
-          name: 'Employer',
-          icon: 'ri-building-line',
-          route: '/verification/employer',
-        },
-        {
-          name: 'Worker',
-          icon: 'ri-user-3-line',
-          route: '/verification/worker',
-        },
-      ],
-    },
-    {
-      name: 'Jobs',
-      icon: 'ri-briefcase-line',
-      route: '/Jobs',
-      children: [],
-    },
-    {
-      name: 'Messages',
-      icon: 'ri-message-2-line',
-      route: '/messages',
-      children: [],
-    },
-    {
-      name: 'Reports',
-      icon: 'ri-file-chart-line',
-      route: '/Reports',
-      children: [],
-    },
-  ];
+  menuItems: LayoutMenuModel[] = [];
   isSidebarOpen: boolean = true;
 
   constructor(private singletonStoreService: SingletonStoreService) {
@@ -83,38 +40,115 @@ export class LayoutComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.menuItems = [
-      {
-        name: 'Dashboard',
-        icon: 'ri-dashboard-line',
-        route: '/dashboard',
-        children: [],
-      },
-      {
-        name: 'Open Worker',
-        icon: 'ri-user-3-line',
-        route: '/open-worker',
-        children: [],
-      },
-      {
-        name: 'Jobs',
-        icon: 'ri-briefcase-line',
-        route: '/jobs',
-        children: [],
-      },
-      {
-        name: 'Applicants',
-        icon: 'ri-user-add-line',
-        route: '/applicants',
-        children: [],
-      },
-      {
-        name: 'Reports',
-        icon: 'ri-bar-chart-line',
-        route: '/reports',
-        children: [],
-      },
-    ]
+    this.singletonStoreService.selectedUserType.subscribe((res: string) => {
+      switch (res) {
+        case 'AGENCY':
+          this.menuItems = [
+            {
+              name: 'Dashboard',
+              icon: 'ri-dashboard-line',
+              route: '/dashboard',
+              children: [],
+            },
+            {
+              name: 'Verification',
+              icon: 'ri-shield-check-line',
+              route: '/verification',
+              expanded: false,
+              children: [
+                {
+                  name: 'Employer',
+                  icon: 'ri-building-line',
+                  route: '/verification/employer',
+                },
+                {
+                  name: 'Worker',
+                  icon: 'ri-user-3-line',
+                  route: '/verification/worker',
+                },
+              ],
+            },
+            {
+              name: 'Jobs',
+              icon: 'ri-briefcase-line',
+              route: '/Jobs',
+              children: [],
+            },
+            {
+              name: 'Messages',
+              icon: 'ri-message-2-line',
+              route: '/messages',
+              children: [],
+            },
+            {
+              name: 'Reports',
+              icon: 'ri-file-chart-line',
+              route: '/Reports',
+              children: [],
+            },
+          ];
+          break;
+        case 'EMPLOYER':
+          this.menuItems = [
+            {
+              name: 'Dashboard',
+              icon: 'ri-dashboard-line',
+              route: '/dashboard',
+              children: [],
+            },
+            {
+              name: 'Open Worker',
+              icon: 'ri-user-3-line',
+              route: '/open-worker',
+              children: [],
+            },
+            {
+              name: 'Jobs',
+              icon: 'ri-briefcase-line',
+              route: '/jobs',
+              children: [],
+            },
+            {
+              name: 'Applicants',
+              icon: 'ri-user-add-line',
+              route: '/applicants',
+              children: [],
+            },
+            {
+              name: 'Reports',
+              icon: 'ri-bar-chart-line',
+              route: '/reports',
+              children: [],
+            },
+          ];
+          break;
+        case 'EMPLOYEE':
+          this.menuItems = [
+            {
+              name: 'Dashboard',
+              icon: 'ri-dashboard-line',
+              route: '/dashboard',
+              children: [],
+            },
+            {
+              name: 'Jobs',
+              icon: 'ri-briefcase-line',
+              route: '/worker-jobs',
+              children: [],
+            },
+            {
+              name: 'Reports',
+              icon: 'ri-bar-chart-line',
+              route: '/reports',
+              children: [],
+            },
+          ]
+          break;
+        default:
+          break;
+      }
+    });
+    
   }
 
   closeSideBar() {

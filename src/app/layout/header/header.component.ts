@@ -1,3 +1,4 @@
+import { UserType } from './../../core/enums/common-enum';
 import { SingletonStoreService } from './../../core/services/helper/singleton-store.service';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -18,6 +19,7 @@ export class HeaderComponent implements OnInit {
   isSidebarOpen:boolean = true;
   isNotificationOpen:boolean = false;
   isProfileOpen:boolean = false;
+  userType = UserType;
 
   constructor(
     private router: Router,
@@ -58,5 +60,9 @@ export class HeaderComponent implements OnInit {
     this.isNotificationOpen = false;
     this.isProfileOpen = false;
     this.router.navigateByUrl(route);
+  }
+
+  changeUserRole(role: string) {
+    this.singletonStoreService.selectedUserType.next(role);
   }
 }

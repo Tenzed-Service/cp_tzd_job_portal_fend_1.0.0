@@ -1,10 +1,7 @@
-import { applicantRoutes } from './../../component/applicant/applicant.routes';
-import { jobsRoutes } from './../../component/jobs/jobs.routes';
 import { Routes } from '@angular/router';
-import { DashboardComponent } from '../../component/dashboard/dashboard.component';
-import { UserProfileComponent } from '../../component/user-profile/user-profile.component';
-import { OpenWorkerComponent } from '../../component/open-worker/open-worker.component';
-import { JobsComponent } from '../../component/jobs/jobs.component';
+import { UserProfileComponent } from '../../component/common/user-profile/user-profile.component';
+import { DashboardComponent } from '../../component/common/dashboard/dashboard.component';
+import { OpenWorkerComponent } from '../../component/employer/open-worker/open-worker.component';
 
 export const content: Routes = [
   // {
@@ -25,18 +22,23 @@ export const content: Routes = [
   },
   {
     path: "jobs",
-    loadChildren: () => import('../../component/jobs/jobs.routes').then(m => m.jobsRoutes),
+    loadChildren: () => import('../../component/employer/jobs/jobs.routes').then(m => m.jobsRoutes),
   },
   {
     path: "applicants",
-    loadChildren: () => import('../../component/applicant/applicant.routes').then(m => m.applicantRoutes),
+    loadChildren: () => import('../../component/employer/applicant/applicant.routes').then(m => m.applicantRoutes),
   },
   {
     path: "verification",
-    loadChildren: () => import('../../component/verifications/verification.routes').then(m => m.verificationRoutes),
+    loadChildren: () => import('../../component/agency/verifications/verification.routes').then(m => m.verificationRoutes),
   },
   {
     path: "reports",
-    loadChildren: () => import('../../component/reports/reports.routes').then(m => m.reportsRoutes),
+    loadChildren: () => import('../../component/employer/reports/reports.routes').then(m => m.reportsRoutes),
+  },
+
+  {
+    path: "worker-jobs",
+    loadChildren: () => import('../../component/worker/worker-jobs/worker-jobs.routes').then(m => m.workerJobsRoutes),
   },
 ];

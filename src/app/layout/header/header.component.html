@@ -168,7 +168,7 @@
             <div class="text-sm font-medium">James Davidson</div>
             <div class="text-xs flex items-start text-gray-500">Agency Admin</div>
           </div>
-          <div class="w-1 h-1 flex items-center justify-center">
+          <div class="w-1 h-1 hidden md:flex items-center justify-center">
             <i class="ri-arrow-down-s-line"></i>
           </div>
         </button>
@@ -187,13 +187,33 @@
             </div>
           </a>
           <a
-            href="#"
+            (click)="changeUserRole(userType.AGENCY)"
             class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer">
             <div class="flex items-center space-x-2">
               <div class="w-4 h-4 flex items-center justify-center">
                 <i class="ri-settings-3-line"></i>
               </div>
-              <span>Account Settings</span>
+              <span>{{userType.AGENCY}}</span>
+            </div>
+          </a>
+          <a
+            (click)="changeUserRole(userType.EMPLOYER)"
+            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer">
+            <div class="flex items-center space-x-2">
+              <div class="w-4 h-4 flex items-center justify-center">
+                <i class="ri-settings-3-line"></i>
+              </div>
+              <span>{{userType.EMPLOYER}}</span>
+            </div>
+          </a>
+          <a
+            (click)="changeUserRole(userType.EMPLOYEE)"
+            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer">
+            <div class="flex items-center space-x-2">
+              <div class="w-4 h-4 flex items-center justify-center">
+                <i class="ri-settings-3-line"></i>
+              </div>
+              <span>{{userType.EMPLOYEE}}</span>
             </div>
           </a>
           <a
@@ -201,9 +221,9 @@
             class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer">
             <div class="flex items-center space-x-2">
               <div class="w-4 h-4 flex items-center justify-center">
-                <i class="ri-tools-line"></i>
+                <i class="ri-settings-3-line"></i>
               </div>
-              <span>Preferences</span>
+              <span>Account Settings</span>
             </div>
           </a>
           <a
