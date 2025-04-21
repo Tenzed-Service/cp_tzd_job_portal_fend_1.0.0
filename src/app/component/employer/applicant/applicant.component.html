@@ -1,13 +1,15 @@
 <div class="container mx-auto">
     <!-- Filters and Search -->
     <div class="bg-white rounded custom-shadow p-4 my-4">
-        <div class="flex flex-col gap-2">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div class="md:col-span-3">
           <app-tabs
           [activeTab]="activeTab"
           [tabList]="tabList"
           (tabChange)="switchTab($event)"
           ></app-tabs>
-          <div class="flex flex-col sm:flex-row items-center gap-3">
+        </div>
+          <div class="flex flex-col sm:flex-row items-center justify-center md:justify-end gap-3">
             <div class="relative w-full sm:w-64">
                 <input
                     type="text"

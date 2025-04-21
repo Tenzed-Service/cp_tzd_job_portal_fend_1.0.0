@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SingletonStoreService } from '../../../../core/services/helper/singleton-store.service';
-import { UserType } from '../../../../core/enums/common-enum';
+import { UserType } from '../../../../core/enums/common.enum';
 import { RegisterSuccessScreenComponent } from '../../../../shared/component/register-success-screen/register-success-screen.component';
 
 @Component({

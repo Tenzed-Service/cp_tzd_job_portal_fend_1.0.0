@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { SingletonStoreService } from '../../../core/services/helper/singleton-store.service';
-import { ProfileTabs } from '../../../core/enums/common-enum';
+import { ProfileTabs } from '../../../core/enums/common.enum';
 import {
   FormBuilder,
   FormGroup,

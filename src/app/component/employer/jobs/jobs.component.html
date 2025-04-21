@@ -2,31 +2,14 @@
   <!-- Filters and Search -->
   <div class="bg-white rounded custom-shadow px-4 py-3 my-4">
     <div
-      class="flex flex-wrap md:items-center justify-between space-y-4 md:space-y-0">
-      <div class="flex items-center gap-4">
-        <nav class="flex flex-wrap p-1 space-y-2 sm:space-y-0 sm:space-x-2 w-full">
-          <button
-            class="tab-btn w-full sm:flex-1 whitespace-nowrap px-4 py-1.5 rounded-xl font-medium text-sm transition-all flex items-center justify-center"
-            [ngClass]="activeTab == 1 ? 'bg-primary text-white shadow-sm' : 'bg-gray-100 text-gray-500 hover:text-primary hover:bg-primary/10'"
-            (click)="switchTab(1)">
-            <i class="ri-apps-line mr-2"></i>All Jobs (89)
-          </button>
-          <button
-            class="tab-btn w-full sm:flex-1 whitespace-nowrap px-4 py-1.5 rounded-xl font-medium text-sm transition-all flex items-center justify-center"
-            [ngClass]="activeTab == 2 ? 'bg-primary text-white shadow-sm' : 'bg-gray-100 text-gray-500 hover:text-primary hover:bg-primary/10'"
-            (click)="switchTab(2)">
-            <i class="ri-check-line mr-2"></i>Active (42)
-          </button>
-          <button
-            class="tab-btn w-full sm:flex-1 whitespace-nowrap px-4 py-1.5 rounded-xl font-medium text-sm transition-all flex items-center justify-center"
-            [ngClass]="activeTab == 3 ? 'bg-primary text-white shadow-sm' : 'bg-gray-100 text-gray-500 hover:text-primary hover:bg-primary/10'"
-            (click)="switchTab(3)">
-            <i class="ri-close-line mr-2"></i>Closed (31)
-          </button>
-        </nav>
-      </div>
-      <div class="flex flex-wrap items-center justify-center gap-3">
-        <div class="relative w-full sm:w-64">
+      class="grid grid-cols-1 md:grid-cols-2 gap-2">
+      <app-tabs
+      [activeTab]="activeTab"
+      [tabList]="tabList"
+      (tabChange)="switchTab($event)"
+      ></app-tabs>
+      <div class="flex items-center justify-center lg:justify-end gap-3">
+        <div class="relative max-w-64">
           <input type="text" placeholder="Search jobs..."
             class="w-full pl-10 pr-4 py-2 rounded-button border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-sm">
           <div

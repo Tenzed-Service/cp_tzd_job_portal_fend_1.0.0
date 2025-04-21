@@ -1,4 +1,4 @@
-import { UserType } from './../../../core/enums/common-enum';
+import { UserType } from '../../../core/enums/common.enum';
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';

@@ -1,4 +1,4 @@
-import { UserType } from './../../core/enums/common-enum';
+import { UserType } from '../../core/enums/common.enum';
 import { SingletonStoreService } from './../../core/services/helper/singleton-store.service';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -63,6 +63,7 @@ export class HeaderComponent implements OnInit {
   }
 
   changeUserRole(role: string) {
+    this.action('/dashboard');
     this.singletonStoreService.selectedUserType.next(role);
   }
 }

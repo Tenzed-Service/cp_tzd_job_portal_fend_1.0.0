@@ -5,11 +5,12 @@ import { HeaderComponent } from './header/header.component';
 import { LayoutMenuModel } from '../core/models/api/layout.model';
 import { RouterModule } from '@angular/router';
 import { SingletonStoreService } from '../core/services/helper/singleton-store.service';
+import { LoaderComponent } from '../shared/ui/loader/loader.component';
 
 @Component({
   selector: 'app-layout',
   standalone: true,
-  imports: [CommonModule, SidebarComponent, HeaderComponent, RouterModule],
+  imports: [CommonModule, SidebarComponent, HeaderComponent, RouterModule, LoaderComponent],
   templateUrl: './layout.component.html',
   styleUrl: './layout.component.scss',
 })

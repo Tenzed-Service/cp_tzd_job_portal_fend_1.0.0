@@ -11,7 +11,7 @@ import { TabsComponent } from '../../../shared/component/tabs/tabs.component';
     standalone: true,
     imports: [
       CommonModule,
-      TabsComponent
+      TabsComponent      
     ]
 })
 export class WorkerJobsComponent {

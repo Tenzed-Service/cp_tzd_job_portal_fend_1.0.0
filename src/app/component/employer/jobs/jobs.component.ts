@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { SingletonStoreService } from '../../../core/services/helper/singleton-store.service';
 import { PaginationComponent } from '../../../shared/ui/pagination/pagination.component';
 import { JobModel } from '../../../core/models/api/job.model';
+import { TabsComponent } from '../../../shared/component/tabs/tabs.component';
 
 
 @Component({
@@ -11,7 +12,11 @@ import { JobModel } from '../../../core/models/api/job.model';
   templateUrl: './jobs.component.html',
   styleUrls: ['./jobs.component.scss'],
   standalone: true,
-  imports: [CommonModule, PaginationComponent],
+  imports: [
+    CommonModule, 
+    PaginationComponent,
+    TabsComponent
+  ],
 })
 export class JobsComponent {
   currentPage: number = 1;
@@ -255,6 +260,26 @@ export class JobsComponent {
     },
   ];
   allJobList: JobModel[] = [...this.jobList];
+  tabList: any[] = [
+    {
+      id: 1,
+      name: 'All Jobs',
+      count: 89,
+      icon: 'ri-apps-line',
+    },
+    {
+      id: 2,
+      name: 'Active',
+      count: 42,
+      icon: 'ri-check-line',
+    },
+    {
+      id: 3,
+      name: 'Closed',
+      count: 31,
+      icon: 'ri-close-line',
+    },
+  ];
 
   constructor(
     private router: Router,

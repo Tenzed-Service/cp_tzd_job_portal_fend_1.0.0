@@ -2,7 +2,7 @@ import { SingletonStoreService } from './../../../../core/services/helper/single
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { UserType } from '../../../../core/enums/common-enum';
+import { UserType } from '../../../../core/enums/common.enum';
 
 @Component({
   selector: 'app-user-selection',
