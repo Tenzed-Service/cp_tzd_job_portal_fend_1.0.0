@@ -1,36 +1,31 @@
 import { FormsModule, NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { Component, forwardRef, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DropdownItemModel } from '../../../../core/models/common/common.models';
 
 @Component({
-  selector: 'app-selection',
-  templateUrl: './selection.component.html',
-  styleUrls: ['./selection.component.scss'],
+  selector: 'app-simple-input',
+  templateUrl: './simple-input.component.html',
+  styleUrls: ['./simple-input.component.scss'],
   standalone: true,
   imports: [CommonModule, FormsModule],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => SelectionComponent),
+      useExisting: forwardRef(() => SimpleInputComponent),
       multi: true
     }
   ]
 })
-export class SelectionComponent implements ControlValueAccessor {
-  value: string = '';
-  @Input() prefixIcon: string = '';
-  @Input() dropDownListData: any[] = [];
+export class SimpleInputComponent implements ControlValueAccessor {
   @Input() isDisabled: boolean = false;
-  @Input() isInvalid: boolean = false;
-  showSkillsDropdown = false;
-  skillInput = '';
+  @Input() prefixIcon: string = '';
+  simpleInputInput = '';
   onChange: any = () => {};
   onTouch: any = () => {};
   
   writeValue(value: string): void {
-    if (value) {
-      this.value = value;
+    if (value !== null && value !== undefined) {
+      this.simpleInputInput = value;
     }
   }
 
@@ -42,8 +37,8 @@ export class SelectionComponent implements ControlValueAccessor {
     this.onTouch = fn;
   }
 
-  onValueChange(value: any): void {
-    this.onChange(value);
+  onSearchInputChange(value: any): void {
+    this.onChange(value?.target?.value);
     this.onTouch();
   }
 }

@@ -1,227 +1,24 @@
 <div class="employer-section">
     <!-- Filters Section -->
     <div class="bg-white p-4 rounded shadow-sm border border-gray-100 my-4">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
-            <div class="relative">
-                <div
-                    class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                    <div
-                        class="w-5 h-5 flex items-center justify-center text-gray-400">
-                        <i class="ri-search-line"></i>
-                    </div>
-                </div>
-                <input
-                    type="text"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded w-full pl-10 pr-2.5 py-2 focus:outline-none focus:ring-2 focus:ring-[#16c2d5]/20 focus:border-[#16c2d5]"
-                    placeholder="Search by company name or ID..." />
-            </div>
-            <div class="relative">
-                <div
-                    class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                    <div
-                        class="w-5 h-5 flex items-center justify-center text-gray-400">
-                        <i class="ri-building-line"></i>
-                    </div>
-                </div>
-                <select
-                    id="industry"
-                    class="appearance-none bg-gray-50 border border-gray-300 text-gray-700 text-sm rounded pl-10 pr-8 py-2 w-full focus:outline-none focus:ring-2 focus:ring-[#16c2d5]/20 focus:border-[#16c2d5] text-left">
-                    @for (industry of industries; track $index) {
-                    <option
-                        [value]="industry.value">{{industry.name}}</option>
-                    }
-                </select>
-                <div
-                    class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                    <i
-                        class="ri-arrow-down-s-line text-gray-400"></i>
-                </div>
-            </div>
-            <div class="relative">
-                <div
-                    class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                    <div
-                        class="w-5 h-5 flex items-center justify-center text-gray-400">
-                        <i class="ri-filter-3-line"></i>
-                    </div>
-                </div>
-                <select
-                    id="status"
-                    class="appearance-none bg-gray-50 border border-gray-300 text-gray-700 text-sm rounded pl-10 pr-8 py-2 w-full focus:outline-none focus:ring-2 focus:ring-[#16c2d5]/20 focus:border-[#16c2d5] text-left">
-                    @for (status of statusList; track $index) {
-                    <option
-                        [value]="status.value">{{status.name}}</option>
-                    }
-                </select>
-                <div
-                    class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                    <i
-                        class="ri-arrow-down-s-line text-gray-400"></i>
-                </div>
-            </div>            
-            <div class="relative">
-                <div
-                    class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                    <div
-                        class="w-5 h-5 flex items-center justify-center text-gray-400">
-                        <i class="ri-calendar-line"></i>
-                    </div>
-                </div>
-                <select
-                    id="calender"
-                    class="appearance-none bg-gray-50 border border-gray-300 text-gray-700 text-sm rounded pl-10 pr-8 py-2 w-full focus:outline-none focus:ring-2 focus:ring-[#16c2d5]/20 focus:border-[#16c2d5] text-left">
-                    @for (calender of calenders; track $index) {
-                    <option [value]="calender.value">{{calender.name}}</option>
-                    }
-                </select>
-                <div
-                    class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                    <i
-                        class="ri-arrow-down-s-line text-gray-400"></i>
-                </div>
-            </div>
-            <button
-                class="bg-[#16c2d5]/10 text-[#16c2d5] px-4 py-2 rounded-button font-medium flex items-center justify-center whitespace-nowrap">
-                <div class="w-5 h-5 flex items-center justify-center mr-1.5">
-                    <i class="ri-refresh-line"></i>
-                </div>
-                Reset Filters
-            </button>
-        </div>
+        <app-filters
+            [filterSchema]="filterSchema"
+        ></app-filters>
     </div>
-    <!-- Employer Verification Table -->
-    <div
-        class="bg-white p-4 rounded shadow-sm border border-gray-100 relative">
-        <div class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
-                    <tr>
-                        <th
-                            scope="col"
-                            class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Employer
-                        </th>
-                        <th
-                            scope="col"
-                            class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Industry
-                        </th>
-                        <th
-                            scope="col"
-                            class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Submitted
-                        </th>
-                        <th
-                            scope="col"
-                            class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Status
-                        </th>
-                        <th
-                            scope="col"
-                            class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Documents
-                        </th>
-                        <th
-                            scope="col"
-                            class="px-4 py-3 whitespace-nowrap text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Last Updated
-                        </th>
-                        <th
-                            scope="col"
-                            class="px-4 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Actions
-                        </th>
-                    </tr>
-                </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
-                    @for (employer of employerList; track employer.id) {
-                    <tr>
-                        <td class="px-4 py-2 whitespace-nowrap">
-                            <div class="flex items-center">
-                                <div class="h-7 w-7 text-xs rounded-full flex items-center justify-center"
-                                    [ngClass]="employer.initialsClass">
-                                    {{employer.initials}}
-                                </div>
-                                <div class="ml-4">
-                                    <div class="text-sm font-medium text-gray-900">
-                                        {{employer.name}}
-                                    </div>
-                                    <div class="text-sm text-gray-500">
-                                        {{employer.email}}
-                                    </div>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="px-4 py-2 whitespace-nowrap">
-                            <div class="text-sm text-gray-900">{{employer.industry}}</div>
-                        </td>
-                        <td class="px-4 py-2 whitespace-nowrap">
-                            <div class="text-sm text-gray-900">{{employer.submittedDate}}</div>
-                        </td>
-                        <td class="px-4 py-2 whitespace-nowrap">
-                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full"
-                                [ngClass]="employer.status.class">
-                                {{employer.status.name}}
-                            </span>
-                        </td>
-                        <td class="px-4 py-2 whitespace-nowrap">
-                            <div class="text-sm text-gray-900 flex items-center">
-                                <div class="w-5 h-5 flex items-center justify-center mr-1 text-gray-500">
-                                    <i class="ri-file-line"></i>
-                                </div>
-                                {{employer.documents.count}} files
-                            </div>
-                        </td>
-                        <td class="px-4 py-2 whitespace-nowrap">
-                            <div class="text-sm text-gray-500">{{employer.lastUpdated}}</div>
-                        </td>
-                        <td class="px-4 py-2 whitespace-nowrap text-right text-sm font-medium">
-                            <div class="flex justify-end space-x-2">
-                                <button (click)="openDetails(employer.id)"
-                                    class="text-[#16c2d5] hover:text-[#16c2d5]/80 p-1">
-                                    <div class="w-5 h-5 flex items-center justify-center">
-                                        <i class="ri-file-search-line"></i>
-                                    </div>
-                                </button>
-                                <button class="text-[#16c2d5] hover:text-[#16c2d5]/80 p-1"
-                                [disabled]="employer.actions.canApprove">
-                                    <div class="w-5 h-5 flex items-center justify-center">
-                                        <i class="ri-check-line"></i>
-                                    </div>
-                                </button>
-                                <button class="text-[#2e4450] hover:text-[#2e4450]/80 p-1"
-                                [disabled]="employer.actions.canReject">
-                                    <div class="w-5 h-5 flex items-center justify-center">
-                                        <i class="ri-close-line"></i>
-                                    </div>
-                                </button>
-                                <button class="text-[#527c88] hover:text-[#2e4450] p-1"
-                                [disabled]="employer.actions.canRequestInfo">
-                                    <div class="w-5 h-5 flex items-center justify-center">
-                                        <i class="ri-question-line"></i>
-                                    </div>
-                                </button>
-                                <button class="text-[#16c2d5] hover:text-[#16c2d5]/80 p-1"
-                                [disabled]="employer.actions.canViewHistory">
-                                    <div class="w-5 h-5 flex items-center justify-center">
-                                        <i class="ri-history-line"></i>
-                                    </div>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-        <!-- Pagination -->
-        <app-pagination
-            [currentPage]="currentPage"
-            [itemsPerPage]="itemsPerPage"
-            [totalItems]="totalItems"
-            (changePagination)="onChangePagination($event)"></app-pagination>
 
+    <!-- Employer Verification Table -->
+    <div class="bg-white p-4 pb-0 rounded shadow-sm border border-gray-100 relative">
+        <app-table
+        [tableSchema]="tableSchema"
+        ></app-table>
     </div>
+
+    <!-- Pagination -->
+    <div class="bg-white rounded px-4 py-2 pt-0">
+        <app-pagination
+        [paginationSchema]="paginationSchema"    
+        ></app-pagination>
+      </div>
 </div>
 <!-- Document Preview Panel -->
 <div

@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { SingletonStoreService } from '../../../core/services/helper/singleton-store.service';
 import { PaginationComponent } from '../../../shared/ui/pagination/pagination.component';
 import { TabsComponent } from '../../../shared/component/tabs/tabs.component';
+import { PaginationSchema } from '../../../shared/ui/pagination/pagination.component.models';
+import { SimpleInputComponent } from '../../../shared/ui/fields/simple-input/simple-input.component';
 
 @Component({
   selector: 'app-applicant',
@@ -13,13 +15,11 @@ import { TabsComponent } from '../../../shared/component/tabs/tabs.component';
   imports: [
     CommonModule, 
     PaginationComponent,
-    TabsComponent
+    TabsComponent,
+    SimpleInputComponent
   ],
 })
 export class ApplicantComponent {
-  currentPage: number = 1;
-  totalItems: number = 100;
-  itemsPerPage: number = 10;
   activeTab: number = 1;
   applicantList: any[] = [
     {
@@ -268,6 +268,14 @@ export class ApplicantComponent {
   ];
   openInterviewSchedulingModal:boolean = false;
   openRejectConfirmationModal:boolean = false;
+  paginationSchema:PaginationSchema<ApplicantComponent,any[]> = {
+    parentComponent: this,
+    pageNumber: 1,
+    pageSize: 10,
+    totalItems: 100,
+    maxVisiblePages: 5,
+    onPaginationChange: this.onChangePagination,
+  };
 
   constructor(
     private router: Router,
@@ -316,8 +324,12 @@ export class ApplicantComponent {
     this.activeTab = tabId;
   }
 
-  onChangePagination(page: number) {
-    this.currentPage = page;
+  onChangePagination(
+    paginationSchema: PaginationSchema<ApplicantComponent, any[]>,
+    pagination:{pageNumber: number,pageSize: number}
+  ) {
+    paginationSchema.pageNumber = pagination.pageNumber; 
+    paginationSchema.pageSize = pagination.pageSize; 
   }
 
   action(routes:string){

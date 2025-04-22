@@ -1,60 +1,71 @@
-<div class="flex justify-between items-center flex-wrap pt-4 border-t mt-4">
-  <div class="text-sm text-gray-500 py-2">
-    Showing {{ startIndex + 1 }} to {{ endIndex }} of {{ totalItems }} employers
+<div class="flex justify-between items-center flex-wrap pt-2 mt-4 gap-2"
+[ngClass]="borderTop ? 'border-t' : ''">
+  <div class="text-sm text-gray-500 flex items-center">
+    Showing {{ startIndex + 1 }} to {{ endIndex }} of {{ paginationSchema.totalItems }} employers
   </div>
-  <div class="flex space-x-1">
-    <button
-      (click)="onPageChange(currentPage - 1)"
-      [disabled]="currentPage === 1"
-      class="w-8 h-8 flex items-center justify-center rounded border border-gray-300"
-      [ngClass]="currentPage === 1 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50'">
-      <div class="w-5 h-5 flex items-center justify-center">
-        <i class="ri-arrow-left-s-line"></i>
-      </div>
-    </button>
-
-    <!-- First Page -->
-    @if (showLeftDots) {
-    <button
-      (click)="onPageChange(1)"
-      class="w-8 h-8 flex items-center justify-center rounded border border-gray-300 text-gray-700 hover:bg-gray-50">
-      1
-    </button>
-    <span
-      class="w-8 h-8 flex items-center justify-center text-gray-500">...</span>
-    }
-
-    <!-- Page Numbers -->
-    @for (page of pages; track page) {
-    <button
-      (click)="onPageChange(page)"
-      class="w-8 h-8 flex items-center justify-center rounded"
-      [ngClass]="page === currentPage ? 
-                'bg-gradient-to-r from-[#16c2d5] to-[#10217d] text-white' : 
-                'border border-gray-300 text-gray-700 hover:bg-gray-50'">
-      {{ page }}
-    </button>
-    }
-
-    <!-- Last Page -->
-    @if (showRightDots) {
-    <span
-      class="w-8 h-8 flex items-center justify-center text-gray-500">...</span>
-    <button
-      (click)="onPageChange(totalPages)"
-      class="w-8 h-8 flex items-center justify-center rounded border border-gray-300 text-gray-700 hover:bg-gray-50">
-      {{ totalPages }}
-    </button>
-    }
-
-    <button
-      (click)="onPageChange(currentPage + 1)"
-      [disabled]="currentPage === totalPages"
-      class="w-8 h-8 flex items-center justify-center rounded border border-gray-300"
-      [ngClass]="currentPage === totalPages ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50'">
-      <div class="w-5 h-5 flex items-center justify-center">
-        <i class="ri-arrow-right-s-line"></i>
-      </div>
-    </button>
+  <div class="flex flex-wrap gap-2">
+    <div class="flex whitespace-nowrap">
+      <div class="text-sm text-gray-500 flex items-center mr-2">Page Size : </div>
+      <app-selection
+      [dropDownListData]="dropDownListData"
+      [(ngModel)]="paginationSchema.pageSize"
+      (ngModelChange)="onPageSizeChange($event)"
+      ></app-selection>
+    </div>
+    <div class="flex space-x-1">
+      <button
+        (click)="onPageChange(paginationSchema.pageNumber - 1)"
+        [disabled]="paginationSchema.pageNumber === 1"
+        class="w-8 h-8 flex items-center justify-center rounded border border-gray-300"
+        [ngClass]="paginationSchema.pageNumber === 1 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50'">
+        <div class="w-5 h-5 flex items-center justify-center">
+          <i class="ri-arrow-left-s-line"></i>
+        </div>
+      </button>
+  
+      <!-- First Page -->
+      @if (showLeftDots) {
+      <button
+        (click)="onPageChange(1)"
+        class="w-8 h-8 flex items-center justify-center rounded border border-gray-300 text-gray-700 hover:bg-gray-50">
+        1
+      </button>
+      <span
+        class="w-8 h-8 flex items-center justify-center text-gray-500">...</span>
+      }
+  
+      <!-- Page Numbers -->
+      @for (page of pages; track page) {
+      <button
+        (click)="onPageChange(page)"
+        class="w-8 h-8 flex items-center justify-center rounded"
+        [ngClass]="page === paginationSchema.pageNumber ? 
+                  'bg-gradient-to-r from-[#16c2d5] to-[#10217d] text-white' : 
+                  'border border-gray-300 text-gray-700 hover:bg-gray-50'">
+        {{ page }}
+      </button>
+      }
+  
+      <!-- Last Page -->
+      @if (showRightDots) {
+      <span
+        class="w-8 h-8 flex items-center justify-center text-gray-500">...</span>
+      <button
+        (click)="onPageChange(totalPages)"
+        class="w-8 h-8 flex items-center justify-center rounded border border-gray-300 text-gray-700 hover:bg-gray-50">
+        {{ totalPages }}
+      </button>
+      }
+  
+      <button
+        (click)="onPageChange(paginationSchema.pageNumber + 1)"
+        [disabled]="paginationSchema.pageNumber === totalPages"
+        class="w-8 h-8 flex items-center justify-center rounded border border-gray-300"
+        [ngClass]="paginationSchema.pageNumber === totalPages ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:bg-gray-50'">
+        <div class="w-5 h-5 flex items-center justify-center">
+          <i class="ri-arrow-right-s-line"></i>
+        </div>
+      </button>
+    </div>    
   </div>
 </div>

@@ -1,0 +1,38 @@
+<div class="flex flex-col lg:flex-row gap-2">
+  @if (filterSchema.filterItemConfig) {
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 gap-2">
+      @for (filter of filterSchema.filterItemConfig; track filter) {
+        @if (filter.filterType == tableFilterTypeEnum.TextBox) {
+          <app-simple-input (keyup)="searchInput.next($event)"
+          [prefixIcon]="filter.prefixIcon ? filter.prefixIcon : ''"
+          [(ngModel)]="filter.filterValue"></app-simple-input>
+        }
+        @else if (filter.filterType == tableFilterTypeEnum.Dropdown) {
+          <app-selection [prefixIcon]="filter.prefixIcon ? filter.prefixIcon : ''"
+          [(ngModel)]="filter.filterValue" (ngModelChange)="filterChange(filterSchema.applyBtn)"
+          [dropDownListData]="filter.filterOptions ? filter.filterOptions : []"></app-selection>
+        }
+      }
+      <div class="min-w-fit flex gap-2">
+        @if (filterSchema.applyBtn) {
+        <button (click)="filterChange(false)"
+          class="bg-[#16c2d5]/10 text-[#16c2d5] text-sm px-4 py-1.5 rounded-button font-medium flex items-center justify-center whitespace-nowrap">
+          <div class="w-3 h-3 flex items-center justify-center mr-1.5">
+            <i class="ri-check-line"></i>
+          </div>
+          Apply
+        </button>
+        }
+        @if (filterSchema.resetBtn) {
+        <button (click)="resetFilters()"
+          class="bg-[#16c2d5]/10 text-[#16c2d5] text-sm px-4 py-1.5 rounded-button font-medium flex items-center justify-center whitespace-nowrap">
+          <div class="w-3 h-3 flex items-center justify-center mr-1.5">
+            <i class="ri-refresh-line"></i>
+          </div>
+          Reset
+        </button>
+        }
+      </div>
+    </div>
+  }
+</div>

@@ -1,34 +1,80 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { SelectionComponent } from '../fields/selection/selection.component';
+import { DropdownItemModel } from '../../../core/models/common/common.models';
+import { FormsModule } from '@angular/forms';
+import { SingletonStoreService } from '../../../core/services/helper/singleton-store.service';
+import { PaginationSchema } from './pagination.component.models';
 
 @Component({
   selector: 'app-pagination',
   templateUrl: './pagination.component.html',
   styleUrls: ['./pagination.component.scss'],
   standalone: true,
-  imports: [CommonModule]
+  imports: [
+    CommonModule,
+    SelectionComponent,
+    FormsModule
+  ]
 })
 export class PaginationComponent implements OnInit {
-  @Input() currentPage:number = 1;
-  @Input() itemsPerPage:number = 10;
-  @Input() totalItems:number = 0;
-  @Input() maxVisiblePages:number = 5;
-  @Output() changePagination = new EventEmitter<number>();
+  @Input() paginationSchema!: PaginationSchema<any, any>;
+  @Input() borderTop:boolean = false;
   startIndex = 0;
   endIndex = 0;
+  dropDownListData:any[] = [
+    { 
+      label: '10',
+      value: 10
+    },
+    {
+      label: '20',
+      value: 20 
+    },
+    {
+      label: '50',
+      value: 50 
+    },
+    {
+      label: '100',
+      value: 100 
+    }
+  ];
+
+  constructor(
+    private singletonStoreService: SingletonStoreService
+  ) {}
 
   ngOnInit() {
+    this.singletonStoreService.isMobileView.subscribe((isMobileView:boolean) => {
+      if (this.paginationSchema && this.paginationSchema.maxVisiblePages) {
+        if(isMobileView){
+         this.paginationSchema.maxVisiblePages = 3;
+        } else {
+         this.paginationSchema.maxVisiblePages = 5;
+       }        
+      }
+     });
+     if(this.paginationSchema && this.paginationSchema?.pageSizeOptions && this.paginationSchema.pageSizeOptions.length > 0){
+       this.dropDownListData = [];
+       this.paginationSchema.pageSizeOptions.forEach((pageSize:number) => {
+         this.dropDownListData.push({
+           label: pageSize.toString(),
+           value: pageSize
+         });
+       });
+     }
     this.updateIndexes();
   }
 
   get totalPages(): number {
-    return Math.ceil(this.totalItems / this.itemsPerPage);
+    return Math.ceil(this.paginationSchema.totalItems / this.paginationSchema.pageSize);
   }
 
   get pages(): number[] {
     const totalPages = this.totalPages;
-    const current = this.currentPage;
-    const maxVisible = this.maxVisiblePages;
+    const current = this.paginationSchema.pageNumber;
+    const maxVisible = this.paginationSchema.maxVisiblePages;
     const half = Math.floor(maxVisible / 2);
 
     let start = Math.max(current - half, 1);
@@ -50,15 +96,21 @@ export class PaginationComponent implements OnInit {
   }
 
   updateIndexes() {
-    this.startIndex = (this.currentPage - 1) * this.itemsPerPage;
-    this.endIndex = Math.min(this.startIndex + this.itemsPerPage, this.totalItems);
+    this.startIndex = (this.paginationSchema.pageNumber - 1) * this.paginationSchema.pageSize;
+    this.endIndex = Math.min(this.startIndex + this.paginationSchema.pageSize, this.paginationSchema.totalItems);
   }
 
   onPageChange(page: number) {
-    if (page >= 1 && page <= this.totalPages && page !== this.currentPage) {
-      this.currentPage = page;
+    if (page >= 1 && page <= this.totalPages && page !== this.paginationSchema.pageNumber) {
+      this.paginationSchema.pageNumber = page;
       this.updateIndexes();
-      this.changePagination.emit(this.currentPage);
+      this.paginationSchema.onPaginationChange(this.paginationSchema.parentComponent,{pageNumber:this.paginationSchema.pageNumber, pageSize:+this.paginationSchema.pageSize});
     }
+  }
+  onPageSizeChange(pageSize: number) {
+      this.paginationSchema.pageSize = pageSize; // Assuming paginationSchema.pageSize is a number, you may need to convert it from string if it comes from your dat
+      this.paginationSchema.pageNumber = 1;
+      this.updateIndexes();
+      this.paginationSchema.onPaginationChange(this.paginationSchema.parentComponent,{pageNumber:this.paginationSchema.pageNumber, pageSize:+this.paginationSchema.pageSize});
   }
 }

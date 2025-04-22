@@ -46,3 +46,9 @@ export interface PermissionsDirectiveModel {
   removeElement?: boolean;
   disableElement?: boolean;
 }
+
+export interface GrigActionVM { 
+  icon: string, 
+  function: string, 
+  title: string 
+}

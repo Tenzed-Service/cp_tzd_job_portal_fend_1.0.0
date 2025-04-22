@@ -1,0 +1,35 @@
+.worker-card-view-section {
+
+    .custom-shadow {
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .status-badge {
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: 500;
+    }
+
+    .status-available {
+        background-color: rgba(34, 197, 94, 0.1);
+        color: rgb(34, 197, 94);
+    }
+
+    .status-assigned {
+        background-color: rgba(87, 181, 231, 0.1);
+        color: rgb(87, 181, 231);
+    }
+
+    .status-offduty {
+        background-color: rgba(107, 114, 128, 0.1);
+        color: rgb(107, 114, 128);
+    }
+
+    .skill-tag {
+        background-color: rgba(243, 244, 246, 1);
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 12px;
+    }
+}

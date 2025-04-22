@@ -4,6 +4,18 @@ export enum UserType {
   EMPLOYEE = 'EMPLOYEE',
 }
 
+export enum GridViewType {
+  TABLE = 'TABLE',
+  CARD = 'CARD',
+}
+
+export enum StatusType {
+  Pending = 'Pending',
+  Approved = 'Approved',
+  InfoRequested = 'Info Requested',
+  Rejected = 'Rejected',
+}
+
 export enum ProfileTabs {
   personaDetails = 'personal-details',
   changePassword = 'change-password',

@@ -1,0 +1,33 @@
+.worker-view-section {
+
+    .custom-shadow {
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    input[type="checkbox"] {
+        appearance: none;
+        width: 16px;
+        height: 16px;
+        border: 1px solid #d1d5db;
+        border-radius: 4px;
+        position: relative;
+        cursor: pointer;
+    }
+
+    input[type="checkbox"]:checked {
+        background-color: #16C2D5;
+        border-color: #16C2D5;
+    }
+
+    input[type="checkbox"]:checked::after {
+        content: "";
+        position: absolute;
+        left: 5px;
+        top: 2px;
+        width: 5px;
+        height: 9px;
+        border: solid white;
+        border-width: 0 2px 2px 0;
+        transform: rotate(45deg);
+    }
+}

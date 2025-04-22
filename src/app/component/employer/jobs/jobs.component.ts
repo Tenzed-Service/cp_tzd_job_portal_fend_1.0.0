@@ -5,6 +5,8 @@ import { SingletonStoreService } from '../../../core/services/helper/singleton-s
 import { PaginationComponent } from '../../../shared/ui/pagination/pagination.component';
 import { JobModel } from '../../../core/models/api/job.model';
 import { TabsComponent } from '../../../shared/component/tabs/tabs.component';
+import { PaginationSchema } from '../../../shared/ui/pagination/pagination.component.models';
+import { SimpleInputComponent } from '../../../shared/ui/fields/simple-input/simple-input.component';
 
 
 @Component({
@@ -15,13 +17,11 @@ import { TabsComponent } from '../../../shared/component/tabs/tabs.component';
   imports: [
     CommonModule, 
     PaginationComponent,
-    TabsComponent
+    TabsComponent,
+    SimpleInputComponent
   ],
 })
 export class JobsComponent {
-  currentPage: number = 1;
-  totalItems: number = 100;
-  itemsPerPage: number = 10;
   activeTab: number = 1;
   statusList = [
     { name: 'All Status', value: 'All' },
@@ -280,6 +280,14 @@ export class JobsComponent {
       icon: 'ri-close-line',
     },
   ];
+  paginationSchema:PaginationSchema<JobsComponent,JobModel[]> = {
+    parentComponent: this,
+    pageNumber: 1,
+    pageSize: 10,
+    totalItems: 100,
+    maxVisiblePages: 5,
+    onPaginationChange: this.onChangePagination,
+  };
 
   constructor(
     private router: Router,
@@ -309,8 +317,12 @@ export class JobsComponent {
     this.activeTab = tabId;
   }
 
-  onChangePagination(page: number) {
-    this.currentPage = page;
+  onChangePagination(
+    paginationSchema: PaginationSchema<JobsComponent, JobModel[]>,
+    pagination:{pageNumber: number,pageSize: number}
+  ) {
+    paginationSchema.pageNumber = pagination.pageNumber; 
+    paginationSchema.pageSize = pagination.pageSize; 
   }
 
   openForm(route: string) {

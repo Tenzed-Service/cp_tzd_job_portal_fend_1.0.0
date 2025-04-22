@@ -31,8 +31,10 @@ export class LayoutComponent implements OnInit {
   onResize() {
     if (window.innerWidth < 960) {
       this.singletonStoreService.sidebarOpen.next(false);
+      this.singletonStoreService.isMobileView.next(true);
     }else{
       this.singletonStoreService.sidebarOpen.next(true);
+      this.singletonStoreService.isMobileView.next(false);
     }
   }
 

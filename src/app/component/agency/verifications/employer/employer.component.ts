@@ -3,39 +3,31 @@ import { Component, OnInit } from '@angular/core';
 import { PaginationComponent } from '../../../../shared/ui/pagination/pagination.component';
 import { Router } from '@angular/router';
 import { SingletonStoreService } from '../../../../core/services/helper/singleton-store.service';
-
-export interface ddlModel {
-  name:string,
-  value:string
-}
+import { FiltersComponent } from '../../../../shared/component/filters/filters.component';
+import {
+  AdvancedFilterSortDirectionEnum,
+  TableColumnsDataTypeEnum,
+  TableFilterTypeEnum,
+} from '../../../../core/enums/common.enum';
+import { DropdownItemModel } from '../../../../core/models/common/common.models';
+import { TableComponent } from '../../../../shared/ui/table/table.component';
+import {
+  TableColumns,
+  TableSchema,
+} from '../../../../shared/ui/table/table.component.models';
+import { ColumnFormateService } from '../../../../core/services/helper/column-formate.service';
+import { FilterSchema } from '../../../../shared/component/filters/filters.component.models';
+import { PaginationSchema } from '../../../../shared/ui/pagination/pagination.component.models';
 
 export interface EmployerDetail {
   id: number;
   name: string;
   email: string;
-  initials: string;
-  initialsClass: string;
   industry: string;
   submittedDate: string;
-  status: {
-    name: string;
-    class: string;
-  };
-  documents: {
-    count: number;
-    files: Array<{
-      name: string;
-      type: string;
-      size: string;
-    }>;
-  };
-  lastUpdated: string;
-  actions: {
-    canApprove: boolean;
-    canReject: boolean;
-    canRequestInfo: boolean;
-    canViewHistory: boolean;
-  };
+  status: string;
+  documentCount: number;
+  lastUpdated: string
 }
 
 @Component({
@@ -45,232 +37,224 @@ export interface EmployerDetail {
   standalone: true,
   imports: [
     CommonModule,
-    PaginationComponent
-  ]
+    FiltersComponent,
+    TableComponent,
+    PaginationComponent,
+  ],
 })
 export class EmployerComponent implements OnInit {
-  currentPage: number = 1;
-  itemsPerPage: number = 8;
+  pageNumber: number = 1;
+  pageSize: number = 10;
   totalItems: number = 200;
-  statusList: ddlModel[] = [];
-  industries: ddlModel[] = [];
-  calenders: ddlModel[] = [];
+  statusList: DropdownItemModel[] = [];
+  industries: DropdownItemModel[] = [];
+  calenders: DropdownItemModel[] = [];
   employerList: EmployerDetail[] = [
     {
       id: 1,
       name: 'TechCorp Solutions',
       email: 'contact@techcorp.com',
-      initials: 'TC',
-      initialsClass: 'bg-blue-100 text-blue-600',
       industry: 'IT & Technology',
       submittedDate: 'Apr 10, 2025',
-      status: {
-        name: 'Pending',
-        class: 'bg-[#89dee2]/20 text-[#2e4450]'
-      },
-      documents: {
-        count: 5,
-        files: [
-          { name: 'Business_Registration.pdf', type: 'PDF', size: '2.3 MB' },
-          // ... other files
-        ]
-      },
+      status: 'Pending',
+      documentCount: 5,
       lastUpdated: '2 hours ago',
-      actions: {
-        canApprove: true,
-        canReject: true,
-        canRequestInfo: true,
-        canViewHistory: false
-      }
     },
     {
       id: 2,
       name: 'Memorial Healthcare',
       email: 'hr@memorialhc.org',
-      initials: 'MH',
-      initialsClass: 'bg-green-100 text-green-600',
       industry: 'Healthcare',
       submittedDate: 'Apr 8, 2025',
-      status: {
-        name: 'Approved',
-        class: 'bg-[#16c2d5]/20 text-[#10217d]'
-      },
-      documents: {
-        count: 7,
-        files: [
-          // Add actual files if needed
-        ]
-      },
+      status: 'Approved',
+      documentCount: 7,
       lastUpdated: '1 day ago',
-      actions: {
-        canApprove: false,
-        canReject: false,
-        canRequestInfo: false,
-        canViewHistory: true
-      }
     },
     {
       id: 3,
       name: 'BuildRight Construction',
       email: 'info@buildright.com',
-      initials: 'BC',
-      initialsClass: 'bg-orange-100 text-orange-600',
       industry: 'Construction',
       submittedDate: 'Apr 7, 2025',
-      status: {
-        name: 'Info Requested',
-        class: 'bg-[#d7baad]/30 text-[#527c88]'
-      },
-      documents: {
-        count: 4,
-        files: [
-          // Add actual files if needed
-        ]
-      },
+      status: 'Info Requested',
+      documentCount: 4,
       lastUpdated: '2 days ago',
-      actions: {
-        canApprove: true,
-        canReject: true,
-        canRequestInfo: false,
-        canViewHistory: true
-      }
     },
     {
       id: 4,
       name: 'Global Education Institute',
       email: 'admin@globaledu.edu',
-      initials: 'GE',
-      initialsClass: 'bg-purple-100 text-purple-600',
       industry: 'Education',
       submittedDate: 'Apr 5, 2025',
-      status: {
-        name: 'Rejected',
-        class: 'bg-[#d7baad]/50 text-[#2e4450]'
-      },
-      documents: {
-        count: 3,
-        files: [
-          // Add actual files if needed
-        ]
-      },
+      status: 'Rejected',
+      documentCount: 3,
       lastUpdated: '4 days ago',
-      actions: {
-        canApprove: false,
-        canReject: false,
-        canRequestInfo: false,
-        canViewHistory: true
-      }
     },
     {
       id: 5,
       name: 'Financial Services Group',
       email: 'contact@fsgroup.com',
-      initials: 'FS',
-      initialsClass: 'bg-indigo-100 text-indigo-600',
       industry: 'Finance',
       submittedDate: 'Apr 4, 2025',
-      status: {
-        name: 'Pending',
-        class: 'bg-[#89dee2]/20 text-[#2e4450]'
-      },
-      documents: {
-        count: 6,
-        files: [
-          // Add actual files if needed
-        ]
-      },
+      status: 'Pending',
+      documentCount: 6,
       lastUpdated: '5 days ago',
-      actions: {
-        canApprove: true,
-        canReject: true,
-        canRequestInfo: true,
-        canViewHistory: false
-      }
     },
     {
       id: 6,
       name: 'Advanced Manufacturing Ltd',
       email: 'info@advmfg.com',
-      initials: 'AM',
-      initialsClass: 'bg-red-100 text-red-600',
       industry: 'Manufacturing',
       submittedDate: 'Apr 3, 2025',
-      status: {
-        name: 'Approved',
-        class: 'bg-[#16c2d5]/20 text-[#10217d]'
-      },
-      documents: {
-        count: 5,
-        files: [
-          // Add actual files if needed
-        ]
-      },
+      status: 'Approved',
+      documentCount: 5,
       lastUpdated: '6 days ago',
-      actions: {
-        canApprove: false,
-        canReject: false,
-        canRequestInfo: false,
-        canViewHistory: true
-      }
     },
     {
       id: 7,
       name: 'BuildRight Construction',
       email: 'info@buildright.com',
-      initials: 'BC',
-      initialsClass: 'bg-orange-100 text-orange-600',
       industry: 'Construction',
       submittedDate: 'Apr 7, 2025',
-      status: {
-        name: 'Info Requested',
-        class: 'bg-[#d7baad]/30 text-[#527c88]'
-      },
-      documents: {
-        count: 4,
-        files: [
-          // Add actual files if needed
-        ]
-      },
+      status: 'Info Requested',
+      documentCount: 4,
       lastUpdated: '2 days ago',
-      actions: {
-        canApprove: true,
-        canReject: true,
-        canRequestInfo: false,
-        canViewHistory: true
-      }
     },
     {
       id: 8,
       name: 'Global Education Institute',
       email: 'admin@globaledu.edu',
-      initials: 'GE',
-      initialsClass: 'bg-purple-100 text-purple-600',
       industry: 'Education',
       submittedDate: 'Apr 5, 2025',
-      status: {
-        name: 'Rejected',
-        class: 'bg-[#d7baad]/50 text-[#2e4450]'
-      },
-      documents: {
-        count: 3,
-        files: [
-          // Add actual files if needed
-        ]
-      },
+      status: 'Rejected',
+      documentCount: 3,
       lastUpdated: '4 days ago',
-      actions: {
-        canApprove: false,
-        canReject: false,
-        canRequestInfo: false,
-        canViewHistory: true
-      }
     },
   ];
+  filterSchema:FilterSchema<EmployerComponent,any> = {
+    parentComponent: this,
+    applyBtn: true,
+    resetBtn: true,
+    filterItemConfig: [],
+    onFilterChange: this.onFilterChangeEvent
+  };
+  tableSchema: TableSchema<EmployerComponent, EmployerDetail[]> = {
+    parentComponent: this,
+    data: this.employerList,
+    showSerialNo: true,
+    columns: [],
+  };
+  paginationSchema:PaginationSchema<EmployerComponent, EmployerDetail[]> = {
+    parentComponent: this,
+    pageNumber: 1,
+    pageSize: 10,
+    totalItems: 100,
+    maxVisiblePages: 5,
+    onPaginationChange: this.onChangePagination,
+  };
 
   constructor(
     private router: Router,
     private singletonStoreService: SingletonStoreService,
-  ) { 
+    private columnFormateService: ColumnFormateService
+  ) {
+    this.tableSchema.columns = [
+      {
+        title: 'Employer',
+        dataPropertyName: 'name',
+        sorting: true,
+        dataType: TableColumnsDataTypeEnum.String,
+        sortDirection: AdvancedFilterSortDirectionEnum.None,
+        onFormatChange: this.columnFormateService.formatAvatar,
+        onSortChange: this.onSortChange,
+      },
+      {
+        title: 'Industry',
+        dataPropertyName: 'industry',
+        sorting: true,
+        dataType: TableColumnsDataTypeEnum.String,
+        sortDirection: AdvancedFilterSortDirectionEnum.None,
+        onFormatChange: this.columnFormateService.formatString,
+        onSortChange: this.onSortChange,
+      },
+      {
+        title: 'Submitted Date',
+        dataPropertyName: 'submittedDate',
+        sorting: true,
+        dataType: TableColumnsDataTypeEnum.String,
+        sortDirection: AdvancedFilterSortDirectionEnum.None,
+        onFormatChange: this.columnFormateService.formatString,
+        onSortChange: this.onSortChange,
+      },
+      {
+        title: 'Status',
+        dataPropertyName: 'status',
+        sorting: true,
+        dataType: TableColumnsDataTypeEnum.String,
+        sortDirection: AdvancedFilterSortDirectionEnum.None,
+        onFormatChange: this.columnFormateService.formatStatus,
+        onSortChange: this.onSortChange,
+      },
+      {
+        title: 'Documents',
+        dataPropertyName: 'documentCount',
+        sorting: true,
+        dataType: TableColumnsDataTypeEnum.Int,
+        sortDirection: AdvancedFilterSortDirectionEnum.None,
+        onFormatChange: this.columnFormateService.formatFileCount,
+        onSortChange: this.onSortChange,
+      },
+      // {
+      //   title: 'Updated',
+      //   dataPropertyName: 'lastUpdated',
+      //   sorting: true,
+      //   dataType: TableColumnsDataTypeEnum.String,
+      //   sortDirection: AdvancedFilterSortDirectionEnum.None,
+      //   onFormatChange: this.columnFormateService.formatString,
+      //   onSortChange: this.onSortChange,
+      // },
+      {
+        title: 'Actions',
+        dataPropertyName: 'actions',
+        actions: [
+          {
+            tooltip: 'Search',
+            actionType: 'Search',
+            class: 'text-[#16c2d5] hover:text-[#16c2d5]/80',
+            iconClass: 'ri-file-search-line',
+            onActionClick: this.onActionClick,
+          },
+          {
+            tooltip: 'Check',
+            actionType: 'Check',
+            class: 'text-[#16c2d5] hover:text-[#16c2d5]/80',
+            iconClass: 'ri-check-line',
+            onActionClick: this.onActionClick,
+          },
+          // {
+          //   tooltip: 'Close',
+          //   actionType: 'Close',
+          //   class: 'text-[#16c2d5] hover:text-[#16c2d5]/80',
+          //   iconClass: 'ri-close-line',
+          //   onActionClick: this.onActionClick,
+          // },
+          // {
+          //   tooltip: 'Question',
+          //   actionType: 'Question',
+          //   class: 'text-[#16c2d5] hover:text-[#16c2d5]/80',
+          //   iconClass: 'ri-question-line',
+          //   onActionClick: this.onActionClick,
+          // },
+          // {
+          //   tooltip: 'History',
+          //   actionType: 'History',
+          //   class: 'text-[#16c2d5] hover:text-[#16c2d5]/80',
+          //   iconClass: 'ri-history-line',
+          //   onActionClick: this.onActionClick,
+          // },
+        ],
+      },
+    ]
     this.singletonStoreService.breadCrumbItems.next([
       { label: 'Verification' },
       { label: 'Employer', active: true },
@@ -279,39 +263,107 @@ export class EmployerComponent implements OnInit {
 
   ngOnInit() {
     // Initialize dropdown data
-        this.loadDropdownData();
+    this.loadDropdownData();
+    this.filterSchema.filterItemConfig = [
+      {
+        title: 'Search',
+        prefixIcon: 'ri-search-line',
+        dataType: TableColumnsDataTypeEnum.String,
+        filterType: TableFilterTypeEnum.TextBox,
+        placeholder: 'Search',
+        filterValue: '',
+      },
+      {
+        title: 'Status',
+        prefixIcon: 'ri-filter-3-line',
+        dataType: TableColumnsDataTypeEnum.String,
+        filterType: TableFilterTypeEnum.Dropdown,
+        filterValue: 'All',
+        filterOptions: this.statusList,
+      },
+      {
+        title: 'Industries',
+        prefixIcon: 'ri-building-line',
+        dataType: TableColumnsDataTypeEnum.String,
+        filterType: TableFilterTypeEnum.Dropdown,
+        filterValue: 'All',
+        filterOptions: this.industries,
+      },      
+      {
+        title: 'Calenders',
+        prefixIcon: 'ri-calendar-line',
+        dataType: TableColumnsDataTypeEnum.String,
+        filterType: TableFilterTypeEnum.Dropdown,
+        filterValue: 'All Time',
+        filterOptions: this.calenders,
+      },
+    ];
   }
 
   loadDropdownData() {
-        // Add your API calls here to load dropdown data
-        this.statusList = [
-          { name: 'All Status', value:'All' },
-          { name: 'Pending', value:'Pending' }, 
-          { name: 'Approved', value:'Approved' }, 
-          { name: 'Rejected', value:'Rejected' }
-        ];
-        this.industries = [
-          { name: 'All Industry', value:'All' },
-          { name: 'Technology', value:'Technology' }, 
-          { name: 'Healthcare', value:'Healthcare' }
-        ];
-        this.calenders = [
-          { name: 'Last 7 days', value:'Last 7 days' },
-          { name: 'Last 30 days', value:'Last 30 days' }, 
-          { name: 'Last 90 days', value:'Last 90 days' },
-          { name: 'All Time', value:'All Time' },
-          { name: 'Custom Range', value:'Custom Range' }
-        ];
-    }
+    // Add your API calls here to load dropdown data
+    this.statusList = [
+      { label: 'All Status', value: 'All' },
+      { label: 'Pending', value: 'Pending' },
+      { label: 'Approved', value: 'Approved' },
+      { label: 'Rejected', value: 'Rejected' },
+    ];
+    this.industries = [
+      { label: 'All Industry', value: 'All' },
+      { label: 'Technology', value: 'Technology' },
+      { label: 'Healthcare', value: 'Healthcare' },
+    ];
+    this.calenders = [
+      { label: 'Last 7 days', value: 'Last 7 days' },
+      { label: 'Last 30 days', value: 'Last 30 days' },
+      { label: 'Last 90 days', value: 'Last 90 days' },
+      { label: 'All Time', value: 'All Time' },
+      { label: 'Custom Range', value: 'Custom Range' },
+    ];
+  }
 
-  onChangePagination(page: number) {
-    this.currentPage = page; 
+  onActionClick(
+    tableSchema: TableSchema<EmployerComponent, EmployerDetail[]>,
+    actionType: string,
+    event?: any
+  ) {    
+    if (actionType == 'Search') {
+      tableSchema.parentComponent.openDetails(event.id);
+    }
+  }
+
+  onSortChange(
+    tableSchema: TableSchema<EmployerComponent, EmployerDetail[]>,
+    columnSchema?: TableColumns<EmployerComponent, EmployerDetail[]>
+  ) {
+    if (columnSchema?.sortDirection == AdvancedFilterSortDirectionEnum.None) {
+      columnSchema.sortDirection = AdvancedFilterSortDirectionEnum.Ascending;      
+    } else if (columnSchema?.sortDirection == AdvancedFilterSortDirectionEnum.Ascending) {
+      columnSchema.sortDirection = AdvancedFilterSortDirectionEnum.Descending;     
+    } else if(columnSchema) {
+      columnSchema.sortDirection = AdvancedFilterSortDirectionEnum.None;      
+    }
+  }
+
+  onChangePagination(
+    paginationSchema: PaginationSchema<EmployerComponent, EmployerDetail[]>,
+    pagination:{pageNumber: number,pageSize: number}
+  ) {
+    paginationSchema.pageNumber = pagination.pageNumber; 
+    paginationSchema.pageSize = pagination.pageSize; 
+  }
+
+  onFilterChangeEvent(
+    filterSchema: FilterSchema<EmployerComponent, EmployerDetail[]>,
+    event?: any
+  ) {
+    console.log(filterSchema,event);
   }
 
   openDetails(id: number) {
     // Handle opening details for the given ID
-    this.router.navigateByUrl(`/verification/employer/verification-details/${id}`);
+    this.router.navigateByUrl(
+      `/verification/employer/verification-details/${id}`
+    );
   }
-
-  
 }
