@@ -74,7 +74,7 @@ export class LayoutComponent implements OnInit {
             {
               name: 'Jobs',
               icon: 'ri-briefcase-line',
-              route: '/Jobs',
+              route: '/job-grid',
               children: [],
             },
             {

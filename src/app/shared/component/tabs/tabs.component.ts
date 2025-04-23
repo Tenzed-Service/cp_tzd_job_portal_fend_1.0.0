@@ -1,25 +1,35 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, ViewChild, Input, OnInit, Output, EventEmitter, AfterViewInit, ChangeDetectorRef } from '@angular/core';
+import { SimpleInputComponent } from '../../ui/fields/simple-input/simple-input.component';
+import { TabsSchema } from './tabs.component.models';
+import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-tabs',
   templateUrl: './tabs.component.html',
   styleUrls: ['./tabs.component.scss'],
   standalone: true,
-  imports: [CommonModule]
+  imports: [
+    CommonModule,
+    SimpleInputComponent
+  ]
 })
 export class TabsComponent implements OnInit, AfterViewInit {
   @ViewChild('tabsContainer') tabsContainer!: ElementRef;
-  @Input() activeTab: number = 1;
-  @Input() tabList: any[] = [];
-  @Output() tabChange = new EventEmitter<number>();
+  @Input() tabsSchema!:TabsSchema<any,any>;
   showArrows: boolean = false;
+  searchInput = new Subject<any>();
 
   constructor(
     private cdr: ChangeDetectorRef,
   ) { }
 
   ngOnInit() {
+    this.searchInput
+      .pipe(debounceTime(400), distinctUntilChanged())
+      .subscribe((event: Event & { target: HTMLInputElement }) => {
+          this.tabsSchema.onFilterChange(this.tabsSchema.parentComponent , event?.target?.value ? event?.target?.value : '');
+      });
   }
 
   ngAfterViewInit() {
@@ -48,8 +58,8 @@ export class TabsComponent implements OnInit, AfterViewInit {
     }
   }
 
-  switchTab(tabId: number) {
-    this.tabChange.emit(tabId);    
-    this.activeTab = tabId;
+  switchTab(tabId: any) {
+    this.tabsSchema.tabChange(this.tabsSchema,tabId);    
+    this.tabsSchema.activeTab = tabId;
   }  
 }

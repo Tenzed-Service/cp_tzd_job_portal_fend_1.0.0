@@ -104,13 +104,13 @@ export class PaginationComponent implements OnInit {
     if (page >= 1 && page <= this.totalPages && page !== this.paginationSchema.pageNumber) {
       this.paginationSchema.pageNumber = page;
       this.updateIndexes();
-      this.paginationSchema.onPaginationChange(this.paginationSchema.parentComponent,{pageNumber:this.paginationSchema.pageNumber, pageSize:+this.paginationSchema.pageSize});
+      this.paginationSchema.onPaginationChange(this.paginationSchema,{pageNumber:this.paginationSchema.pageNumber, pageSize:+this.paginationSchema.pageSize});
     }
   }
   onPageSizeChange(pageSize: number) {
       this.paginationSchema.pageSize = pageSize; // Assuming paginationSchema.pageSize is a number, you may need to convert it from string if it comes from your dat
       this.paginationSchema.pageNumber = 1;
       this.updateIndexes();
-      this.paginationSchema.onPaginationChange(this.paginationSchema.parentComponent,{pageNumber:this.paginationSchema.pageNumber, pageSize:+this.paginationSchema.pageSize});
+      this.paginationSchema.onPaginationChange(this.paginationSchema,{pageNumber:this.paginationSchema.pageNumber, pageSize:+this.paginationSchema.pageSize});
   }
 }

@@ -2,9 +2,7 @@
   <!-- Job Status Tabs -->
   <div class="bg-white rounded custom-shadow px-4 py-3 my-4">
     <app-tabs
-    [activeTab]="activeTab"
-    [tabList]="tabList"
-    (tabChange)="switchTab($event)"
+    [tabsSchema]="tabsSchema"
     ></app-tabs>
   </div>
   <!-- Job Cards Grid -->
@@ -67,8 +65,9 @@
         </div>
         <!-- Actions -->
         <div class="flex gap-3">
-          <button
-            class="flex-1 py-1.5 bg-primary text-white rounded !rounded-button hover:bg-primary/90 transition-colors font-medium"
+          <button [disabled]="job.status === 'Approved' || job.status === 'Rejected'"
+          class="flex-1 py-1.5 bg-primary text-white rounded !rounded-button hover:bg-primary/90 transition-colors font-medium"
+          [ngClass]="{'cursor-not-allowed':job.status === 'Approved' || job.status === 'Rejected'}"
           >
             Apply Now
           </button>

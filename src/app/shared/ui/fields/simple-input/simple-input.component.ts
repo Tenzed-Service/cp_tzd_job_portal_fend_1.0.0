@@ -19,6 +19,7 @@ import { CommonModule } from '@angular/common';
 export class SimpleInputComponent implements ControlValueAccessor {
   @Input() isDisabled: boolean = false;
   @Input() prefixIcon: string = '';
+  @Input() placeholder: string = '';
   simpleInputInput = '';
   onChange: any = () => {};
   onTouch: any = () => {};

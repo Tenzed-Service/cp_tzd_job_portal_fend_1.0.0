@@ -1,12 +1,25 @@
 <div class="job-section">
   <!-- Filters and Search -->
   <div class="bg-white rounded custom-shadow px-4 py-3 my-4">
+    <app-tabs
+    [tabsSchema]="tabsSchema"
+    >
+    <button (click)="openForm('jobs/create-job')"
+          class="bg-primary text-white px-4 py-1.5 rounded-button text-sm font-medium hover:bg-opacity-90 whitespace-nowrap">
+          <div class="flex items-center space-x-2">
+            <div class="w-4 h-4 flex items-center justify-center">
+              <i class="ri-add-line"></i>
+            </div>
+            <span>Add New Job</span>
+          </div>
+        </button>
+  </app-tabs>
+  </div>
+  <!-- <div class="bg-white rounded custom-shadow px-4 py-3 my-4">
     <div
       class="grid grid-cols-1 md:grid-cols-2 gap-2">
       <app-tabs
-      [activeTab]="activeTab"
-      [tabList]="tabList"
-      (tabChange)="switchTab($event)"
+      [tabsSchema]="tabsSchema"
       ></app-tabs>
       <div class="flex items-center justify-center lg:justify-end gap-3">
         <div class="relative max-w-64">
@@ -23,7 +36,7 @@
         </button>
       </div>
     </div>
-  </div>
+  </div> -->
   <!-- Jobs Grid -->
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
     @for (job of jobList; track job.id) {

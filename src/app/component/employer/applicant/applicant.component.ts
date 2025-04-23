@@ -6,6 +6,8 @@ import { PaginationComponent } from '../../../shared/ui/pagination/pagination.co
 import { TabsComponent } from '../../../shared/component/tabs/tabs.component';
 import { PaginationSchema } from '../../../shared/ui/pagination/pagination.component.models';
 import { SimpleInputComponent } from '../../../shared/ui/fields/simple-input/simple-input.component';
+import { TabsSchema } from '../../../shared/component/tabs/tabs.component.models';
+import { ScheduleInterviewComponent } from '../../../shared/component/models/schedule-interview/schedule-interview.component';
 
 @Component({
   selector: 'app-applicant',
@@ -16,7 +18,8 @@ import { SimpleInputComponent } from '../../../shared/ui/fields/simple-input/sim
     CommonModule, 
     PaginationComponent,
     TabsComponent,
-    SimpleInputComponent
+    SimpleInputComponent,
+    ScheduleInterviewComponent
   ],
 })
 export class ApplicantComponent {
@@ -266,6 +269,20 @@ export class ApplicantComponent {
       icon: 'ri-close-line',
     },
   ];
+  tabsSchema:TabsSchema<ApplicantComponent,any> = {
+    parentComponent: this,
+    tabList: this.tabList,
+    activeTab: this.activeTab,
+    searchInput: true,
+    filterItemConfig: {
+      title: 'Search',
+      prefixIcon: 'ri-search-line',
+      placeholder: 'Search',
+      filterValue: '',
+    },
+    tabChange: this.switchTab,
+    onFilterChange: this.changeInput,
+  };
   openInterviewSchedulingModal:boolean = false;
   openRejectConfirmationModal:boolean = false;
   paginationSchema:PaginationSchema<ApplicantComponent,any[]> = {
@@ -286,42 +303,49 @@ export class ApplicantComponent {
     ]);
   }
 
-  switchTab(tabId: number) {
-    switch (tabId) {
+  switchTab (
+    tabsSchema: TabsSchema<ApplicantComponent, any>,
+    event: any
+  ) {
+    switch (event) {
       case 1:
-        this.applicantList = [...this.allApplicantList];
+        tabsSchema.parentComponent.applicantList = [...tabsSchema.parentComponent.allApplicantList];
         break;
       case 2:
-        this.applicantList = this.allApplicantList.filter(
+        tabsSchema.parentComponent.applicantList = tabsSchema.parentComponent.allApplicantList.filter(
           (applicant) => applicant.status === 'New'
         );
         break;
       case 3:
-        this.applicantList = this.allApplicantList.filter(
+        tabsSchema.parentComponent.applicantList = tabsSchema.parentComponent.allApplicantList.filter(
           (applicant) => applicant.status === 'Reviewed'
         );
         break;
       case 4:
-        this.applicantList = this.allApplicantList.filter(
+        tabsSchema.parentComponent.applicantList = tabsSchema.parentComponent.allApplicantList.filter(
           (applicant) => applicant.status === 'Interviewed'
         );
         break;
       case 5:
-        this.applicantList = this.allApplicantList.filter(
+        tabsSchema.parentComponent.applicantList = tabsSchema.parentComponent.allApplicantList.filter(
           (applicant) => applicant.status === 'Approved'
         );
         break;
       case 6:
-        this.applicantList = this.allApplicantList.filter(
+        tabsSchema.parentComponent.applicantList = tabsSchema.parentComponent.allApplicantList.filter(
           (applicant) => applicant.status === 'Rejected'
         );
         break;
       default:
-        this.applicantList = [...this.allApplicantList];
+        tabsSchema.parentComponent.applicantList = [...tabsSchema.parentComponent.allApplicantList];
         break;
     }
 
-    this.activeTab = tabId;
+    tabsSchema.activeTab = event;
+  }
+
+  changeInput(tabsSchema: TabsSchema<ApplicantComponent,any[]>, event: any) {
+    
   }
 
   onChangePagination(

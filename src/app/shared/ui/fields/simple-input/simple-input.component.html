@@ -12,5 +12,5 @@
       type="text" [(ngModel)]="simpleInputInput" (input)="onSearchInputChange($event)"
       [disabled]="isDisabled" [ngClass]="{ 'cursor-not-allowed': isDisabled, 'pl-10 bg-gray-50': prefixIcon }"
       class="border border-gray-300 text-gray-900 text-sm rounded w-full py-[0.32rem] focus:outline-none focus:ring-2 focus:ring-[#16c2d5]/20 focus:border-[#16c2d5]"
-      placeholder="Search" />
+      [placeholder]="placeholder" />
   </div>

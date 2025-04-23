@@ -7,6 +7,7 @@ import { JobModel } from '../../../core/models/api/job.model';
 import { TabsComponent } from '../../../shared/component/tabs/tabs.component';
 import { PaginationSchema } from '../../../shared/ui/pagination/pagination.component.models';
 import { SimpleInputComponent } from '../../../shared/ui/fields/simple-input/simple-input.component';
+import { TabsSchema } from '../../../shared/component/tabs/tabs.component.models';
 
 
 @Component({
@@ -22,7 +23,6 @@ import { SimpleInputComponent } from '../../../shared/ui/fields/simple-input/sim
   ],
 })
 export class JobsComponent {
-  activeTab: number = 1;
   statusList = [
     { name: 'All Status', value: 'All' },
     { name: 'Pending', value: 'Pending' },
@@ -280,6 +280,20 @@ export class JobsComponent {
       icon: 'ri-close-line',
     },
   ];
+  tabsSchema:TabsSchema<JobsComponent,JobModel[]> = {
+    parentComponent: this,
+    tabList: this.tabList,
+    activeTab: 1,
+    searchInput: true,
+    filterItemConfig: {
+      title: 'Search',
+      prefixIcon: 'ri-search-line',
+      placeholder: 'Search',
+      filterValue: '',
+    },
+    tabChange: this.switchTab,
+    onFilterChange: this.changeInput,
+  };
   paginationSchema:PaginationSchema<JobsComponent,JobModel[]> = {
     parentComponent: this,
     pageNumber: 1,
@@ -297,24 +311,33 @@ export class JobsComponent {
       { label: 'Jobs', active: true },
     ]);
   }
-
-  switchTab(tabId: number) {
-    switch (tabId) {
+  // Change the switchTab method signature to match the interface
+  switchTab (
+    tabsSchema: TabsSchema<JobsComponent, JobModel[]>,
+    event: any
+  ) {
+    console.log(tabsSchema);
+    
+    switch (event) {
       case 1:
-        this.jobList = [...this.allJobList];
+        tabsSchema.parentComponent.jobList = [...tabsSchema.parentComponent.allJobList];
         break;
       case 2:
-        this.jobList = this.allJobList.filter((job) => job.status === 'Active');
+        tabsSchema.parentComponent.jobList = tabsSchema.parentComponent.allJobList.filter((job) => job.status === 'Active');
         break;
       case 3:
-        this.jobList = this.allJobList.filter((job) => job.status === 'Closed');
+        tabsSchema.parentComponent.jobList = tabsSchema.parentComponent.allJobList.filter((job) => job.status === 'Closed');
         break;
       default:
-        this.jobList = [...this.allJobList];
+        tabsSchema.parentComponent.jobList = [...tabsSchema.parentComponent.allJobList];
         break;
     }
     
-    this.activeTab = tabId;
+    tabsSchema.activeTab = event;
+  }
+
+  changeInput(tabsSchema: TabsSchema<JobsComponent, JobModel[]>, event: any) {
+    console.log(event);    
   }
 
   onChangePagination(

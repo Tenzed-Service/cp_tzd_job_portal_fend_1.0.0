@@ -33,6 +33,11 @@ export const content: Routes = [
     loadChildren: () => import('../../component/agency/verifications/verification.routes').then(m => m.verificationRoutes),
   },
   {
+    path: "job-grid",
+    loadChildren: () => import('../../component/agency/worker-jobs/worker-jobs.routes').then(m => m.jobGridRoutes),
+  },
+
+  {
     path: "reports",
     loadChildren: () => import('../../component/employer/reports/reports.routes').then(m => m.reportsRoutes),
   },

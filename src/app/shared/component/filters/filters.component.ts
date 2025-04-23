@@ -52,7 +52,7 @@ export class FiltersComponent implements OnInit, OnDestroy {
         acc[item.title.toLowerCase()] = item.filterValue;
         return acc;
       }, {} as Record<string, string>);
-      this.filterSchema.onFilterChange(this.filterSchema.parentComponent, filters);
+      this.filterSchema.onFilterChange(this.filterSchema, filters);
     }
   }
 

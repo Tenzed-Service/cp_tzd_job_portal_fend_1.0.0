@@ -1,0 +1,22 @@
+<div class="job-grid-section">
+  <!-- Filters Section -->
+  <div class="bg-white px-4 py-3 rounded shadow-sm border border-gray-100 my-4">
+    <app-filters
+        [filterSchema]="filterSchema"
+    ></app-filters>
+</div>
+
+<!-- Employer Verification Table -->
+<div class="bg-white p-4 pb-0 rounded shadow-sm border border-gray-100 relative">
+    <app-table
+    [tableSchema]="tableSchema"
+    ></app-table>
+</div>
+
+<!-- Pagination -->
+<div class="bg-white rounded px-4 py-2 pt-0">
+    <app-pagination
+    [paginationSchema]="paginationSchema"    
+    ></app-pagination>
+  </div>
+</div>

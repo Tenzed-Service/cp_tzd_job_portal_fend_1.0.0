@@ -4,6 +4,7 @@
       @for (filter of filterSchema.filterItemConfig; track filter) {
         @if (filter.filterType == tableFilterTypeEnum.TextBox) {
           <app-simple-input (keyup)="searchInput.next($event)"
+          [placeholder]="'Search'"
           [prefixIcon]="filter.prefixIcon ? filter.prefixIcon : ''"
           [(ngModel)]="filter.filterValue"></app-simple-input>
         }

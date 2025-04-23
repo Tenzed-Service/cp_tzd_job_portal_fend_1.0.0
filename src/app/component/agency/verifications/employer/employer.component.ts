@@ -43,9 +43,6 @@ export interface EmployerDetail {
   ],
 })
 export class EmployerComponent implements OnInit {
-  pageNumber: number = 1;
-  pageSize: number = 10;
-  totalItems: number = 200;
   statusList: DropdownItemModel[] = [];
   industries: DropdownItemModel[] = [];
   calenders: DropdownItemModel[] = [];
