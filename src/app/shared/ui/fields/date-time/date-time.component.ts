@@ -1,34 +1,35 @@
 import { FormsModule, NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { Component, forwardRef, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ErrorMessageList } from '../../../../core/models/common/common.models';
+
 @Component({
-  selector: 'app-simple-input',
-  templateUrl: './simple-input.component.html',
-  styleUrls: ['./simple-input.component.scss'],
+  selector: 'app-date-time',
+  templateUrl: './date-time.component.html',
+  styleUrls: ['./date-time.component.scss'],
   standalone: true,
   imports: [CommonModule, FormsModule],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => SimpleInputComponent),
+      useExisting: forwardRef(() => DateTimeComponent),
       multi: true
     }
   ]
 })
-export class SimpleInputComponent implements ControlValueAccessor {
-  inputField = '';
-  @Input() prefixIcon?: string = '';
+export class DateTimeComponent implements ControlValueAccessor {
+  dateTimeField: string = ''; // Format: 'YYYY-MM-DDTHH:mm'
+  @Input() prefixIcon: string = '';
   @Input() isDisabled: boolean = false;
-  @Input() placeholder?: string = '';
   @Input() isInvalid: boolean = false;
-  @Input() errorList: ErrorMessageList[] = [];
+  @Input() errorMessage: string = '';
+  @Input() minDate?: string; // Format: 'YYYY-MM-DDTHH:mm'
+  @Input() maxDate?: string; // Format: 'YYYY-MM-DDTHH:mm'
   onChange: any = () => {};
   onTouch: any = () => {};
   
   writeValue(value: string): void {
-    if (value !== null && value !== undefined) {
-      this.inputField = value;
+    if (value) {
+      this.dateTimeField = value;
     }
   }
 
@@ -40,8 +41,8 @@ export class SimpleInputComponent implements ControlValueAccessor {
     this.onTouch = fn;
   }
 
-  onSearchInputChange(value: any): void {
-    this.onChange(value?.target?.value);
+  onValueChange(value: any): void {
+    this.onChange(value);
     this.onTouch();
   }
 }

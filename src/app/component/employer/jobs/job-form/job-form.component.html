@@ -20,17 +20,16 @@
                                 class="block text-sm font-medium text-gray-700 mb-1">Job
                                 Title <span
                                     class="text-red-500">*</span></label>
-                            <input formControlName="jobTitle" type="text"
-                                id="jobTitle"
-                                placeholder="Enter job title"
-                                [class.border-red-500]="formControl['jobTitle'].invalid && formControl['jobTitle'].touched"
-                                class="w-full px-4 py-[0.3rem] border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" />
-                            @if (formControl['jobTitle'].invalid &&
-                            formControl['jobTitle'].touched) {
-                            <small class="text-red-500">
-                                Job title is required
-                            </small>
-                            }
+                            <app-simple-input
+                                formControlName="jobTitle"
+                                [isInvalid]="formControl['jobTitle'].invalid && formControl['jobTitle'].touched"
+                                [errorList]="[
+                                    {
+                                        error: formControl['jobTitle'].errors?.['required'],
+                                        errorMessage: 'Job title is required' 
+                                    }
+                                ]"
+                                placeholder="Enter job title"></app-simple-input>
                         </div>
                         <div>
                             <label
@@ -88,25 +87,20 @@
                             <label for="email"
                                 class="block text-sm font-medium text-gray-700 mb-1">Email
                                 <span class="text-red-500">*</span></label>
-                            <input formControlName="email" type="email"
-                                id="email"
-                                placeholder="Enter email address"
-                                [class.border-red-500]="formControl['email'].invalid && formControl['email'].touched"
-                                class="w-full px-4 py-[0.3rem] border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" />
-                            @if (formControl['email'].invalid &&
-                            formControl['email'].touched) {
-                            <small class="text-red-500">
-                                @if
-                                (formControl['email'].errors?.['required'])
-                                {
-                                Email is required
-                                }@else if
-                                (formControl['email'].errors?.['email'])
-                                {
-                                Please enter a valid email address
-                                }
-                            </small>
-                            }
+                            <app-simple-input
+                                formControlName="email"
+                                [isInvalid]="formControl['email'].invalid && formControl['email'].touched"
+                                [errorList]="[
+                                    {
+                                        error: formControl['email'].errors?.['required'],
+                                        errorMessage: 'Email is required' 
+                                    },
+                                    {
+                                        error: formControl['email'].errors?.['email'],
+                                        errorMessage: 'Please enter a valid email address' 
+                                    }
+                                ]"
+                                placeholder="Enter email address"></app-simple-input>
                         </div>
                         <div>
                             <label for="phone"
@@ -133,7 +127,7 @@
                                     id="contact"
                                     placeholder="Enter contact number"
                                     [class.border-red-500]="formControl['contact'].invalid && formControl['contact'].touched"
-                                    class="w-full pl-24 pr-4 py-[0.3rem] border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" />
+                                    class="w-full pl-24 pr-4 py-[0.32rem] text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#16c2d5]/20 focus:border-[#16c2d5]" />
                             </div>
                             @if (formControl['contact'].invalid &&
                             formControl['contact'].touched) {
@@ -147,16 +141,10 @@
                                 class="block text-sm font-medium text-gray-700 mb-1">Job
                                 Start Time <span
                                     class="text-red-500">*</span></label>
-                            <input formControlName="startTime"
-                                type="datetime-local" id="startTime"
-                                [class.border-red-500]="formControl['startTime'].invalid && formControl['startTime'].touched"
-                                class="w-full px-4 py-1 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" />
-                            @if (formControl['startTime'].invalid &&
-                            formControl['startTime'].touched) {
-                            <small class="text-red-500">
-                                Start time is required
-                            </small>
-                            }
+                            <app-date-time
+                                formControlName="startTime"
+                                [isInvalid]="formControl['startTime'].invalid && formControl['startTime'].touched"
+                                errorMessage="Start time is required"></app-date-time>
                         </div>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
@@ -165,16 +153,10 @@
                                 class="block text-sm font-medium text-gray-700 mb-1">Job
                                 End Time <span
                                     class="text-red-500">*</span></label>
-                            <input formControlName="endTime"
-                                type="datetime-local" id="endTime"
-                                [class.border-red-500]="formControl['endTime'].invalid && formControl['endTime'].touched"
-                                class="w-full px-4 py-1 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" />
-                            @if (formControl['endTime'].invalid &&
-                            formControl['endTime'].touched) {
-                            <small class="text-red-500">
-                                End time is required
-                            </small>
-                            }
+                            <app-date-time
+                                formControlName="endTime"
+                                [isInvalid]="formControl['endTime'].invalid && formControl['endTime'].touched"
+                                errorMessage="End time is required"></app-date-time>
                         </div>
                         <div>
                             <label for="experience"
@@ -185,7 +167,7 @@
                                 id="experience" min="0"
                                 placeholder="Enter experience in months"
                                 [class.border-red-500]="formControl['experience'].invalid && formControl['experience'].touched"
-                                class="w-full px-4 py-[0.3rem] border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" />
+                                class="w-full px-4 py-[0.32rem] text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#16c2d5]/20 focus:border-[#16c2d5]" />
                             @if (formControl['experience'].invalid &&
                             formControl['experience'].touched) {
                             <small class="text-red-500">
@@ -202,16 +184,10 @@
                             <label for="dueDate"
                                 class="block text-sm font-medium text-gray-700 mb-1">Due
                                 Date <span class="text-red-500">*</span></label>
-                            <input formControlName="dueDate" type="date"
-                                id="dueDate"
-                                [class.border-red-500]="formControl['dueDate'].invalid && formControl['dueDate'].touched"
-                                class="w-full px-4 py-1 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" />
-                            @if (formControl['dueDate'].invalid &&
-                            formControl['dueDate'].touched) {
-                            <small class="text-red-500">
-                                Due date is required
-                            </small>
-                            }
+                            <app-date
+                                formControlName="dueDate"
+                                [isInvalid]="formControl['dueDate'].invalid && formControl['dueDate'].touched"
+                                errorMessage="Due date is required"></app-date>
                         </div>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
@@ -223,7 +199,7 @@
                                 id="amount" min="0" step="0.01"
                                 placeholder="Enter amount"
                                 [class.border-red-500]="formControl['amount'].invalid && formControl['amount'].touched"
-                                class="w-full px-4 py-[0.3rem] border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" />
+                                class="w-full px-4 py-[0.32rem] text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#16c2d5]/20 focus:border-[#16c2d5]" />
                             @if (formControl['amount'].invalid &&
                             formControl['amount'].touched) {
                             <small class="text-red-500">
@@ -241,15 +217,15 @@
                                 class="block text-sm font-medium text-gray-700 mb-1">Amount
                                 Type <span class="text-red-500">*</span></label>
                             <app-selection
-                            [isInvalid]="formControl['amountType'].invalid && formControl['amountType'].touched? true : false"
+                                [isInvalid]="formControl['amountType'].invalid && formControl['amountType'].touched? true : false"
                                 [dropDownListData]="amountTypeList"
+                                [errorList]="[
+                                    {
+                                        error: formControl['amountType'].errors?.['required'],
+                                        errorMessage: 'Amount type is required' 
+                                    }
+                                ]"
                                 formControlName="amountType"></app-selection>
-                            @if (formControl['amountType'].invalid &&
-                            formControl['amountType'].touched) {
-                            <small class="text-red-500">
-                               Amount type is required                              
-                            </small>
-                            }
                         </div>
                         <div>
                             <label for="skills"
@@ -257,15 +233,15 @@
                                 Skills <span
                                     class="text-red-500">*</span></label>
                             <app-multi-selection
-                            [isInvalid]="formControl['skills'].invalid && formControl['skills'].touched? true : false"
+                                [isInvalid]="formControl['skills'].invalid && formControl['skills'].touched? true : false"
                                 [dropDownListData]="skillList"
+                                [errorList]="[
+                                    {
+                                        error: formControl['skills'].errors?.['required'],
+                                        errorMessage: 'Minimum one skill is required'
+                                    } 
+                                ]"
                                 formControlName="skills"></app-multi-selection>
-                            @if (formControl['skills'].invalid &&
-                            formControl['skills'].touched) {
-                            <small class="text-red-500">
-                                Minimum one skill is required                              
-                            </small>
-                            }
                         </div>
                     </div>
 
@@ -279,41 +255,43 @@
                             location; let no = $index) {
                             <div [formGroupName]="no"
                                 class="location-entry border border-gray-200 rounded-lg p-4 mb-4">
-                                <div class="mb-4">
-                                    <div>
-                                        <label
-                                            class="block text-sm font-medium text-gray-600 mb-1">Address
-                                            Line 1 <span
-                                                class="text-red-500">*</span></label>
-                                        <input formControlName="addressLine1"
-                                            type="text"
-                                            [class.border-red-500]="locations.at(no).get('addressLine1')?.invalid && locations.at(no).get('addressLine1')?.touched"
-                                            class="address-1 w-full px-4 py-[0.3rem] border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                                            placeholder="Enter address line 1" />
-                                        @if
-                                        (locations.at(no).get('addressLine1')?.invalid
-                                        &&
-                                        locations.at(no).get('addressLine1')?.touched)
-                                        {
-                                        <small class="text-red-500">
-                                            Address line 1 is required
-                                        </small>
-                                        }
-                                    </div>
-                                </div>
-                                <div class="mb-4">
-                                    <div>
-                                        <label
-                                            class="block text-sm font-medium text-gray-600 mb-1">Address
-                                            Line 2</label>
-                                        <input formControlName="addressLine2"
-                                            type="text"
-                                            class="address-2 w-full px-4 py-[0.3rem] border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                                            placeholder="Enter address line 2">
-                                    </div>
-                                </div>
                                 <div
                                     class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                    <div>
+                                        <div>
+                                            <label
+                                                class="block text-sm font-medium text-gray-600 mb-1">Address
+                                                Line 1 <span
+                                                    class="text-red-500">*</span></label>
+                                            <input
+                                                formControlName="addressLine1"
+                                                type="text"
+                                                [class.border-red-500]="locations.at(no).get('addressLine1')?.invalid && locations.at(no).get('addressLine1')?.touched"
+                                                class="address-1 w-full px-4 py-[0.32rem] text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#16c2d5]/20 focus:border-[#16c2d5]"
+                                                placeholder="Enter address line 1" />
+                                            @if
+                                            (locations.at(no).get('addressLine1')?.invalid
+                                            &&
+                                            locations.at(no).get('addressLine1')?.touched)
+                                            {
+                                            <small class="text-red-500">
+                                                Address line 1 is required
+                                            </small>
+                                            }
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div>
+                                            <label
+                                                class="block text-sm font-medium text-gray-600 mb-1">Address
+                                                Line 2</label>
+                                            <input
+                                                formControlName="addressLine2"
+                                                type="text"
+                                                class="address-2 w-full px-4 py-[0.32rem] text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#16c2d5]/20 focus:border-[#16c2d5]"
+                                                placeholder="Enter address line 2">
+                                        </div>
+                                    </div>
                                     <div>
                                         <label
                                             class="block text-sm font-medium text-gray-600 mb-1">Country
@@ -322,12 +300,13 @@
                                         <app-selection
                                             [isInvalid]="locations.at(no).get('country')?.invalid && locations.at(no).get('country')?.touched? true : false"
                                             [dropDownListData]="countryList"
+                                            [errorList]="[
+                                    {
+                                        error: locations.at(no).get('country')?.errors?.['required'],
+                                        errorMessage: 'Country is required' 
+                                    }
+                                ]"
                                             formControlName="country"></app-selection>
-                                        @if(locations.at(no).get('country')?.invalid && locations.at(no).get('country')?.touched){
-                                        <small class="text-red-500">
-                                            Country is required
-                                        </small> 
-                                        }
                                     </div>
                                     <div>
                                         <label
@@ -335,14 +314,15 @@
                                             <span
                                                 class="text-red-500">*</span></label>
                                         <app-selection
-                                        [isInvalid]="locations.at(no).get('state')?.invalid && locations.at(no).get('state')?.touched ? true : false"
+                                            [isInvalid]="locations.at(no).get('state')?.invalid && locations.at(no).get('state')?.touched ? true : false"
                                             [dropDownListData]="stateList"
+                                            [errorList]="[
+                                    {
+                                        error: locations.at(no).get('state')?.invalid && locations.at(no).get('state')?.touched ? true : false,
+                                        errorMessage: 'State is required' 
+                                    }
+                                ]"
                                             formControlName="state"></app-selection>
-                                        @if(locations.at(no).get('state')?.invalid && locations.at(no).get('state')?.touched){
-                                        <small class="text-red-500">
-                                            State is required
-                                        </small>
-                                        }
                                     </div>
                                 </div>
                                 <div
@@ -355,12 +335,13 @@
                                         <app-selection
                                             [isInvalid]="locations.at(no).get('city')?.invalid && locations.at(no).get('city')?.touched ? true : false"
                                             [dropDownListData]="cityList"
+                                            [errorList]="[
+                                                {
+                                                    error: locations.at(no).get('city')?.invalid && locations.at(no).get('city')?.touched ? true : false,
+                                                    errorMessage: 'City is required' 
+                                                }
+                                            ]"
                                             formControlName="city"></app-selection>
-                                        @if(locations.at(no).get('city')?.invalid && locations.at(no).get('city')?.touched){
-                                        <small class="text-red-500">
-                                            City is required
-                                        </small>
-                                        }
                                     </div>
                                     <div>
                                         <label
@@ -370,7 +351,7 @@
                                         <input formControlName="zipCode"
                                             type="text"
                                             [class.border-red-500]="locations.at(no).get('zipCode')?.invalid && locations.at(no).get('zipCode')?.touched"
-                                            class="zip w-full px-4 py-[0.3rem] border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                                            class="zip w-full px-4 py-[0.32rem] text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#16c2d5]/20 focus:border-[#16c2d5]"
                                             placeholder="Enter ZIP/postal code" />
                                         @if
                                         (locations.at(no).get('zipCode')?.invalid
@@ -386,7 +367,7 @@
                                 <div class="flex justify-end">
                                     <button type="button"
                                         (click)="removeLocation(no)"
-                                        class="remove-location text-red-500 hover:text-red-700 text-sm flex items-center">
+                                        class="remove-location text-red-500 hover:text-red-500/80 text-sm flex items-center">
                                         <i
                                             class="ri ri-delete-bin-line mr-1"></i>
                                         Remove Location
@@ -409,15 +390,15 @@
                                 Languages <span
                                     class="text-red-500">*</span></label>
                             <app-multi-selection
-                            [isInvalid]="formControl['languages'].invalid && formControl['languages'].touched? true : false"
+                                [isInvalid]="formControl['languages'].invalid && formControl['languages'].touched? true : false"
                                 [dropDownListData]="languageList"
+                                [errorList]="[
+                                    {
+                                        error: formControl['languages'].errors?.['required'],
+                                        errorMessage: 'Minimum one language is required'
+                                    }
+                                ]"
                                 formControlName="languages"></app-multi-selection>
-                            @if (formControl['languages'].invalid &&
-                            formControl['languages'].touched) {
-                            <small class="text-red-500">
-                                Minimum one language is required
-                            </small>  
-                            }    
                         </div>
                         <div>
                             <label for="applicants"
@@ -428,7 +409,7 @@
                                 id="applicants" min="1"
                                 placeholder="Enter number of applicants"
                                 [class.border-red-500]="formControl['applicants'].invalid && formControl['applicants'].touched"
-                                class="w-full px-4 py-1 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" />
+                                class="w-full px-4 py-[0.32rem] text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#16c2d5]/20 focus:border-[#16c2d5]" />
                             @if (formControl['applicants'].invalid &&
                             formControl['applicants'].touched) {
                             <small class="text-red-500">
@@ -441,15 +422,15 @@
                                 class="block text-sm font-medium text-gray-700 mb-1">Status
                                 <span class="text-red-500">*</span></label>
                             <app-selection
-                            [isInvalid]="formControl['status'].invalid && formControl['status'].touched? true : false"
+                                [isInvalid]="formControl['status'].invalid && formControl['status'].touched? true : false"
                                 [dropDownListData]="statusList"
+                                [errorList]="[
+                                    {
+                                        error: formControl['status'].errors?.['required'],
+                                        errorMessage: 'Status is required' 
+                                    }
+                                ]"
                                 formControlName="status"></app-selection>
-                            @if (formControl['status'].invalid &&
-                            formControl['status'].touched) {
-                            <small class="text-red-500">
-                                Status is required
-                            </small> 
-                            }
                         </div>
                     </div>
                     <div class="mb-4">
@@ -459,7 +440,7 @@
                         <textarea formControlName="description" id="description"
                             rows="4"
                             [class.border-red-500]="formControl['description'].invalid && formControl['description'].touched"
-                            class="w-full px-4 py-1 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"></textarea>
+                            class="w-full px-4 py-1 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#16c2d5]/20 focus:border-[#16c2d5]"></textarea>
                         @if (formControl['description'].invalid &&
                         formControl['description'].touched) {
                         <small class="text-red-500">

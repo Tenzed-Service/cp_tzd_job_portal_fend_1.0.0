@@ -8,14 +8,15 @@
         </div>
     </div>
     }
-    <select [(ngModel)]="value" (ngModelChange)="onValueChange($event)"
+    <select [(ngModel)]="selectField" (ngModelChange)="onValueChange($event)"
         placeholder="Select Option..."
-        [disabled]="isDisabled" [ngClass]="{ 'cursor-not-allowed': isDisabled, 'pl-10 bg-gray-50': prefixIcon }"
+        [disabled]="isDisabled"
+        [ngClass]="{ 'cursor-not-allowed': isDisabled, 'pl-10 bg-gray-50': prefixIcon }"
         [class.border-red-500]="isInvalid"
-        class="appearance-none border border-gray-300 text-gray-700 text-sm rounded px-2 pr-5  py-[0.32rem] w-full focus:outline-none focus:ring-2 focus:ring-[#16c2d5]/20 focus:border-[#16c2d5] text-left">
+        class="appearance-none border border-gray-300 text-gray-700 text-sm rounded px-4 pr-5 py-[0.32rem] w-full focus:outline-none focus:ring-2 focus:ring-[#16c2d5]/20 focus:border-[#16c2d5] text-left">
         @for (item of dropDownListData; track $index) {
         <option
-            [value]="item?.value">{{item?.label}}</option>
+            [value]="item[keyValue]">{{item[keyLabel]}}</option>
         }
     </select>
     <div
@@ -24,3 +25,12 @@
             class="ri ri-arrow-down-s-line text-gray-400"></i>
     </div>
 </div>
+@if (isInvalid) {
+<small class="text-red-500">
+    @for (data of errorList; track $index) {
+    @if (data.error) {
+    {{data.errorMessage}}
+    }
+    }
+</small>
+}

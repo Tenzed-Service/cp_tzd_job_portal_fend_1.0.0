@@ -52,3 +52,8 @@ export interface GrigActionVM {
   function: string, 
   title: string 
 }
+
+export interface ErrorMessageList {
+  error: boolean;
+  errorMessage: string;
+}

@@ -37,8 +37,8 @@
     @if (tabsSchema.searchInput) {
     <div class="relative max-w-64">
       <app-simple-input (keyup)="searchInput.next($event)"
-      [placeholder]="tabsSchema.filterItemConfig.placeholder ? tabsSchema.filterItemConfig.placeholder : 'Search'"
-      [prefixIcon]="tabsSchema.filterItemConfig.prefixIcon ? tabsSchema.filterItemConfig.prefixIcon : ''"></app-simple-input>
+      [placeholder]="tabsSchema.searchInput ? tabsSchema.filterItemConfig?.placeholder : 'Search'"
+      [prefixIcon]="tabsSchema.searchInput ? tabsSchema.filterItemConfig?.prefixIcon : ''"></app-simple-input>
     </div>
     }
     <ng-content></ng-content>

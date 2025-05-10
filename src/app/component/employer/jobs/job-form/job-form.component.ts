@@ -13,14 +13,20 @@ import {
 import { DropdownItemModel } from '../../../../core/models/common/common.models';
 import { MultiSelectionComponent } from '../../../../shared/ui/fields/multi-selection/multi-selection.component';
 import { SelectionComponent } from '../../../../shared/ui/fields/selection/selection.component';
+import { SimpleInputComponent } from '../../../../shared/ui/fields/simple-input/simple-input.component';
+import { DateComponent } from '../../../../shared/ui/fields/date/date.component';
+import { DateTimeComponent } from '../../../../shared/ui/fields/date-time/date-time.component';
 
 @Component({
   selector: 'app-job-form',
   standalone: true,
   imports: [
     CommonModule,
+    SimpleInputComponent,
     MultiSelectionComponent,
     SelectionComponent,
+    DateComponent,
+    DateTimeComponent,
     FormsModule,
     ReactiveFormsModule,
   ],
@@ -31,7 +37,7 @@ export class JobFormComponent implements OnInit {
   jobForm!: FormGroup;
   jobId: number = 0;
   amountTypeList: DropdownItemModel[] = [];
-  skillList: DropdownItemModel[] = [];
+  skillList: any[] = [];
   languageList: DropdownItemModel[] = [];
   countryList: DropdownItemModel[] = [];
   stateList: DropdownItemModel[] = [];
@@ -63,20 +69,20 @@ export class JobFormComponent implements OnInit {
       { label: 'Per Month', value: 'monthly' },
     ];
     this.skillList = [
-      { label: 'HTML', value: 'HTML' },
-      { label: 'CSS', value: 'CSS' },
-      { label: 'JavaScript', value: 'JavaScript' },
-      { label: 'TypeScript', value: 'TypeScript' },
-      { label: 'Angular', value: 'Angular' },
-      { label: 'React', value: 'React' },
-      { label: 'Vue.js', value: 'Vue.js' },
-      { label: 'Node.js', value: 'Node.js' },
-      { label: 'Python', value: 'Python' },
-      { label: 'Java', value: 'Java' },
-      { label: 'AI', value: 'AI' },
-      { label: 'Machine Learning', value: 'Machine Learning' },
-      { label: 'DevOps', value: 'DevOps' },
-      { label: 'Cloud Computing', value: 'Cloud Computing' },
+      { label: 'HTML', value: 1 },
+      { label: 'CSS', value: 2 },
+      { label: 'JavaScript', value: 3 },
+      { label: 'TypeScript', value: 4 },
+      { label: 'Angular', value: 5 },
+      { label: 'React', value: 6 },
+      { label: 'Vue.js', value: 7 },
+      { label: 'Node.js', value: 8 },
+      { label: 'Python', value: 9 },
+      { label: 'Java', value: 10 },
+      { label: 'AI', value: 11 },
+      { label: 'Machine Learning', value: 12 },
+      { label: 'DevOps', value: 13 },
+      { label: 'Cloud Computing', value: 14},
     ];
     this.languageList = [
       { label: 'English', value: 'English' },

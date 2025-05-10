@@ -89,6 +89,28 @@ export class ColumnFormateService {
         `;
   };
 
+  formatAvatarWithName = <T, TD>(
+    tableSchema: TableSchema<T, TD[]>,
+    columnSchema: TableColumns<T, TD[]>,
+    event: any
+  ) => {
+    const initials = this.getInitials(event[columnSchema.dataPropertyName]);
+    const colorClass = this.getRandomColor(event.id);
+
+    return `
+        <div class="flex items-center">
+            <div class="h-7 w-7 text-xs rounded-full flex items-center justify-center ${colorClass}">
+                ${initials}
+            </div>
+            <div class="ml-3">
+                <div class="text-sm font-medium text-gray-900">
+                    ${event[columnSchema.dataPropertyName]}
+                </div>
+            </div>
+        </div>
+        `;
+  };
+
   formatString<T, TD>(
     tableSchema: TableSchema<T, TD[]>,
     columnSchema: TableColumns<T, TD[]>,
@@ -129,6 +151,9 @@ export class ColumnFormateService {
       case 'Approved':
         statusClass = 'bg-[#16c2d5]/20 text-[#10217d]';
         break;
+      case 'Confirmed':
+          statusClass = 'bg-green-100 text-green-800';
+          break;
       case 'Rejected':
         statusClass = 'bg-[#d7baad]/50 text-[#2e4450]';
         break;
@@ -152,4 +177,58 @@ export class ColumnFormateService {
     }
     return `<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${statusClass}">${status}</span>`;
   }
+
+  formatGroupAvatar = <T, TD>(
+    tableSchema: TableSchema<T, TD[]>,
+    columnSchema: TableColumns<T, TD[]>,
+    event: any
+  ) => {
+    const avatars = event.staffAssigned?.map((member: any) => {
+      const initials = this.getInitials(member.name);
+      const colorClass = this.getRandomColor(member.id);
+      return `<div class="h-7 w-7 text-xs rounded-full flex items-center justify-center ${colorClass} ring-2 ring-white">
+                ${initials}
+              </div>`;
+    }).join('') || '';
+
+    return `
+      <div class="px-4 py-2 whitespace-nowrap">
+        <div class="flex -space-x-2">
+        ${avatars}
+        ${event.additionalMembers ? `
+          <div class="h-7 w-7 text-xs rounded-full flex items-center justify-center bg-gray-100 text-gray-600 ring-2 ring-white">
+            +${event.additionalMembers}
+          </div>` : ''
+        }
+        </div>
+      </div>
+        `;
+  };
+
+
+  formatAvatarName(
+    event: any, dataPropertyName:string, name:boolean = false
+  ) {
+    const initials = this.getInitials(event[dataPropertyName]);
+    const colorClass = this.getRandomColor(event.id);
+
+    return `
+        <div class="flex items-center">
+            <div class="h-10 w-10 text-xs rounded-full flex items-center justify-center ${colorClass}">
+                ${initials}
+            </div>            
+            <div class="ml-3">
+                <div class="text-sm font-medium text-gray-900">
+                    ${name ? event[dataPropertyName] : ''}
+                </div>
+            </div>
+        </div>
+        `;
+  };
+  // ri-stethoscope-line
+  // ri-psychotherapy-line
+  // ri-surgical-mask-line
+  // ri-heart-pulse-line
+  // ri-mental-health-line
+  // ri-hospital-line
 }

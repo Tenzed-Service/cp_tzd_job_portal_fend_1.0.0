@@ -1,7 +1,12 @@
-import { FormsModule, NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
+import {
+  FormsModule,
+  NG_VALUE_ACCESSOR,
+  ControlValueAccessor,
+  FormGroup,
+} from '@angular/forms';
 import { Component, forwardRef, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DropdownItemModel } from '../../../../core/models/common/common.models';
+import { ErrorMessageList } from '../../../../core/models/common/common.models';
 
 @Component({
   selector: 'app-multi-selection',
@@ -13,57 +18,90 @@ import { DropdownItemModel } from '../../../../core/models/common/common.models'
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => MultiSelectionComponent),
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
 export class MultiSelectionComponent implements ControlValueAccessor {
-  selectedSkills: string[] = [];
-  @Input() dropDownListData: DropdownItemModel[] = [];
+  selectedField: any[] = [];
+  @Input() dropDownListData: any[] = [];
   @Input() isDisabled: boolean = false;
+  @Input() keyValue: string = 'value'; // Key for the value property (e.g., 'id', 'value')
+  @Input() keyLabel: string = 'label'; // Key for the label property (e.g., 'name', 'label')
   @Input() isInvalid: boolean = false;
-  showSkillsDropdown = false;
-  skillInput = '';
+  @Input() errorList: ErrorMessageList[] = [];
+  showFieldDropdown = false;
+  fieldInput = '';
   onChange: any = () => {};
   onTouch: any = () => {};
 
-  addSkill(skill: string): void {
-    if (!this.selectedSkills.includes(skill)) {
-      this.selectedSkills.push(skill);
-    }else{
-      this.selectedSkills = this.selectedSkills.filter((s) => s!== skill);
+  // Add a skill to the selected list
+  addField(field: any): void {
+    if (!field || !field[this.keyValue]) {
+      return;
     }
-    this.onChange(this.selectedSkills);
-    this.skillInput = '';
-    this.showSkillsDropdown = false;
+
+    const isSelected = this.selectedField.some(
+      (s: any) => s[this.keyValue] === field[this.keyValue]
+    );
+
+    if (!isSelected) {
+      this.selectedField.push(field);
+    } else {
+      this.selectedField = this.selectedField.filter(
+        (s: any) => s[this.keyValue] !== field[this.keyValue]
+      );
+    }
+
+    this.onChange(this.selectedField.map((s: any) => s[this.keyValue]));
+    this.fieldInput = '';
+    this.showFieldDropdown = false;
   }
 
-  removeSkill(skill: string): void {
-    this.selectedSkills = this.selectedSkills.filter(s => s !== skill);
-    this.onChange(this.selectedSkills);
+  // Check if a skill is selected
+  isFieldSelected(field: any): boolean {
+    return this.selectedField.some(
+      (s: any) => s[this.keyValue] === field[this.keyValue]
+    );
+  }
+
+  removeField(field: any): void {
+    if (!field || !field[this.keyValue]) {
+      return;
+    }
+
+    this.selectedField = this.selectedField.filter(
+      (s: any) => s[this.keyValue] !== field[this.keyValue]
+    );
+    const select = this.selectedField.map((s: any) => s[this.keyValue]);
+    this.onChange(select);
   }
 
   toggleDropdown(): void {
-    this.showSkillsDropdown = !this.showSkillsDropdown;
+    this.showFieldDropdown = !this.showFieldDropdown;
   }
 
-  filterSkills(): DropdownItemModel[] {
-    return this.dropDownListData.filter(
-      (skill:DropdownItemModel) =>
-        // !this.selectedSkills.includes(skill) &&
-        skill.value.toLowerCase().includes(this.skillInput.toLowerCase())
+  filterField(): any[] {
+    return this.dropDownListData.filter((field: any) =>
+      // !this.selectedField.includes(field) &&
+      field[this.keyLabel].toLowerCase().includes(this.fieldInput.toLowerCase())
     );
   }
 
   onInputBlur(): void {
     // Small delay to allow click events on dropdown items to fire first
     setTimeout(() => {
-      this.showSkillsDropdown = false;
-    },100);
+      this.showFieldDropdown = false;
+    }, 100);
   }
   writeValue(value: string[]): void {
-    if (value) {
-      this.selectedSkills = value;
+    if (value && Array.isArray(value)) {
+      // Map the incoming value array (e.g., ['id1', 'id2']) to the corresponding dropdown items
+      this.selectedField = this.dropDownListData.filter((item) =>
+        value.includes(item[this.keyValue])
+      );
+    } else {
+      this.selectedField = [];
     }
   }
 

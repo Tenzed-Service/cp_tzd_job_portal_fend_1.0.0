@@ -4,12 +4,12 @@ export interface TabsSchema<T, DT> {
     tabList:TabItem[],
     activeTab: number,
     searchInput:boolean,
-    filterItemConfig:FilterItemConfig,
+    filterItemConfig?:FilterItemConfig,
     tabChange(
       tabsSchema: TabsSchema<T, DT>,
       event: any
     ):any,
-    onFilterChange(
+    onFilterChange?(
       tabsSchema: TabsSchema<T, DT>,
       event?: any
     ):any

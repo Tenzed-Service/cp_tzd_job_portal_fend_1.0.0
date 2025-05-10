@@ -1,0 +1,337 @@
+<div class="bg-white rounded my-4">
+    <div class="p-4">
+        <form [formGroup]="shiftForm">
+            <div class="space-y-6">
+                <div>
+                    <label for="shiftTitle"
+                        class="block text-sm font-medium text-gray-700 mb-1">Shift
+                        Title <span
+                            class="text-red-500">*</span></label>
+                    <app-simple-input
+                        formControlName="shiftTitle"
+                        [isInvalid]="formControl['shiftTitle'].invalid && formControl['shiftTitle'].touched"
+                        [errorList]="[
+                            {
+                                error: formControl['shiftTitle'].errors?.['required'],
+                                errorMessage: 'Shift title is required' 
+                            }
+                        ]"
+                        placeholder="Enter shift title"></app-simple-input>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="startTime"
+                            class="block text-sm font-medium text-gray-700 mb-1">Start
+                            Time <span
+                                class="text-red-500">*</span></label>
+                        <app-time
+                            formControlName="startTime"
+                            [isInvalid]="formControl['startTime'].invalid && formControl['startTime'].touched"
+                            [errorList]="[
+                                {
+                                    error: formControl['startTime'].errors?.['required'],
+                                    errorMessage: 'Start time is required' 
+                                }
+                            ]"
+                            placeholder="DD-MM-YYYY"></app-time>
+                    </div>
+                    <div>
+                        <label for="endTime"
+                            class="block text-sm font-medium text-gray-700 mb-1">End
+                            Time <span
+                                class="text-red-500">*</span></label>
+                        <app-time
+                            formControlName="endTime"
+                            [isInvalid]="formControl['endTime'].invalid && formControl['endTime'].touched"
+                            [errorList]="[
+                                {
+                                    error: formControl['endTime'].errors?.['required'],
+                                    errorMessage: 'End time is required' 
+                                }
+                            ]"
+                            placeholder="DD-MM-YYYY"></app-time>
+                    </div>
+                </div>
+                <div class="space-y-4">
+                    <label
+                        class="block text-sm font-medium text-gray-700">Schedule
+                        Type</label>
+                    <div class="flex space-x-4">
+                        <label class="flex items-center">
+                            <input type="radio" name="scheduleType"
+                            (ngModelChange)="resetScheduleType()"
+                                value="daily" class="custom-checkbox mr-2"
+                                formControlName="scheduleType">
+                            <span class="text-sm text-gray-700">Daily</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="radio" name="scheduleType"
+                            (ngModelChange)="resetScheduleType()"
+                                value="multiple" class="custom-checkbox mr-2"
+                                formControlName="scheduleType">
+                            <span class="text-sm text-gray-700">Multiple
+                                Dates</span>
+                        </label>
+                        <label class="flex items-center">
+                            <input type="radio" name="scheduleType"
+                            (ngModelChange)="resetScheduleType()"
+                                value="frequency" class="custom-checkbox mr-2"
+                                formControlName="scheduleType">
+                            <span class="text-sm text-gray-700">Frequency</span>
+                        </label>
+                    </div>
+                    <!-- Daily Schedule -->
+                    @if (shiftForm.get('scheduleType')?.value === 'daily') {
+                    <div id="dailySchedule" class="space-y-4">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div>
+                                <label
+                                    class="block text-sm font-medium text-gray-700 mb-1">Start
+                                    Date</label>
+                                <app-date
+                                    formControlName="startDate"
+                                    [isInvalid]="formControl['startDate'].invalid && formControl['startDate'].touched"
+                                    errorMessage="Start date is required"></app-date>
+                            </div>
+                            <div>
+                                <label
+                                    class="block text-sm font-medium text-gray-700 mb-1">End
+                                    Date</label>
+                                <app-date
+                                    formControlName="endDate"
+                                    [isInvalid]="formControl['endDate'].invalid && formControl['endDate'].touched"
+                                    errorMessage="End date is required"></app-date>
+                            </div>
+                            <div>
+                                <label
+                                    class="block text-sm font-medium text-gray-700 mb-2">Holidays/Exceptions</label>
+                                <div class="flex">
+                                    <div class="w-[95%]">
+                                        <app-date
+                                            formControlName="holidayDate"
+                                            [isInvalid]="formControl['holidayDate'].invalid && formControl['holidayDate'].touched"
+                                            errorMessage="Holiday Date is required"></app-date>
+                                    </div>
+                                    <button type="button" (click)="addHoliday()"
+                                        class="right-2 text-primary hover:text-primary-dark"
+                                        id="addHolidayBtn">
+                                        <div
+                                            class="w-10 h-5 flex items-center justify-center">
+                                            <i class="ri-add-line"></i>
+                                        </div>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        @if (holidayLogs.length === 0) {
+                        <div
+                            class="mt-2 bg-gray-50 rounded-lg p-2 max-h-40 overflow-y-auto">
+                            <div class="text-sm text-gray-500 text-center"
+                                id="noHolidayMsg">No holidays selected</div>
+                            <div class="space-y-2" id="holidayList"></div>
+                        </div>
+                        }
+                        @if (holidayLogs.length > 0) {
+                        @for (item of holidayLogs; track $index) {
+                        <div
+                            class="flex items-center justify-between bg-white p-2 rounded border border-gray-100 transition-all duration-300">
+                            <div class="flex items-center space-x-3">
+                                <div
+                                    class="w-8 h-8 flex items-center justify-center rounded-full bg-primary bg-opacity-10 text-primary">
+                                    <i class="ri-calendar-event-line"></i>
+                                </div>
+                                <div>
+                                    <div
+                                        class="text-sm font-medium text-gray-900">{{item?.formattedDate}}</div>
+                                    <div class="text-xs text-gray-500">Added
+                                        at {{item?.currentTime}}</div>
+                                </div>
+                            </div>
+                            <button type="button"
+                                (click)="removeHoliday(item)"
+                                class="text-gray-400 hover:text-red-500 transition-colors duration-200">
+                                <div
+                                    class="w-6 h-6 flex items-center justify-center">
+                                    <i class="ri-delete-bin-line"></i>
+                                </div>
+                            </button>
+                        </div>
+                        }
+                        }
+                    </div>
+                    }
+                    <!-- Multiple Dates -->
+                    @if (shiftForm.get('scheduleType')?.value === 'multiple') {
+                    <div id="multipleDates" class="space-y-4">
+                        <div class="flex">
+                            <div class="w-[95%]">
+                                <app-date
+                                    formControlName="multipleDates"
+                                    [isInvalid]="formControl['multipleDates'].invalid && formControl['multipleDates'].touched"
+                                    errorMessage="Multiple Date is required"></app-date>
+                            </div>
+                            <button type="button" (click)="addMultipleDates()"
+                                class="right-2 text-primary hover:text-primary-dark">
+                                <div
+                                    class="w-10 h-5 flex items-center justify-center">
+                                    <i class="ri-add-line"></i>
+                                </div>
+                            </button>
+                        </div>
+                        @if (multiDateLogs.length === 0) {
+                        <div
+                            class="mt-2 bg-gray-50 rounded-lg p-2 max-h-40 overflow-y-auto">
+                            <div class="text-sm text-gray-500 text-center"
+                                id="noHolidayMsg">No date selected</div>
+                            <div class="space-y-2" id="holidayList"></div>
+                        </div>
+                        }
+                        @if (multiDateLogs.length > 0) {
+                        @for (item of multiDateLogs; track $index) {
+                        <div
+                            class="flex items-center justify-between bg-white p-2 rounded border border-gray-100 transition-all duration-300">
+                            <div class="flex items-center space-x-3">
+                                <div
+                                    class="w-8 h-8 flex items-center justify-center rounded-full bg-primary bg-opacity-10 text-primary">
+                                    <i class="ri-calendar-event-line"></i>
+                                </div>
+                                <div>
+                                    <div
+                                        class="text-sm font-medium text-gray-900">{{item?.formattedDate}}</div>
+                                    <div class="text-xs text-gray-500">Added
+                                        at {{item?.currentTime}}</div>
+                                </div>
+                            </div>
+                            <button type="button"
+                                (click)="removeMultipleDates(item)"
+                                class="text-gray-400 hover:text-red-500 transition-colors duration-200">
+                                <div
+                                    class="w-6 h-6 flex items-center justify-center">
+                                    <i class="ri-delete-bin-line"></i>
+                                </div>
+                            </button>
+                        </div>
+                        }
+                        }
+                    </div>
+                    }
+                    <!-- Frequency Based -->
+                    @if (shiftForm.get('scheduleType')?.value === 'frequency') {
+                    <div id="frequencyBased" class="space-y-4">
+                        <div class="flex space-x-4">
+                            <label class="flex items-center">
+                                <input type="radio" name="frequencyType"
+                                (ngModelChange)="resetScheduleType()"
+                                    value="weekly" class="custom-checkbox mr-2"
+                                    formControlName="frequencyType">
+                                <span
+                                    class="text-sm text-gray-700">Weekly</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="radio" name="frequencyType"
+                                    value="monthly"
+                                    (ngModelChange)="resetScheduleType()"
+                                    class="custom-checkbox mr-2"
+                                    formControlName="frequencyType">
+                                <span
+                                    class="text-sm text-gray-700">Monthly</span>
+                            </label>
+                            <!-- <label class="flex items-center">
+                                <input type="radio" name="frequencyType"
+                                    value="yearly" class="custom-checkbox mr-2"
+                                    formControlName="frequencyType">
+                                <span
+                                    class="text-sm text-gray-700">Yearly</span>
+                            </label> -->
+                        </div>
+                        <!-- Weekly Selection -->
+                        @if (shiftForm.get('frequencyType')?.value === 'weekly') {
+                        <div id="weeklySelection" class="space-y-2">
+                            <label
+                                class="block text-sm font-medium text-gray-700 mb-2">Select
+                                Days</label>
+                            <div class="flex flex-wrap gap-2">
+                                @for (day of weeklyList; track $index) {
+                                <label
+                                    class="flex w-[100px] items-center px-3 py-1 bg-white border border-gray-300 rounded text-xs cursor-pointer hover:bg-gray-50">
+                                    <input type="checkbox"
+                                        class="custom-checkbox mr-2"
+                                        [checked]="shiftForm.get('weeklyDays')?.value?.includes(day)"
+                                        (change)="onDayChange($event, day, 'weeklyDays')"
+                                        [value]="day">
+                                    {{day}}
+                                </label>
+                                }
+                            </div>
+                        </div>
+                        }
+                        <!-- Monthly Selection -->
+                        @if (shiftForm.get('frequencyType')?.value === 'monthly') {
+                        <div id="monthlySelection" class="space-y-2">
+                            <label
+                                class="block text-sm font-medium text-gray-700 mb-2">Select
+                                Dates</label>
+                            <div class="flex flex-wrap gap-2">
+                                @for (date of monthlyDates; track date) {
+                                    <label class="flex w-[100px] items-center px-3 py-1 bg-white border border-gray-300 rounded text-xs cursor-pointer hover:bg-gray-50">
+                                        <input type="checkbox" [value]="date"
+                                        [checked]="shiftForm.get('monthlyDates')?.value?.includes(date)"
+                                        (change)="onDayChange($event, date, 'monthlyDates')"
+                                        class="custom-checkbox mr-2">
+                                        {{date}}
+                                    </label>
+                                    }
+                            </div>
+                        </div>
+                        }
+                        <!-- Yearly Selection -->
+                        <!-- @if (shiftForm.get('frequencyType')?.value === 'yearly') {
+                        <div id="yearlySelection" class="space-y-2">
+                            <label
+                                class="block text-sm font-medium text-gray-700 mb-2">Select
+                                Years</label>
+                            <div class="flex flex-wrap gap-2"
+                                id="yearSelection">
+                            </div>
+                            <div class="relative mt-2">
+                                <input type="number" min="2025" max="2030"
+                                    class="block w-full pl-3 pr-10 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-primary focus:border-primary"
+                                    id="yearInput"
+                                    placeholder="Enter year (2025-2030)">
+                                <button type="button"
+                                    class="absolute right-2 top-1/2 transform -translate-y-1/2 text-primary hover:text-primary-dark"
+                                    id="addYearBtn">
+                                    <div
+                                        class="w-5 h-5 flex items-center justify-center">
+                                        <i class="ri-add-line"></i>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+                        } -->
+                    </div>
+                    }
+                </div>
+            </div>
+        </form>
+    </div>
+    <div
+        class="flex items-center justify-end border-t border-gray-200 px-4 py-2">
+        <div class="flex items-center space-x-3">
+            <button type="button" id="cancelShiftBtn" (click)="close()"
+                class="px-4 py-2 border border-gray-300 rounded-button text-gray-700 hover:bg-gray-50 whitespace-nowrap flex items-center">
+                <div class="w-5 h-5 flex items-center justify-center mr-2">
+                    <i class="ri-close-line"></i>
+                </div>
+                Cancel
+            </button>
+            <button type="submit" form="shiftForm" (click)="submitForm()"
+                class="px-4 py-2 bg-primary text-white rounded-button hover:bg-primary whitespace-nowrap flex items-center">
+                <div class="w-5 h-5 flex items-center justify-center mr-2">
+                    <i class="ri-check-line"></i>
+                </div>
+                Create Shift
+            </button>
+        </div>
+    </div>
+</div>

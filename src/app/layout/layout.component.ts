@@ -78,9 +78,9 @@ export class LayoutComponent implements OnInit {
               children: [],
             },
             {
-              name: 'Messages',
-              icon: 'ri-message-2-line',
-              route: '/messages',
+              name: 'Chat',
+              icon: 'ri-message-3-line',
+              route: '/chat',
               children: [],
             },
             {
@@ -118,6 +118,30 @@ export class LayoutComponent implements OnInit {
               children: [],
             },
             {
+              name: 'Shift Management',
+              icon: 'ri-calendar-line',
+              route: '/shift-management',
+              expanded: false,
+              children: [
+                {
+                  name: 'Shifts',
+                  icon: 'ri-time-line',
+                  route: '/shift-management/shifts',
+                },
+                {
+                  name: 'Shift Assign',
+                  icon: 'ri-user-follow-line',
+                  route: '/shift-management/shift-assign',
+                },
+              ],
+            },
+            {
+              name: 'Chat',
+              icon: 'ri-message-3-line',
+              route: '/chat',
+              children: [],
+            },
+            {
               name: 'Reports',
               icon: 'ri-bar-chart-line',
               route: '/reports',
@@ -137,6 +161,12 @@ export class LayoutComponent implements OnInit {
               name: 'Jobs',
               icon: 'ri-briefcase-line',
               route: '/worker-jobs',
+              children: [],
+            },
+            {
+              name: 'Chat',
+              icon: 'ri-message-3-line',
+              route: '/chat',
               children: [],
             },
             {

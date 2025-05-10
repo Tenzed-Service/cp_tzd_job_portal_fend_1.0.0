@@ -25,11 +25,13 @@ export class TabsComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit() {
-    this.searchInput
-      .pipe(debounceTime(400), distinctUntilChanged())
-      .subscribe((event: Event & { target: HTMLInputElement }) => {
-          this.tabsSchema.onFilterChange(this.tabsSchema.parentComponent , event?.target?.value ? event?.target?.value : '');
-      });
+      this.searchInput
+        .pipe(debounceTime(400), distinctUntilChanged())
+        .subscribe((event: Event & { target: HTMLInputElement }) => {
+          if (this.tabsSchema.onFilterChange) {
+            this.tabsSchema.onFilterChange(this.tabsSchema.parentComponent , event?.target?.value ? event?.target?.value : '');
+          }
+        });   
   }
 
   ngAfterViewInit() {

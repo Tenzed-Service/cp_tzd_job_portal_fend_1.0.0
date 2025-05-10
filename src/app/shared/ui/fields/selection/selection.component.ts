@@ -1,7 +1,7 @@
 import { FormsModule, NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { Component, forwardRef, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DropdownItemModel } from '../../../../core/models/common/common.models';
+import { DropdownItemModel, ErrorMessageList } from '../../../../core/models/common/common.models';
 
 @Component({
   selector: 'app-selection',
@@ -18,11 +18,14 @@ import { DropdownItemModel } from '../../../../core/models/common/common.models'
   ]
 })
 export class SelectionComponent implements ControlValueAccessor {
-  value: string = '';
+  selectField: string = '';
   @Input() prefixIcon: string = '';
   @Input() dropDownListData: any[] = [];
   @Input() isDisabled: boolean = false;
+  @Input() keyValue: string = 'value'; // Key for the value property (e.g., 'id', 'value')
+  @Input() keyLabel: string = 'label'; // Key for the label property (e.g., 'name', 'label')
   @Input() isInvalid: boolean = false;
+  @Input() errorList: ErrorMessageList[] = [];
   showSkillsDropdown = false;
   skillInput = '';
   onChange: any = () => {};
@@ -30,7 +33,7 @@ export class SelectionComponent implements ControlValueAccessor {
   
   writeValue(value: string): void {
     if (value) {
-      this.value = value;
+      this.selectField = value;
     }
   }
 

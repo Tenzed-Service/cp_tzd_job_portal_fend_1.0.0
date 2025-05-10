@@ -14,6 +14,11 @@ export enum StatusType {
   Approved = 'Approved',
   InfoRequested = 'Info Requested',
   Rejected = 'Rejected',
+  Available = 'Available',
+  PartiallyAssigned = 'Partially Assigned',
+  FullyAssigned = 'Fully Assigned',
+  PendingConfirmation = 'Pending Confirmation',
+  Assigned = 'Assigned',
 }
 
 export enum ProfileTabs {

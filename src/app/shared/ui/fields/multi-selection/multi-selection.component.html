@@ -1,26 +1,30 @@
 
 <div class="relative">
+  <!--  (click)="showFieldDropdown = true; inputField.focus()" -->
   <div [class.border-red-500]="isInvalid"
-    class="w-full px-2 py-[0.3rem] border border-gray-300 rounded bg-white focus-within:ring-2 focus-within:ring-primary focus-within:border-transparent">
+    [ngClass]="{ 'cursor-not-allowed': isDisabled }"
+    class="w-full px-4 py-[0.32rem] border border-gray-300 rounded bg-white focus:outline-none focus:ring-2 focus:ring-[#16c2d5]/20 focus:border-[#16c2d5]">
     <div class="flex flex-wrap gap-2">
-      @for (skill of selectedSkills; track skill) {
+      @for (field of selectedField; track field) {
       <div
         class="inline-flex items-center px-2.5 py-0.5 rounded-full text-sm bg-primary/20 text-primary">
-        {{skill}}
+        {{field[keyLabel]}}
         <button type="button" class="ml-1.5 hover:text-primary/80"
-          (click)="removeSkill(skill)">
+          (click)="removeField(field)">
           <i class="ri-close-line"></i>
         </button>
       </div>
       }
 
-      <input type="text"
-        [(ngModel)]="skillInput"
-        (focus)="showSkillsDropdown = true"
+      <input #inputField
+        type="text"
+        [(ngModel)]="fieldInput"
+        (focus)="showFieldDropdown = true"
         (blur)="onInputBlur()"
-        [disabled]="isDisabled" [ngClass]="{ 'cursor-not-allowed': isDisabled }"
+        [disabled]="isDisabled" 
+        [ngClass]="{ 'cursor-not-allowed': isDisabled }"
         placeholder="Type or select option..."
-        class="flex-1 min-w-[120px] outline-none text-sm py-0.5">
+        class="flex-1 text-sm min-w-[120px] outline-none text-sm">
     </div>
   </div>
   <div
@@ -28,25 +32,37 @@
     <i class="ri ri-arrow-down-s-line text-gray-400"></i>
   </div>
 
-  @if (showSkillsDropdown) {
+  @if (showFieldDropdown) {
   <div
     class="absolute z-10 w-full mt-1 py-1 bg-white border border-gray-300 rounded-md shadow-lg">
     <div class="max-h-[200px] overflow-y-auto">
-      @for (skill of filterSkills(); track skill) {
-      <div class="px-3 py-2 hover:bg-gray-100 cursor-pointer text-sm w-full flex items-center justify-between"
-        (mousedown)="addSkill(skill.value)">
-        {{skill.label}}
-        @if (this.selectedSkills.includes(skill.value)) {
+      @for (field of filterField(); track field) {
+      <div
+        class="px-3 py-1 hover:bg-gray-100 cursor-pointer text-sm w-full flex items-center justify-between"
+        (mousedown)="addField(field)"
+        role="option"
+        [attr.aria-selected]="isFieldSelected(field)">
+        {{field[keyLabel]}}
+        @if (isFieldSelected(field)) {
         <i class="ri-check-line text-primary"></i>
         }
       </div>
       }
-      @if (filterSkills().length === 0) {
+      @if (filterField().length === 0) {
       <div class="px-3 py-2 text-sm text-gray-500">
-        No skills found
+        No Field found
       </div>
       }
     </div>
   </div>
   }
 </div>
+@if (isInvalid) {
+  <small class="text-red-500">
+      @for (data of errorList; track $index) {
+      @if (data.error) {
+      {{data.errorMessage}}
+      }
+      }
+  </small>
+  }

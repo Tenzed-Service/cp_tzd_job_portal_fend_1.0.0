@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { UserProfileComponent } from '../../component/common/user-profile/user-profile.component';
 import { DashboardComponent } from '../../component/common/dashboard/dashboard.component';
 import { OpenWorkerComponent } from '../../component/employer/open-worker/open-worker.component';
+import { ChatComponent } from '../../component/common/chat/chat.component';
 
 export const content: Routes = [
   // {
@@ -35,6 +36,16 @@ export const content: Routes = [
   {
     path: "job-grid",
     loadChildren: () => import('../../component/agency/worker-jobs/worker-jobs.routes').then(m => m.jobGridRoutes),
+  },
+
+  {
+    path: "shift-management",
+    loadChildren: () => import('../../component/employer/shift-management/shift-management.routes').then(m => m.shiftManagementRoutes),
+  },
+
+  {
+    path: "chat",
+    component: ChatComponent
   },
 
   {
