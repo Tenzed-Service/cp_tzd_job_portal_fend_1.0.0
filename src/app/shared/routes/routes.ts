@@ -44,6 +44,11 @@ export const content: Routes = [
   },
 
   {
+    path: "task-management",
+    loadChildren: () => import('../../component/employer/task-management/task-management.routes').then(m => m.taskManagementRoutes),
+  },
+
+  {
     path: "chat",
     component: ChatComponent
   },

@@ -101,13 +101,13 @@ export class LayoutComponent implements OnInit {
             },
             {
               name: 'Open Worker',
-              icon: 'ri-user-3-line',
+              icon: 'ri-team-line',
               route: '/open-worker',
               children: [],
             },
             {
               name: 'Jobs',
-              icon: 'ri-briefcase-line',
+              icon: 'ri-suitcase-line',
               route: '/jobs',
               children: [],
             },
@@ -119,13 +119,13 @@ export class LayoutComponent implements OnInit {
             },
             {
               name: 'Shift Management',
-              icon: 'ri-calendar-line',
+              icon: 'ri-time-line',
               route: '/shift-management',
               expanded: false,
               children: [
                 {
                   name: 'Shifts',
-                  icon: 'ri-time-line',
+                  icon: 'ri-calendar-2-line',
                   route: '/shift-management/shifts',
                 },
                 {
@@ -136,6 +136,12 @@ export class LayoutComponent implements OnInit {
               ],
             },
             {
+              name: 'Task Management',
+              icon: 'ri-task-line',
+              route: '/task-management',
+              children: [],
+            },
+            {
               name: 'Chat',
               icon: 'ri-message-3-line',
               route: '/chat',
@@ -143,7 +149,7 @@ export class LayoutComponent implements OnInit {
             },
             {
               name: 'Reports',
-              icon: 'ri-bar-chart-line',
+              icon: 'ri-bar-chart-2-line',
               route: '/reports',
               children: [],
             },
@@ -171,7 +177,7 @@ export class LayoutComponent implements OnInit {
             },
             {
               name: 'Reports',
-              icon: 'ri-bar-chart-line',
+              icon: 'ri-bar-chart-2-line',
               route: '/reports',
               children: [],
             },

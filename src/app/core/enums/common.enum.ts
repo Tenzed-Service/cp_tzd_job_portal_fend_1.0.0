@@ -19,6 +19,11 @@ export enum StatusType {
   FullyAssigned = 'Fully Assigned',
   PendingConfirmation = 'Pending Confirmation',
   Assigned = 'Assigned',
+  ToDo = 'To Do',
+  InProgress = 'In Progress',
+  Completed = 'Completed',
+  Archived = 'Archived',
+  Busy = 'Busy',
 }
 
 export enum ProfileTabs {

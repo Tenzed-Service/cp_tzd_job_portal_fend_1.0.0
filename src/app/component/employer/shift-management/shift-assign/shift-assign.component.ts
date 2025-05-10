@@ -237,20 +237,20 @@ export class ShiftAssignComponent implements OnInit {
     {
       id: 1,
       name: 'All Shift',
-      count: 10,
+      count: 0,
       icon: 'ri-apps-line',
     },
     {
       id: 2,
       name: 'Unassigned',
-      count: 2,
+      count: 0,
       icon: 'ri-file-list-line',
     },
     {
       id: 3,
       name: 'Upcoming',
-      count: 8,
-      icon: 'ri-eye-line',
+      count: 0,
+      icon: 'ri-time-line',
     },
   ];
   activeShiftTab: number = 1;
@@ -265,20 +265,20 @@ export class ShiftAssignComponent implements OnInit {
     {
       id: 1,
       name: 'All Staff',
-      count: 10,
-      icon: 'ri-apps-line',
+      count: 0,
+      icon: 'ri-team-line',
     },
     {
       id: 2,
       name: 'Available',
-      count: 2,
-      icon: 'ri-file-list-line',
+      count: 0,
+      icon: 'ri-user-follow-line',
     },
     {
       id: 3,
       name: 'Assigned',
-      count: 8,
-      icon: 'ri-eye-line',
+      count: 0,
+      icon: 'ri-user-star-line',
     },
   ];
   activeStaffTab: number = 1;
@@ -339,6 +339,18 @@ export class ShiftAssignComponent implements OnInit {
           ...tabsSchema.parentComponent.allShiftList,
         ];
         break;
+        case 2:
+          tabsSchema.parentComponent.shiftList =
+            tabsSchema.parentComponent.allShiftList.filter(
+              (staff) => staff.status === StatusType.PartiallyAssigned
+            );
+          break;
+        case 3:
+          tabsSchema.parentComponent.shiftList =
+            tabsSchema.parentComponent.allShiftList.filter(
+              (staff) => staff.status === StatusType.PendingConfirmation
+            );
+          break;
     }
   }
 

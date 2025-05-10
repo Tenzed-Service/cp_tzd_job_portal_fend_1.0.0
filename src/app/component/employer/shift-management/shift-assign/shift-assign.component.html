@@ -1,8 +1,8 @@
 <div class="flex h-full pt-4">
     <!-- Left Panel - Shifts -->
-    <div class="w-3/5 flex flex-col border-r border-gray-200">
-        <div class="p-4 border-b border-gray-200 bg-white">
-            <div class="flex items-center justify-between mb-4">
+    <div class="w-full md:w-3/5 flex flex-col md:border-r md:border-gray-200">
+        <div class="p-4 border-b border-gray-200 rounded md:rounded-r-none bg-white mb-2">
+            <div class="flex items-center justify-between mb-2">
                 <h2 class="text-lg font-semibold text-gray-900">Shifts</h2>
                 <app-simple-input
                     (keyup)="searchInput.next({event: $event, type: 'shift'})"
@@ -14,8 +14,8 @@
                     [tabsSchema]="shiftTabsSchema"></app-tabs>
             </div>
         </div>
-        <div class="flex-1 overflow-y-auto pt-4 pr-2">
-            <div class="grid grid-cols-1 gap-4">
+        <div class="flex-1 overflow-y-auto px-1">
+            <div class="grid grid-cols-1 gap-2">
                 <!-- Shift Card 1 -->
                 @for (shift of shiftList; track shift; let no = $index) {
                 <div class="bg-white rounded custom-shadow p-4 drop-zone"
@@ -103,9 +103,9 @@
         </div>
     </div>
     <!-- Right Panel - Staff Directory -->
-    <div class="w-2/5 flex flex-col">
-        <div class="p-4 border-b border-gray-200 bg-white">
-            <div class="flex items-center justify-between mb-4">
+    <div class="w-2/5 hidden md:flex flex-col">
+        <div class="p-4 border-b border-gray-200 bg-white rounded rounded-l-none mb-2">
+            <div class="flex items-center justify-between mb-2">
                 <h2 class="text-lg font-semibold text-gray-900">Staffs</h2>
                 <app-simple-input
                     (keyup)="searchInput.next({event: $event, type: 'staff'})"
@@ -117,8 +117,8 @@
                     [tabsSchema]="staffTabsSchema"></app-tabs>
             </div>
         </div>
-        <div class="flex-1 overflow-y-auto pt-4 px-2">
-            <div class="grid grid-cols-1 gap-4">
+        <div class="flex-1 overflow-y-auto px-1">
+            <div class="grid grid-cols-1 gap-2">
                 @for (staff of staffList; track staff.id) {
                 <div class="bg-white rounded custom-shadow p-4 draggable-staff"
                     draggable="true"
@@ -398,7 +398,7 @@
                                                     class="ri-notification-line"></i>
                                             </div>
                                         </button>
-                                        <button
+                                        <button (click)="removeStaffModal = true"
                                             class="p-1.5 text-gray-500 hover:text-red-600 hover:bg-gray-100 rounded"
                                             title="Remove">
                                             <div
