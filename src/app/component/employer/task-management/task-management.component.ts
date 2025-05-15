@@ -1,3 +1,4 @@
+import { SelectionComponent } from './../../../shared/ui/fields/selection/selection.component';
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
@@ -8,13 +9,14 @@ import { SimpleInputComponent } from '../../../shared/ui/fields/simple-input/sim
 import { TabsSchema } from '../../../shared/component/tabs/tabs.component.models';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 import { StatusType } from '../../../core/enums/common.enum';
+import { DateComponent } from '../../../shared/ui/fields/date/date.component';
 
 @Component({
   selector: 'app-task-management',
   templateUrl: './task-management.component.html',
   styleUrls: ['./task-management.component.scss'],
   standalone: true,
-  imports: [CommonModule, BadgesComponent, TabsComponent, SimpleInputComponent],
+  imports: [CommonModule, BadgesComponent, TabsComponent, SimpleInputComponent, SelectionComponent, DateComponent],
 })
 export class TaskManagementComponent {
   // Task related variables

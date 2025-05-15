@@ -170,6 +170,18 @@ export class LayoutComponent implements OnInit {
               children: [],
             },
             {
+              name: 'Shift',
+              icon: 'ri-calendar-2-line',
+              route: '/shift',
+              children: [],
+            },
+            {
+              name: 'Task',
+              icon: 'ri-task-line',
+              route: '/task',
+              children: [],
+            },
+            {
               name: 'Chat',
               icon: 'ri-message-3-line',
               route: '/chat',
