@@ -24,6 +24,7 @@ export class DateComponent implements ControlValueAccessor {
   @Input() errorMessage: string = '';
   @Input() minDate?: string; // Format: 'YYYY-MM-DD'
   @Input() maxDate?: string; // Format: 'YYYY-MM-DD'
+  @Input() bgGray:boolean = false;
   onChange: any = () => {};
   onTouch: any = () => {};
   

@@ -13,6 +13,23 @@
           [(ngModel)]="filter.filterValue" (ngModelChange)="filterChange(filterSchema.applyBtn)"
           [dropDownListData]="filter.filterOptions ? filter.filterOptions : []"></app-selection>
         }
+        @else if (filter.filterType == tableFilterTypeEnum.Range) {
+          <div class="col-span-2 flex items-center gap-2">
+            <div class="w-[45%]">
+              <app-date
+                [(ngModel)]="filter.filterValue" [bgGray]="true"
+                (ngModelChange)="filterChange(filterSchema.applyBtn)"
+              ></app-date>
+            </div>
+            <span class="flex items-center justify-center text-gray-500 w-[5%]">to</span>
+            <div class="w-[45%]">
+              <app-date
+                [(ngModel)]="filter.filterValue1" [bgGray]="true"
+                (ngModelChange)="filterChange(filterSchema.applyBtn)"
+              ></app-date>
+            </div>
+          </div>
+        }
       }
       <div class="min-w-fit flex gap-2">
         @if (filterSchema.applyBtn) {

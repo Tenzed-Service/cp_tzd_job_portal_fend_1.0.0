@@ -89,6 +89,25 @@ export class ColumnFormateService {
         `;
   };
 
+  formatNameDescription = <T, TD>(
+    tableSchema: TableSchema<T, TD[]>,
+    columnSchema: TableColumns<T, TD[]>,
+    event: any
+  ) => {
+    return `
+        <div class="flex items-center">
+            <div>
+                <div class="text-sm font-medium text-gray-900">
+                    ${event[columnSchema.dataPropertyName]}
+                </div>
+                <div class="text-sm text-gray-500">
+                    ${event.description}
+                </div>
+            </div>
+        </div>
+        `;
+  };
+
   formatAvatarWithName = <T, TD>(
     tableSchema: TableSchema<T, TD[]>,
     columnSchema: TableColumns<T, TD[]>,
@@ -152,8 +171,8 @@ export class ColumnFormateService {
         statusClass = 'bg-[#16c2d5]/20 text-[#10217d]';
         break;
       case 'Confirmed':
-          statusClass = 'bg-green-100 text-green-800';
-          break;
+        statusClass = 'bg-green-100 text-green-800';
+        break;
       case 'Rejected':
         statusClass = 'bg-[#d7baad]/50 text-[#2e4450]';
         break;
@@ -172,6 +191,18 @@ export class ColumnFormateService {
       case 'Closed':
         statusClass = 'bg-red-100 text-red-800';
         break;
+      case 'Open':
+        statusClass = 'bg-yellow-100 text-yellow-800';
+        break;
+      case 'Filled':
+        statusClass = 'bg-green-100 text-green-800';
+        break;
+      case 'Urgent':
+        statusClass = 'bg-red-100 text-red-800';
+        break;
+      case 'In Progress':
+        statusClass = 'bg-blue-100 text-blue-800';
+        break;
       default:
         statusClass = 'bg-[#89dee2]/20 text-[#2e4450]';
     }
@@ -183,31 +214,38 @@ export class ColumnFormateService {
     columnSchema: TableColumns<T, TD[]>,
     event: any
   ) => {
-    const avatars = event.staffAssigned?.map((member: any) => {
-      const initials = this.getInitials(member.name);
-      const colorClass = this.getRandomColor(member.id);
-      return `<div class="h-7 w-7 text-xs rounded-full flex items-center justify-center ${colorClass} ring-2 ring-white">
+    const avatars =
+      event.staffAssigned
+        ?.map((member: any) => {
+          const initials = this.getInitials(member.name);
+          const colorClass = this.getRandomColor(member.id);
+          return `<div class="h-7 w-7 text-xs rounded-full flex items-center justify-center ${colorClass} ring-2 ring-white">
                 ${initials}
               </div>`;
-    }).join('') || '';
+        })
+        .join('') || '';
 
     return `
       <div class="px-4 py-2 whitespace-nowrap">
         <div class="flex -space-x-2">
         ${avatars}
-        ${event.additionalMembers ? `
+        ${
+          event?.additionalMembers
+            ? `
           <div class="h-7 w-7 text-xs rounded-full flex items-center justify-center bg-gray-100 text-gray-600 ring-2 ring-white">
-            +${event.additionalMembers}
-          </div>` : ''
+            +${event?.additionalMembers}
+          </div>`
+            : ''
         }
         </div>
       </div>
         `;
   };
 
-
   formatAvatarName(
-    event: any, dataPropertyName:string, name:boolean = false
+    event: any,
+    dataPropertyName: string,
+    name: boolean = false
   ) {
     const initials = this.getInitials(event[dataPropertyName]);
     const colorClass = this.getRandomColor(event.id);
@@ -224,7 +262,8 @@ export class ColumnFormateService {
             </div>
         </div>
         `;
-  };
+  }
+
   // ri-stethoscope-line
   // ri-psychotherapy-line
   // ri-surgical-mask-line

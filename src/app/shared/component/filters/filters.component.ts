@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { TableFilterTypeEnum } from '../../../core/enums/common.enum';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 import { FilterSchema, FilterItemConfig } from './filters.component.models';
+import { DateComponent } from '../../ui/fields/date/date.component';
 
 @Component({
   selector: 'app-filters',
@@ -19,6 +20,7 @@ import { FilterSchema, FilterItemConfig } from './filters.component.models';
     SimpleInputComponent,
     SelectionComponent,
     FormsModule,
+    DateComponent
   ]
 })
 export class FiltersComponent implements OnInit, OnDestroy {
@@ -56,10 +58,17 @@ export class FiltersComponent implements OnInit, OnDestroy {
     }
   }
 
+  getStartDate(filterValue: any[],index:number): string {
+    return filterValue?.length > 0 ? filterValue[index] : '';
+  }
+
   resetFilters(filter:boolean = false) {
     // Reset the filters to their initial values
       this.filterSchema.filterItemConfig = this.filterSchema.filterItemConfig.map((item:any) => {
         item.filterValue = this.oldFilter[item.title.toLowerCase()] || '';
+        if (item?.filterValue1) {
+          item.filterValue1 = this.oldFilter[item.title.toLowerCase()] || '';          
+        }
         return item;
       });
       this.filterChange(filter);

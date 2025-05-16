@@ -3,6 +3,9 @@ import { UserProfileComponent } from '../../component/common/user-profile/user-p
 import { DashboardComponent } from '../../component/common/dashboard/dashboard.component';
 import { OpenWorkerComponent } from '../../component/employer/open-worker/open-worker.component';
 import { ChatComponent } from '../../component/common/chat/chat.component';
+import { TaskManagementComponent } from '../../component/common/task-management/task-management.component';
+import { WorkerShiftManagementComponent } from '../../component/worker/worker-shift-management/worker-shift-management.component';
+import { TimeSheetComponent } from '../../component/common/time-sheet/time-sheet.component';
 
 export const content: Routes = [
   // {
@@ -44,8 +47,18 @@ export const content: Routes = [
   },
 
   {
+    path: "shift",
+    component: WorkerShiftManagementComponent
+  },
+
+  {
     path: "task-management",
-    loadChildren: () => import('../../component/employer/task-management/task-management.routes').then(m => m.taskManagementRoutes),
+    component: TaskManagementComponent
+  },
+
+  {
+    path: "time-sheet",
+    component: TimeSheetComponent
   },
 
   {

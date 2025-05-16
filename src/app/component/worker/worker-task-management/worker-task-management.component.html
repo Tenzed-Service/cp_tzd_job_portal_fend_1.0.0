@@ -1,0 +1,1020 @@
+<div class="Worker-task-management-section">
+    <!-- Filters Section -->
+    <div
+        class="bg-white px-4 py-3 rounded shadow-sm border border-gray-100 my-4">
+        <app-filters
+            [filterSchema]="filterSchema">
+            <button
+                id="createTaskBtn" (click)="createTaskModal = true"
+                class="bg-primary text-white hover:bg-primary/90 text-sm px-4 py-1.5 rounded-button font-medium flex items-center justify-center whitespace-nowrap">
+                <div class="w-5 h-5 flex items-center justify-center">
+                    <i class="ri-add-line"></i>
+                </div>
+                <span>Create New Task</span>
+            </button>
+        </app-filters>
+    </div>
+    <!-- Tasks List -->
+    <div class="bg-white p-4 pb-0 rounded shadow-sm border border-gray-100 relative">
+        <app-table
+        [tableSchema]="tableSchema"
+        ></app-table>
+    </div>
+    
+    <!-- Pagination -->
+    <div class="bg-white rounded px-4 py-2 pt-0">
+        <app-pagination
+            [paginationSchema]="paginationSchema"></app-pagination>
+    </div>
+</div>
+
+<!-- Task Details Modal -->
+ @if(taskDetailsModal){
+<div
+    id="taskDetailsModal"
+    class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div
+        class="bg-white rounded-lg p-6 max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+        <div class="flex items-center justify-between mb-6">
+            <h2 class="text-xl font-semibold text-gray-900">Task Details</h2>
+            <button
+                id="closeTaskDetailsBtn" (click)="taskDetailsModal = false"
+                class="text-gray-500 hover:text-gray-700 !rounded-button whitespace-nowrap">
+                <div class="w-8 h-8 flex items-center justify-center">
+                    <i class="ri-close-line ri-lg"></i>
+                </div>
+            </button>
+        </div>
+        <div class="space-y-6">
+            <!-- Task Basic Info -->
+            <div>
+                <div class="flex items-center space-x-2 mb-2">
+                    <div
+                        class="w-6 h-6 flex items-center justify-center text-primary">
+                        <i class="ri-task-line"></i>
+                    </div>
+                    <h3 class="text-lg font-medium text-gray-900">
+                        Update patient medication charts
+                    </h3>
+                </div>
+                <div class="ml-8 space-y-4">
+                    <div class="flex items-start">
+                        <div
+                            class="w-5 h-5 flex items-center justify-center text-gray-500 mt-0.5 mr-2">
+                            <i class="ri-file-list-line"></i>
+                        </div>
+                        <div>
+                            <p
+                                class="text-sm text-gray-700 font-medium">Description</p>
+                            <p class="text-sm text-gray-600 mt-1">
+                                Review and update medication charts for all ICU
+                                patients.
+                                Ensure all dosages are correct and medication
+                                schedules are
+                                properly documented. Cross-reference with
+                                physician orders
+                                and pharmacy records.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <div
+                            class="w-5 h-5 flex items-center justify-center text-gray-500 mt-0.5 mr-2">
+                            <i class="ri-calendar-line"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-700 font-medium">Due
+                                Date</p>
+                            <p class="text-sm text-gray-600">May 15, 2025</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <div
+                            class="w-5 h-5 flex items-center justify-center text-gray-500 mt-0.5 mr-2">
+                            <i class="ri-flag-line"></i>
+                        </div>
+                        <div>
+                            <p
+                                class="text-sm text-gray-700 font-medium">Priority</p>
+                            <span
+                                class="px-2.5 py-1 text-xs font-medium task-priority-high rounded-full mt-1 inline-block">High</span>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <div
+                            class="w-5 h-5 flex items-center justify-center text-gray-500 mt-0.5 mr-2">
+                            <i class="ri-folder-line"></i>
+                        </div>
+                        <div>
+                            <p
+                                class="text-sm text-gray-700 font-medium">Category</p>
+                            <span
+                                class="px-2.5 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded-full mt-1 inline-block">Patient
+                                Care</span>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <div
+                            class="w-5 h-5 flex items-center justify-center text-gray-500 mt-0.5 mr-2">
+                            <i class="ri-user-line"></i>
+                        </div>
+                        <div>
+                            <p
+                                class="text-sm text-gray-700 font-medium">Assigned
+                                To</p>
+                            <div class="flex items-center mt-1 space-x-2">
+                                <div class="flex -space-x-2">
+                                    <img
+                                        class="h-7 w-7 rounded-full border-2 border-white"
+                                        src="https://readdy.ai/api/search-image?query=professional%2520headshot%2520of%2520a%2520female%2520healthcare%2520worker%2520with%2520lab%2520coat%252C%2520stethoscope%252C%2520neutral%2520background%252C%2520high%2520quality%2520portrait&width=100&height=100&seq=2&orientation=squarish"
+                                        alt="Assigned user" />
+                                    <img
+                                        class="h-7 w-7 rounded-full border-2 border-white"
+                                        src="https://readdy.ai/api/search-image?query=professional%2520headshot%2520of%2520a%2520male%2520healthcare%2520worker%2520with%2520lab%2520coat%252C%2520stethoscope%252C%2520neutral%2520background%252C%2520high%2520quality%2520portrait&width=100&height=100&seq=3&orientation=squarish"
+                                        alt="Assigned user" />
+                                </div>
+                                <span class="text-sm text-gray-600">Emily
+                                    Johnson, Michael Chen</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <div
+                            class="w-5 h-5 flex items-center justify-center text-gray-500 mt-0.5 mr-2">
+                            <i class="ri-time-line"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-700 font-medium">Related
+                                Shift</p>
+                            <p class="text-sm text-gray-600">
+                                Morning Shift - ICU (May 15, 2025, 7:00 AM -
+                                3:00 PM)
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Status -->
+            <div class="border-t border-gray-100 pt-4">
+                <h3 class="text-sm font-medium text-gray-700 mb-2">Status</h3>
+                <div class="flex items-center space-x-2">
+                    <span
+                        class="px-2.5 py-1 text-xs font-medium task-status-in-progress rounded-full">In
+                        Progress</span>
+                    <span class="text-sm text-gray-500">Updated 2 hours
+                        ago</span>
+                </div>
+            </div>
+            <!-- Checklist -->
+            <div class="border-t border-gray-100 pt-4">
+                <h3
+                    class="text-sm font-medium text-gray-700 mb-2">Checklist</h3>
+                <div class="space-y-2">
+                    <div class="flex items-center">
+                        <label class="custom-checkbox mr-2">
+                            <input type="checkbox" checked />
+                            <span class="checkmark"></span>
+                        </label>
+                        <span class="text-sm text-gray-600">Gather all patient
+                            medication charts</span>
+                    </div>
+                    <div class="flex items-center">
+                        <label class="custom-checkbox mr-2">
+                            <input type="checkbox" checked />
+                            <span class="checkmark"></span>
+                        </label>
+                        <span class="text-sm text-gray-600">Cross-reference with
+                            physician orders</span>
+                    </div>
+                    <div class="flex items-center">
+                        <label class="custom-checkbox mr-2">
+                            <input type="checkbox" />
+                            <span class="checkmark"></span>
+                        </label>
+                        <span class="text-sm text-gray-600">Update medication
+                            schedules</span>
+                    </div>
+                    <div class="flex items-center">
+                        <label class="custom-checkbox mr-2">
+                            <input type="checkbox" />
+                            <span class="checkmark"></span>
+                        </label>
+                        <span class="text-sm text-gray-600">Verify dosages with
+                            pharmacy</span>
+                    </div>
+                    <div class="flex items-center">
+                        <label class="custom-checkbox mr-2">
+                            <input type="checkbox" />
+                            <span class="checkmark"></span>
+                        </label>
+                        <span class="text-sm text-gray-600">Get supervisor
+                            approval</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Comments -->
+            <div class="border-t border-gray-100 pt-4">
+                <h3 class="text-sm font-medium text-gray-700 mb-2">Comments</h3>
+                <div class="space-y-4">
+                    <div class="flex space-x-3">
+                        <img
+                            class="h-8 w-8 rounded-full"
+                            src="https://readdy.ai/api/search-image?query=professional%2520headshot%2520of%2520a%2520male%2520healthcare%2520worker%2520with%2520lab%2520coat%252C%2520stethoscope%252C%2520neutral%2520background%252C%2520high%2520quality%2520portrait&width=100&height=100&seq=3&orientation=squarish"
+                            alt />
+                        <div>
+                            <div class="flex items-center">
+                                <p class="text-sm font-medium text-gray-900">
+                                    Michael Chen
+                                </p>
+                                <span class="ml-2 text-xs text-gray-500">2 hours
+                                    ago</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mt-1">
+                                I've completed the first two checklist items.
+                                Will continue
+                                with the medication schedules update this
+                                afternoon.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex space-x-3">
+                        <img
+                            class="h-8 w-8 rounded-full"
+                            src="https://readdy.ai/api/search-image?query=professional%2520headshot%2520of%2520a%2520female%2520healthcare%2520worker%2520with%2520lab%2520coat%252C%2520stethoscope%252C%2520neutral%2520background%252C%2520high%2520quality%2520portrait&width=100&height=100&seq=2&orientation=squarish"
+                            alt />
+                        <div>
+                            <div class="flex items-center">
+                                <p class="text-sm font-medium text-gray-900">
+                                    Emily Johnson
+                                </p>
+                                <span class="ml-2 text-xs text-gray-500">1 hour
+                                    ago</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mt-1">
+                                I'll coordinate with the pharmacy for dosage
+                                verification.
+                                Should be done by tomorrow morning.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex space-x-3">
+                        <img
+                            class="h-8 w-8 rounded-full"
+                            src="https://readdy.ai/api/search-image?query=professional%2520headshot%2520of%2520a%2520female%2520healthcare%2520administrator%2520with%2520business%2520attire%252C%2520neutral%2520background%252C%2520high%2520quality%2520portrait&width=100&height=100&seq=4&orientation=squarish"
+                            alt />
+                        <div>
+                            <div class="flex items-center">
+                                <p class="text-sm font-medium text-gray-900">
+                                    Sarah Williams
+                                </p>
+                                <span class="ml-2 text-xs text-gray-500">30
+                                    minutes ago</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mt-1">
+                                Please prioritize the ICU patients in beds 3, 5,
+                                and 8.
+                                Their medication regimens were adjusted this
+                                morning.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <div class="flex space-x-3">
+                        <img
+                            class="h-8 w-8 rounded-full"
+                            src="https://readdy.ai/api/search-image?query=professional%2520headshot%2520of%2520a%2520female%2520healthcare%2520worker%2520with%2520lab%2520coat%252C%2520stethoscope%252C%2520neutral%2520background%252C%2520high%2520quality%2520portrait&width=100&height=100&seq=2&orientation=squarish"
+                            alt />
+                        <div class="flex-1">
+                            <textarea
+                                placeholder="Add a comment..."
+                                class="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded text-sm focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary"
+                                rows="2"></textarea>
+                            <div class="mt-2 flex justify-end">
+                                <button
+                                    class="px-3 py-1.5 bg-primary text-white rounded text-sm hover:bg-primary/90 !rounded-button whitespace-nowrap">
+                                    Post Comment
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Actions -->
+            <div
+                class="border-t border-gray-100 pt-4 flex items-center justify-between">
+                <div>
+                    <a
+                        href="https://readdy.ai/home/2383245e-29ed-43f1-a0aa-72c4fbee76a7/54db157e-e270-4399-be13-a23591204f29"
+                        data-readdy="true"
+                        class="text-primary hover:text-primary/80 text-sm font-medium">
+                        <div class="flex items-center space-x-1">
+                            <div
+                                class="w-4 h-4 flex items-center justify-center">
+                                <i class="ri-arrow-left-line"></i>
+                            </div>
+                            <span>Back to Original Page</span>
+                        </div>
+                    </a>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <button
+                        class="px-3 py-1.5 text-sm text-gray-700 border border-gray-300 rounded hover:bg-gray-50 !rounded-button whitespace-nowrap">
+                        <div
+                            class="flex items-center space-x-1 delete-task-btn">
+                            <div
+                                class="w-4 h-4 flex items-center justify-center">
+                                <i class="ri-delete-bin-line"></i>
+                            </div>
+                            <span>Delete</span>
+                        </div>
+                    </button>
+                    <button
+                        id="editTaskBtn"
+                        class="px-3 py-1.5 text-sm text-white bg-primary border border-primary rounded hover:bg-primary/90 !rounded-button whitespace-nowrap">
+                        <div class="flex items-center space-x-1">
+                            <div
+                                class="w-4 h-4 flex items-center justify-center">
+                                <i class="ri-edit-line"></i>
+                            </div>
+                            <span>Edit Task</span>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+}
+<!-- Edit Task Modal -->
+ @if(editTaskModal){
+<div
+    id="editTaskModal"
+    class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div
+        class="bg-white rounded-lg p-6 max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+        <div class="flex items-center justify-between mb-6">
+            <h3 class="text-xl font-semibold text-gray-900">Edit Task</h3>
+            <button
+                id="closeEditTaskBtn" (click)="editTaskModal = false"
+                class="text-gray-500 hover:text-gray-700 !rounded-button whitespace-nowrap">
+                <div class="w-8 h-8 flex items-center justify-center">
+                    <i class="ri-close-line ri-lg"></i>
+                </div>
+            </button>
+        </div>
+        <form id="editTaskForm">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <!-- Task Title -->
+                <div class="md:col-span-2">
+                    <label
+                        for="editTaskTitle"
+                        class="block text-sm font-medium text-gray-700 mb-1">Task
+                        Title</label>
+                    <input
+                        type="text"
+                        id="editTaskTitle"
+                        class="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded text-sm focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary"
+                        value="Update patient medication charts" />
+                </div>
+                <!-- Description -->
+                <div class="md:col-span-2">
+                    <label
+                        for="editTaskDescription"
+                        class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                    <textarea
+                        id="editTaskDescription"
+                        rows="3"
+                        class="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded text-sm focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary">
+Review and update medication charts for all ICU patients</textarea>
+                </div>
+                <!-- Due Date -->
+                <div>
+                    <label
+                        for="editDueDate"
+                        class="block text-sm font-medium text-gray-700 mb-1">Due
+                        Date</label>
+                    <input
+                        type="date"
+                        id="editDueDate"
+                        class="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded text-sm focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary"
+                        value="2025-05-15" />
+                </div>
+                <!-- Category -->
+                <div>
+                    <label
+                        for="editCategory"
+                        class="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                    <div class="relative">
+                        <button
+                            type="button"
+                            id="editCategoryDropdownBtn"
+                            class="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded text-sm text-left focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary flex items-center justify-between !rounded-button whitespace-nowrap">
+                            <span>Patient Care</span>
+                            <div
+                                class="w-4 h-4 flex items-center justify-center">
+                                <i class="ri-arrow-down-s-line"></i>
+                            </div>
+                        </button>
+                        <div
+                            id="editCategoryDropdown"
+                            class="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded shadow-lg hidden">
+                            <div class="py-1">
+                                <a
+                                    href="#"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 edit-category-option">Patient
+                                    Care</a>
+                                <a
+                                    href="#"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 edit-category-option">Administrative</a>
+                                <a
+                                    href="#"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 edit-category-option">Training</a>
+                                <a
+                                    href="#"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 edit-category-option">Maintenance</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Priority -->
+                <div>
+                    <label
+                        for="editPriority"
+                        class="block text-sm font-medium text-gray-700 mb-1">Priority</label>
+                    <div class="relative">
+                        <button
+                            type="button"
+                            id="editPriorityDropdownBtn"
+                            class="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded text-sm text-left focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary flex items-center justify-between !rounded-button whitespace-nowrap">
+                            <span>High</span>
+                            <div
+                                class="w-4 h-4 flex items-center justify-center">
+                                <i class="ri-arrow-down-s-line"></i>
+                            </div>
+                        </button>
+                        <div
+                            id="editPriorityDropdown"
+                            class="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded shadow-lg hidden">
+                            <div class="py-1">
+                                <a
+                                    href="#"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 edit-priority-option">High</a>
+                                <a
+                                    href="#"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 edit-priority-option">Medium</a>
+                                <a
+                                    href="#"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 edit-priority-option">Low</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Status -->
+                <div>
+                    <label
+                        for="editStatus"
+                        class="block text-sm font-medium text-gray-700 mb-1">Status</label>
+                    <div class="relative">
+                        <button
+                            type="button"
+                            id="editStatusDropdownBtn"
+                            class="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded text-sm text-left focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary flex items-center justify-between !rounded-button whitespace-nowrap">
+                            <span>In Progress</span>
+                            <div
+                                class="w-4 h-4 flex items-center justify-center">
+                                <i class="ri-arrow-down-s-line"></i>
+                            </div>
+                        </button>
+                        <div
+                            id="editStatusDropdown"
+                            class="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded shadow-lg hidden">
+                            <div class="py-1">
+                                <a
+                                    href="#"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 edit-status-option">Open</a>
+                                <a
+                                    href="#"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 edit-status-option">In
+                                    Progress</a>
+                                <a
+                                    href="#"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 edit-status-option">Completed</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Related Shift -->
+                <div class="md:col-span-2">
+                    <label
+                        for="editRelatedShift"
+                        class="block text-sm font-medium text-gray-700 mb-1">Related
+                        Shift</label>
+                    <div class="relative">
+                        <button
+                            type="button"
+                            id="editShiftDropdownBtn"
+                            class="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded text-sm text-left focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary flex items-center justify-between !rounded-button whitespace-nowrap">
+                            <span>Morning Shift - ICU (May 15, 2025)</span>
+                            <div
+                                class="w-4 h-4 flex items-center justify-center">
+                                <i class="ri-arrow-down-s-line"></i>
+                            </div>
+                        </button>
+                        <div
+                            id="editShiftDropdown"
+                            class="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded shadow-lg hidden">
+                            <div class="py-1">
+                                <a
+                                    href="#"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 edit-shift-option">Morning
+                                    Shift - ICU (May 15, 2025)</a>
+                                <a
+                                    href="#"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 edit-shift-option">Evening
+                                    Shift - Emergency (May 15, 2025)</a>
+                                <a
+                                    href="#"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 edit-shift-option">Night
+                                    Shift - General Care (May 15, 2025)</a>
+                                <a
+                                    href="#"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 edit-shift-option">Morning
+                                    Shift - Pediatrics (May 16, 2025)</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Assign To -->
+                <div class="md:col-span-2">
+                    <label
+                        class="block text-sm font-medium text-gray-700 mb-1">Assign
+                        To</label>
+                    <div class="space-y-2">
+                        <div class="flex items-center">
+                            <label class="custom-checkbox mr-2">
+                                <input
+                                    type="checkbox"
+                                    name="editAssignUser"
+                                    value="user1"
+                                    checked />
+                                <span class="checkmark"></span>
+                            </label>
+                            <img
+                                class="h-7 w-7 rounded-full mr-2"
+                                src="https://readdy.ai/api/search-image?query=professional%2520headshot%2520of%2520a%2520female%2520healthcare%2520worker%2520with%2520lab%2520coat%252C%2520stethoscope%252C%2520neutral%2520background%252C%2520high%2520quality%2520portrait&width=100&height=100&seq=2&orientation=squarish"
+                                alt="User" />
+                            <span class="text-sm text-gray-700">Emily
+                                Johnson</span>
+                        </div>
+                        <div class="flex items-center">
+                            <label class="custom-checkbox mr-2">
+                                <input
+                                    type="checkbox"
+                                    name="editAssignUser"
+                                    value="user2"
+                                    checked />
+                                <span class="checkmark"></span>
+                            </label>
+                            <img
+                                class="h-7 w-7 rounded-full mr-2"
+                                src="https://readdy.ai/api/search-image?query=professional%2520headshot%2520of%2520a%2520male%2520healthcare%2520worker%2520with%2520lab%2520coat%252C%2520stethoscope%252C%2520neutral%2520background%252C%2520high%2520quality%2520portrait&width=100&height=100&seq=3&orientation=squarish"
+                                alt="User" />
+                            <span class="text-sm text-gray-700">Michael
+                                Chen</span>
+                        </div>
+                        <div class="flex items-center">
+                            <label class="custom-checkbox mr-2">
+                                <input
+                                    type="checkbox"
+                                    name="editAssignUser"
+                                    value="user3" />
+                                <span class="checkmark"></span>
+                            </label>
+                            <img
+                                class="h-7 w-7 rounded-full mr-2"
+                                src="https://readdy.ai/api/search-image?query=professional%2520headshot%2520of%2520a%2520female%2520healthcare%2520administrator%2520with%2520business%2520attire%252C%2520neutral%2520background%252C%2520high%2520quality%2520portrait&width=100&height=100&seq=4&orientation=squarish"
+                                alt="User" />
+                            <span class="text-sm text-gray-700">Sarah
+                                Williams</span>
+                        </div>
+                        <div class="flex items-center">
+                            <label class="custom-checkbox mr-2">
+                                <input
+                                    type="checkbox"
+                                    name="editAssignUser"
+                                    value="user4" />
+                                <span class="checkmark"></span>
+                            </label>
+                            <img
+                                class="h-7 w-7 rounded-full mr-2"
+                                src="https://readdy.ai/api/search-image?query=professional%2520headshot%2520of%2520a%2520male%2520healthcare%2520administrator%2520with%2520business%2520attire%252C%2520neutral%2520background%252C%2520high%2520quality%2520portrait&width=100&height=100&seq=5&orientation=squarish"
+                                alt="User" />
+                            <span class="text-sm text-gray-700">Robert
+                                Taylor</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Checklist -->
+                <div class="md:col-span-2">
+                    <label
+                        class="block text-sm font-medium text-gray-700 mb-1">Checklist</label>
+                    <div id="editChecklistItems" class="space-y-2">
+                        <div class="flex items-center">
+                            <input
+                                type="text"
+                                class="flex-1 px-3 py-2 bg-gray-50 border border-gray-300 rounded text-sm focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary"
+                                value="Gather all patient medication charts" />
+                            <button
+                                type="button"
+                                class="ml-2 text-gray-400 hover:text-red-500 !rounded-button whitespace-nowrap">
+                                <div
+                                    class="w-8 h-8 flex items-center justify-center">
+                                    <i class="ri-delete-bin-line"></i>
+                                </div>
+                            </button>
+                        </div>
+                        <div class="flex items-center">
+                            <input
+                                type="text"
+                                class="flex-1 px-3 py-2 bg-gray-50 border border-gray-300 rounded text-sm focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary"
+                                value="Cross-reference with physician orders" />
+                            <button
+                                type="button"
+                                class="ml-2 text-gray-400 hover:text-red-500 !rounded-button whitespace-nowrap">
+                                <div
+                                    class="w-8 h-8 flex items-center justify-center">
+                                    <i class="ri-delete-bin-line"></i>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                    <button
+                        type="button"
+                        id="editAddChecklistItemBtn"
+                        class="mt-2 text-primary hover:text-primary/80 text-sm font-medium flex items-center">
+                        <div
+                            class="w-4 h-4 flex items-center justify-center mr-1">
+                            <i class="ri-add-line"></i>
+                        </div>
+                        <span>Add Item</span>
+                    </button>
+                </div>
+            </div>
+            <div class="flex items-center justify-end space-x-3">
+                <button
+                    type="button" (click)="editTaskModal = false"
+                    id="cancelEditTaskBtn"
+                    class="px-4 py-2 text-gray-700 border border-gray-300 rounded hover:bg-gray-50 !rounded-button whitespace-nowrap">
+                    Cancel
+                </button>
+                <button
+                    type="submit"
+                    class="px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 !rounded-button whitespace-nowrap">
+                    Save Changes
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+}
+<!-- Delete Confirmation Modal -->
+ @if(deleteConfirmationModal){
+<div
+    id="deleteConfirmationModal"
+    class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[60]">
+    <div class="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+        <div class="text-center">
+            <div
+                class="w-12 h-12 rounded-full bg-red-100 mx-auto mb-4 flex items-center justify-center">
+                <i class="ri-delete-bin-line text-red-500 text-xl"></i>
+            </div>
+            <h3 class="text-lg font-medium text-gray-900 mb-2">Delete Task</h3>
+            <p class="text-sm text-gray-500 mb-6">
+                Are you sure you want to delete this task? This action cannot be
+                undone.
+            </p>
+            <div class="flex items-center justify-center space-x-3">
+                <button
+                    id="cancelDeleteBtn" (click)="deleteConfirmationModal = false"
+                    class="px-4 py-2 text-gray-700 border border-gray-300 rounded hover:bg-gray-50 !rounded-button whitespace-nowrap">
+                    Cancel
+                </button>
+                <button
+                    id="confirmDeleteBtn"
+                    class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 !rounded-button whitespace-nowrap">
+                    Delete
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+}
+<!-- Create Task Modal -->
+ @if(createTaskModal){
+<div
+    id="createTaskModal"
+    class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div
+        class="bg-white rounded-lg p-6 max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+        <div class="flex items-center justify-between mb-6">
+            <h3 class="text-xl font-semibold text-gray-900">Create New Task</h3>
+            <button
+                id="closeCreateTaskBtn" (click)="createTaskModal = false"
+                class="text-gray-500 hover:text-gray-700 !rounded-button whitespace-nowrap">
+                <div class="w-8 h-8 flex items-center justify-center">
+                    <i class="ri-close-line ri-lg"></i>
+                </div>
+            </button>
+        </div>
+        <form id="createTaskForm">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <!-- Task Title -->
+                <div class="md:col-span-2">
+                    <label
+                        for="taskTitle"
+                        class="block text-sm font-medium text-gray-700 mb-1">Task
+                        Title</label>
+                    <input
+                        type="text"
+                        id="taskTitle"
+                        class="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded text-sm focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary"
+                        placeholder="Enter task title" />
+                </div>
+                <!-- Description -->
+                <div class="md:col-span-2">
+                    <label
+                        for="taskDescription"
+                        class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                    <textarea
+                        id="taskDescription"
+                        rows="3"
+                        class="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded text-sm focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary"
+                        placeholder="Enter task description"></textarea>
+                </div>
+                <!-- Due Date -->
+                <div>
+                    <label
+                        for="dueDate"
+                        class="block text-sm font-medium text-gray-700 mb-1">Due
+                        Date</label>
+                    <input
+                        type="date"
+                        id="dueDate"
+                        class="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded text-sm focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary"
+                        value="2025-05-15" />
+                </div>
+                <!-- Category -->
+                <div>
+                    <label
+                        for="category"
+                        class="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                    <div class="relative">
+                        <button
+                            type="button"
+                            id="categoryModalDropdownBtn"
+                            class="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded text-sm text-left focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary flex items-center justify-between !rounded-button whitespace-nowrap">
+                            <span>Select Category</span>
+                            <div
+                                class="w-4 h-4 flex items-center justify-center">
+                                <i class="ri-arrow-down-s-line"></i>
+                            </div>
+                        </button>
+                        <div
+                            id="categoryModalDropdown"
+                            class="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded shadow-lg hidden">
+                            <div class="py-1">
+                                <a
+                                    href="#"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 category-modal-option">Patient
+                                    Care</a>
+                                <a
+                                    href="#"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 category-modal-option">Administrative</a>
+                                <a
+                                    href="#"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 category-modal-option">Training</a>
+                                <a
+                                    href="#"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 category-modal-option">Maintenance</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Priority -->
+                <div>
+                    <label
+                        for="priority"
+                        class="block text-sm font-medium text-gray-700 mb-1">Priority</label>
+                    <div class="relative">
+                        <button
+                            type="button"
+                            id="priorityModalDropdownBtn"
+                            class="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded text-sm text-left focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary flex items-center justify-between !rounded-button whitespace-nowrap">
+                            <span>Select Priority</span>
+                            <div
+                                class="w-4 h-4 flex items-center justify-center">
+                                <i class="ri-arrow-down-s-line"></i>
+                            </div>
+                        </button>
+                        <div
+                            id="priorityModalDropdown"
+                            class="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded shadow-lg hidden">
+                            <div class="py-1">
+                                <a
+                                    href="#"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 priority-modal-option">High</a>
+                                <a
+                                    href="#"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 priority-modal-option">Medium</a>
+                                <a
+                                    href="#"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 priority-modal-option">Low</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Status -->
+                <div>
+                    <label
+                        for="status"
+                        class="block text-sm font-medium text-gray-700 mb-1">Status</label>
+                    <div class="relative">
+                        <button
+                            type="button"
+                            id="statusModalDropdownBtn"
+                            class="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded text-sm text-left focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary flex items-center justify-between !rounded-button whitespace-nowrap">
+                            <span>Open</span>
+                            <div
+                                class="w-4 h-4 flex items-center justify-center">
+                                <i class="ri-arrow-down-s-line"></i>
+                            </div>
+                        </button>
+                        <div
+                            id="statusModalDropdown"
+                            class="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded shadow-lg hidden">
+                            <div class="py-1">
+                                <a
+                                    href="#"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 status-modal-option">Open</a>
+                                <a
+                                    href="#"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 status-modal-option">In
+                                    Progress</a>
+                                <a
+                                    href="#"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 status-modal-option">Completed</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Related Shift -->
+                <div class="md:col-span-2">
+                    <label
+                        for="relatedShift"
+                        class="block text-sm font-medium text-gray-700 mb-1">Related
+                        Shift</label>
+                    <div class="relative">
+                        <button
+                            type="button"
+                            id="shiftModalDropdownBtn"
+                            class="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded text-sm text-left focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary flex items-center justify-between !rounded-button whitespace-nowrap">
+                            <span>Select Shift</span>
+                            <div
+                                class="w-4 h-4 flex items-center justify-center">
+                                <i class="ri-arrow-down-s-line"></i>
+                            </div>
+                        </button>
+                        <div
+                            id="shiftModalDropdown"
+                            class="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded shadow-lg hidden">
+                            <div class="py-1">
+                                <a
+                                    href="#"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 shift-modal-option">Morning
+                                    Shift - ICU (May 15, 2025)</a>
+                                <a
+                                    href="#"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 shift-modal-option">Evening
+                                    Shift - Emergency (May 15, 2025)</a>
+                                <a
+                                    href="#"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 shift-modal-option">Night
+                                    Shift - General Care (May 15, 2025)</a>
+                                <a
+                                    href="#"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 shift-modal-option">Morning
+                                    Shift - Pediatrics (May 16, 2025)</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Assign To -->
+                <div class="md:col-span-2">
+                    <label
+                        class="block text-sm font-medium text-gray-700 mb-1">Assign
+                        To</label>
+                    <div class="space-y-2">
+                        <div class="flex items-center">
+                            <label class="custom-checkbox mr-2">
+                                <input type="checkbox" name="assignUser"
+                                    value="user1" />
+                                <span class="checkmark"></span>
+                            </label>
+                            <img
+                                class="h-7 w-7 rounded-full mr-2"
+                                src="https://readdy.ai/api/search-image?query=professional%2520headshot%2520of%2520a%2520female%2520healthcare%2520worker%2520with%2520lab%2520coat%252C%2520stethoscope%252C%2520neutral%2520background%252C%2520high%2520quality%2520portrait&width=100&height=100&seq=2&orientation=squarish"
+                                alt="User" />
+                            <span class="text-sm text-gray-700">Emily
+                                Johnson</span>
+                        </div>
+                        <div class="flex items-center">
+                            <label class="custom-checkbox mr-2">
+                                <input type="checkbox" name="assignUser"
+                                    value="user2" />
+                                <span class="checkmark"></span>
+                            </label>
+                            <img
+                                class="h-7 w-7 rounded-full mr-2"
+                                src="https://readdy.ai/api/search-image?query=professional%2520headshot%2520of%2520a%2520male%2520healthcare%2520worker%2520with%2520lab%2520coat%252C%2520stethoscope%252C%2520neutral%2520background%252C%2520high%2520quality%2520portrait&width=100&height=100&seq=3&orientation=squarish"
+                                alt="User" />
+                            <span class="text-sm text-gray-700">Michael
+                                Chen</span>
+                        </div>
+                        <div class="flex items-center">
+                            <label class="custom-checkbox mr-2">
+                                <input type="checkbox" name="assignUser"
+                                    value="user3" />
+                                <span class="checkmark"></span>
+                            </label>
+                            <img
+                                class="h-7 w-7 rounded-full mr-2"
+                                src="https://readdy.ai/api/search-image?query=professional%2520headshot%2520of%2520a%2520female%2520healthcare%2520administrator%2520with%2520business%2520attire%252C%2520neutral%2520background%252C%2520high%2520quality%2520portrait&width=100&height=100&seq=4&orientation=squarish"
+                                alt="User" />
+                            <span class="text-sm text-gray-700">Sarah
+                                Williams</span>
+                        </div>
+                        <div class="flex items-center">
+                            <label class="custom-checkbox mr-2">
+                                <input type="checkbox" name="assignUser"
+                                    value="user4" />
+                                <span class="checkmark"></span>
+                            </label>
+                            <img
+                                class="h-7 w-7 rounded-full mr-2"
+                                src="https://readdy.ai/api/search-image?query=professional%2520headshot%2520of%2520a%2520male%2520healthcare%2520administrator%2520with%2520business%2520attire%252C%2520neutral%2520background%252C%2520high%2520quality%2520portrait&width=100&height=100&seq=5&orientation=squarish"
+                                alt="User" />
+                            <span class="text-sm text-gray-700">Robert
+                                Taylor</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Checklist -->
+                <div class="md:col-span-2">
+                    <label
+                        class="block text-sm font-medium text-gray-700 mb-1">Checklist</label>
+                    <div id="checklistItems" class="space-y-2">
+                        <div class="flex items-center">
+                            <input
+                                type="text"
+                                class="flex-1 px-3 py-2 bg-gray-50 border border-gray-300 rounded text-sm focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary"
+                                placeholder="Add checklist item" />
+                            <button
+                                type="button"
+                                class="ml-2 text-gray-400 hover:text-red-500 !rounded-button whitespace-nowrap">
+                                <div
+                                    class="w-8 h-8 flex items-center justify-center">
+                                    <i class="ri-delete-bin-line"></i>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                    <button
+                        type="button"
+                        id="addChecklistItemBtn"
+                        class="mt-2 text-primary hover:text-primary/80 text-sm font-medium flex items-center">
+                        <div
+                            class="w-4 h-4 flex items-center justify-center mr-1">
+                            <i class="ri-add-line"></i>
+                        </div>
+                        <span>Add Item</span>
+                    </button>
+                </div>
+            </div>
+            <div class="flex items-center justify-end space-x-3">
+                <button
+                    type="button" (click)="createTaskModal = false"
+                    id="cancelCreateTaskBtn"
+                    class="px-4 py-2 text-gray-700 border border-gray-300 rounded hover:bg-gray-50 !rounded-button whitespace-nowrap">
+                    Cancel
+                </button>
+                <button
+                    type="submit"
+                    class="px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 !rounded-button whitespace-nowrap">
+                    Create Task
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+}

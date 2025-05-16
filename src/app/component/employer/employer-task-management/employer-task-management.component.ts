@@ -1,4 +1,4 @@
-import { SelectionComponent } from './../../../shared/ui/fields/selection/selection.component';
+import { SelectionComponent } from '../../../shared/ui/fields/selection/selection.component';
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
@@ -12,13 +12,13 @@ import { StatusType } from '../../../core/enums/common.enum';
 import { DateComponent } from '../../../shared/ui/fields/date/date.component';
 
 @Component({
-  selector: 'app-task-management',
-  templateUrl: './task-management.component.html',
-  styleUrls: ['./task-management.component.scss'],
+  selector: 'app-employer-task-management',
+  templateUrl: './employer-task-management.component.html',
+  styleUrls: ['./employer-task-management.component.scss'],
   standalone: true,
   imports: [CommonModule, BadgesComponent, TabsComponent, SimpleInputComponent, SelectionComponent, DateComponent],
 })
-export class TaskManagementComponent {
+export class EmployerTaskManagementComponent {
   // Task related variables
   taskList = [
     {
@@ -128,7 +128,7 @@ export class TaskManagementComponent {
     },
   ];
   activeTaskTab: number = 1;
-  taskTabsSchema: TabsSchema<TaskManagementComponent, any> = {
+  taskTabsSchema: TabsSchema<EmployerTaskManagementComponent, any> = {
     parentComponent: this,
     tabList: this.taskTabList,
     activeTab: this.activeTaskTab,
@@ -248,7 +248,7 @@ export class TaskManagementComponent {
     },
   ];
   activeStaffTab: number = 1;
-  staffTabsSchema: TabsSchema<TaskManagementComponent, any> = {
+  staffTabsSchema: TabsSchema<EmployerTaskManagementComponent, any> = {
     parentComponent: this,
     tabList: this.staffTabList,
     activeTab: this.activeStaffTab,
@@ -314,7 +314,7 @@ export class TaskManagementComponent {
   }
 
   switchTaskTab(
-    tabsSchema: TabsSchema<TaskManagementComponent, any>,
+    tabsSchema: TabsSchema<EmployerTaskManagementComponent, any>,
     event: any
   ) {
     switch (event) {
@@ -351,7 +351,7 @@ export class TaskManagementComponent {
   }
 
   switchStaffTab(
-    tabsSchema: TabsSchema<TaskManagementComponent, any>,
+    tabsSchema: TabsSchema<EmployerTaskManagementComponent, any>,
     event: any
   ) {
     switch (event) {

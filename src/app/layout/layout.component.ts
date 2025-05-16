@@ -142,6 +142,12 @@ export class LayoutComponent implements OnInit {
               children: [],
             },
             {
+              name: 'Time Sheet',
+              icon: 'ri-time-line',
+              route: '/time-sheet',
+              children: [],
+            },
+            {
               name: 'Chat',
               icon: 'ri-message-3-line',
               route: '/chat',
@@ -176,9 +182,15 @@ export class LayoutComponent implements OnInit {
               children: [],
             },
             {
-              name: 'Task',
+              name: 'Task Management',
               icon: 'ri-task-line',
-              route: '/task',
+              route: '/task-management',
+              children: [],
+            },
+            {
+              name: 'Time Sheet',
+              icon: 'ri-time-line',
+              route: '/time-sheet',
               children: [],
             },
             {

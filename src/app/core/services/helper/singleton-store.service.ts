@@ -5,7 +5,7 @@ import { UserType } from "../../enums/common.enum";
 @Injectable({ providedIn: 'root' })
 export class SingletonStoreService {
     public securityResponse = new BehaviorSubject(false);
-    public selectedUserType = new BehaviorSubject<string>(UserType.EMPLOYER);
+    public selectedUserType = new BehaviorSubject<string>(UserType.EMPLOYEE);
     public breadCrumbItems = new BehaviorSubject<breadCrumb[]>([]);
     public sidebarOpen = new BehaviorSubject<boolean>(true);
     public isMobileView = new BehaviorSubject<boolean>(false);

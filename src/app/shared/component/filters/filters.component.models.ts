@@ -17,6 +17,7 @@ export interface FilterItemConfig {
     prefixIcon?: string,
     placeholder?: string,
     filterValue?: string,
+    filterValue1?: string,
     filterOptions?: DropdownItemModel[],
     filterType: number,
     dataType: number,
