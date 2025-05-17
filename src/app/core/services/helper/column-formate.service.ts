@@ -203,6 +203,15 @@ export class ColumnFormateService {
       case 'In Progress':
         statusClass = 'bg-blue-100 text-blue-800';
         break;
+        case 'High':
+          statusClass = 'bg-red-100 text-red-800';
+          break;
+        case 'Medium':
+          statusClass = 'bg-yellow-100 text-yellow-800';
+          break;
+        case 'Low':
+          statusClass = 'bg-green-100 text-green-800';
+          break;
       default:
         statusClass = 'bg-[#89dee2]/20 text-[#2e4450]';
     }

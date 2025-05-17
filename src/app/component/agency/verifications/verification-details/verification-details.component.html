@@ -3,7 +3,7 @@
     <div class="bg-white rounded shadow-sm p-4 pb-2 mb-4">
         <div class="flex items-center justify-between mb-4">
         <h2 class="text-lg font-semibold text-gray-800">
-            Company Details
+            Personal Details
         </h2>
         <div
             class="bg-green-50 px-4 py-1 rounded-md shadow-sm flex items-center">
@@ -186,6 +186,10 @@
             placeholder="Enter rejection reason..."></textarea>
 
         <div class="flex justify-end mt-3 space-x-3">
+            <button (click)="close()"
+                class="bg-red-100 text-red-600 px-5 py-2 rounded-button font-medium whitespace-nowrap">
+                Cancel
+            </button>
             <button
                 class="bg-primary text-white px-5 py-2 rounded-button font-medium whitespace-nowrap">
                 <i class="ri-check-line mr-1"></i> Approve

@@ -33,4 +33,8 @@ export class VerificationDetailsScreenComponent implements OnInit {
       ]);
   }
 
+  close() {
+    this.router.navigateByUrl('/' + this.currentUrl[0] + '/' + this.currentUrl[1]);
+  }
+
 }

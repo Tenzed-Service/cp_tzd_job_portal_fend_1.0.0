@@ -34,34 +34,32 @@ export class TimeSheetComponent {
       "date": "May 15, 2025",
       "time": "9:00 AM - 12:00 PM",
       "staffName": "James Wilson",
-      "regularHours": 3.0,
-      "overtimeHours": 0.0,
-      "totalHours": 3.0,
+      "totalTime": '03:30',
+      "totalHours": 3.5,
       "status": "Submitted"
     },
     {
       "date": "May 15, 2025",
       "time": "1:00 PM - 3:00 PM",
       "staffName": "Dr. Emily Johnson",
-      "regularHours": 2.0,
-      "overtimeHours": 0.0,
-      "totalHours": 2.0,
+      "totalTime": '02.15',
+      "totalHours": 2.25,
       "status": "Submitted"
     },
     {
       "date": "May 14, 2025",
       "time": "10:00 AM - 12:00 PM",
       "staffName": "Dr. Michael Chen",
-      "regularHours": 2.0,
+      "totalTime": '02:45',
       "overtimeHours": 0.0,
-      "totalHours": 2.0,
+      "totalHours": 2.75,
       "status": "Approved"
     },
     {
       "date": "May 14, 2025",
       "time": "1:00 PM - 3:00 PM",
       "staffName": "Sarah Williams",
-      "regularHours": 2.0,
+      "totalTime": '02:00',
       "overtimeHours": 0.0,
       "totalHours": 2.0,
       "status": "Approved"
@@ -70,9 +68,8 @@ export class TimeSheetComponent {
       "date": "May 13, 2025",
       "time": "9:00 AM - 12:00 PM",
       "staffName": "Dr. Amir Patel",
-      "regularHours": 3.0,
-      "overtimeHours": 0.0,
-      "totalHours": 3.0,
+      "totalTime": '03.30',
+      "totalHours": 3.5,
       "status": "Approved"
     }
   ];
@@ -138,19 +135,10 @@ export class TimeSheetComponent {
           onSortChange: this.onSortChange,
         },
         {
-          title: 'Regular Hours',
-          dataPropertyName: 'regularHours',
+          title: 'Total Time',
+          dataPropertyName: 'totalTime',
           sorting: true,
-          dataType: TableColumnsDataTypeEnum.Decimal,
-          sortDirection: AdvancedFilterSortDirectionEnum.None,
-          onFormatChange: this.columnFormateService.formatString,
-          onSortChange: this.onSortChange,
-        },
-        {
-          title: 'Overtime Hours',
-          dataPropertyName: 'overtimeHours',
-          sorting: true,
-          dataType: TableColumnsDataTypeEnum.String,
+          dataType: TableColumnsDataTypeEnum.Time,
           sortDirection: AdvancedFilterSortDirectionEnum.None,
           onFormatChange: this.columnFormateService.formatString,
           onSortChange: this.onSortChange,
@@ -191,19 +179,10 @@ export class TimeSheetComponent {
     if(this.currentUser == UserType.EMPLOYEE) {
       this.tableSchema.columns.push(
         {
-          title: 'Regular Hours',
-          dataPropertyName: 'regularHours',
+          title: 'Total Time',
+          dataPropertyName: 'totalTime',
           sorting: true,
-          dataType: TableColumnsDataTypeEnum.Decimal,
-          sortDirection: AdvancedFilterSortDirectionEnum.None,
-          onFormatChange: this.columnFormateService.formatString,
-          onSortChange: this.onSortChange,
-        },
-        {
-          title: 'Overtime Hours',
-          dataPropertyName: 'overtimeHours',
-          sorting: true,
-          dataType: TableColumnsDataTypeEnum.String,
+          dataType: TableColumnsDataTypeEnum.Time,
           sortDirection: AdvancedFilterSortDirectionEnum.None,
           onFormatChange: this.columnFormateService.formatString,
           onSortChange: this.onSortChange,

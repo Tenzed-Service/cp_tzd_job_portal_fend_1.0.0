@@ -20,3 +20,35 @@
     ></app-pagination>
   </div>
 </div>
+
+@if(deleteConfirmationModal){
+  <div
+    id="deleteConfirmationModal"
+    class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[60]">
+    <div class="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+        <div class="text-center">
+            <div
+                class="w-12 h-12 rounded-full bg-red-100 mx-auto mb-4 flex items-center justify-center">
+                <i class="ri-delete-bin-line text-red-500 text-xl"></i>
+            </div>
+            <h3 class="text-lg font-medium text-gray-900 mb-2">Delete Job</h3>
+            <p class="text-sm text-gray-500 mb-6">
+                Are you sure you want to delete this job? This action cannot be
+                undone.
+            </p>
+            <div class="flex items-center justify-center space-x-3">
+                <button
+                    id="cancelDeleteBtn" (click)="deleteConfirmationModal = false"
+                    class="px-4 py-2 text-gray-700 border border-gray-300 rounded hover:bg-gray-50 !rounded-button whitespace-nowrap">
+                    Cancel
+                </button>
+                <button
+                    id="confirmDeleteBtn"
+                    class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 !rounded-button whitespace-nowrap">
+                    Delete
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+}

@@ -1,19 +1,15 @@
 <div class="flex items-center justify-center my-2">
     <div
-        class="w-full max-w-[1280px] bg-white rounded-lg shadow-md p-8 border-t-4"
-        style="border-top-color: #16C2D5">
-        <div class="flex items-center justify-center mb-2">
-            <i class="ri ri-file-list-3-line text-primary ri-2x"></i>
-        </div>
+        class="w-full max-w-[1280px] bg-white rounded-lg shadow p-4">
         <h1
-            class="text-2xl font-semibold text-center text-gray-800 mb-2">{{jobId
+            class="text-2xl font-semibold text-gray-800 mb-1">{{jobId
             ? 'Edit' : 'Create'}} Job
             Post</h1>
-        <p class="text-gray-600 text-center mb-5">Fill in the details below to
+        <p class="text-gray-600 mb-6">Fill in the details below to
             create a new job posting</p>
         <form [formGroup]="jobForm">
-            <div class="grid grid-cols-1 gap-8">
-                <div class="space-y-6">
+            <div class="grid grid-cols-1 gap-4">
+                <div class="space-y-4">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                         <div>
                             <label for="jobTitle"
@@ -450,11 +446,17 @@
                     </div>
                 </div>
             </div>
-            <div class="mt-4 bg-white">
+            <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <button type="submit" (click)="onSubmit()"
                     class="w-full text-white font-medium py-3 !rounded-button transition duration-300 whitespace-nowrap"
-                    style="background: linear-gradient(90deg, rgba(22, 194, 213, 1) 0%, rgba(16, 33, 125, 1) 100%)">Post
-                    Job</button>
+                    style="background: linear-gradient(90deg, rgba(22, 194, 213, 1) 0%, rgba(16, 33, 125, 1) 100%)">
+                Save As Draft
+                </button>
+                <button type="submit" (click)="onSubmit()"
+                    class="w-full text-white font-medium py-3 !rounded-button transition duration-300 whitespace-nowrap"
+                    style="background: linear-gradient(90deg, rgba(22, 194, 213, 1) 0%, rgba(16, 33, 125, 1) 100%)">
+                    Publish Job
+                </button>
             </div>
         </form>
     </div>

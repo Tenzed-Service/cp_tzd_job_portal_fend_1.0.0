@@ -148,6 +148,7 @@ export class WorkerComponent {
   statusList: DropdownItemModel[] = [];
   industries: DropdownItemModel[] = [];
   calenders: DropdownItemModel[] = [];
+  approveModal:boolean = false;
 
   constructor(
     private router: Router,
@@ -214,17 +215,17 @@ export class WorkerComponent {
         dataPropertyName: 'actions',
         actions: [
           {
-            tooltip: 'View',
+            tooltip: 'View Details',
             actionType: 'view',
             class: 'text-[#16c2d5] hover:text-[#16c2d5]/80',
-            iconClass: 'ri-eye-line',
+            iconClass: 'ri-file-search-line',
             onActionClick: this.onActionClick,
           },
           {
-            tooltip: 'File',
-            actionType: 'file',
+            tooltip: 'Approve',
+            actionType: 'approve',
             class: 'text-[#16c2d5] hover:text-[#16c2d5]/80',
-            iconClass: 'ri-file-list-line',
+            iconClass: 'ri-check-line',
             onActionClick: this.onActionClick,
           },
         ],
@@ -312,6 +313,9 @@ export class WorkerComponent {
   ) {    
     if (actionType == 'view') {
       tableSchema.parentComponent.openDetails(event.id);
+    }
+    if (actionType == 'approve') {
+      tableSchema.parentComponent.approveModal = true;
     }
   }
 

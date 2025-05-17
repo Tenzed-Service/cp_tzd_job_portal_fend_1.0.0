@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { SingletonStoreService } from '../../../../core/services/helper/singleton-store.service';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +21,8 @@ export class LoginComponent {
   showPassword: boolean = false;
 
   constructor(
-    private router: Router
+    private router: Router,
+    private singletonStoreService: SingletonStoreService
   ) {
     this.loginForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
@@ -40,6 +42,8 @@ export class LoginComponent {
       // Handle login logic
       return
     }
+    this.singletonStoreService.selectedUserType.next(this.loginForm.value?.userRole);
+    this.action('dashboard');
   }
 
   action(route:string) {

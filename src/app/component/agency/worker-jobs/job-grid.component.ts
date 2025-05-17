@@ -111,6 +111,7 @@ export class JobGridComponent {
     maxVisiblePages: 5,
     onPaginationChange: this.onChangePagination,
   };
+  deleteConfirmationModal:boolean = false;
 
   constructor(
     private router: Router,
@@ -183,20 +184,20 @@ export class JobGridComponent {
             iconClass: 'ri-eye-line',
             onActionClick: this.onActionClick,
           },
-          {
-            tooltip: 'Edit',
-            actionType: 'edit',
-            class: 'text-[#16c2d5] hover:text-[#16c2d5]/80',
-            iconClass: 'ri-edit-line',
-            onActionClick: this.onActionClick,
-          },
-          {
-            tooltip: 'Delete',
-            actionType: 'delete',
-            class: 'text-red-500 hover:text-red-500/80',
-            iconClass: 'ri-delete-bin-line',
-            onActionClick: this.onActionClick,
-          },
+          // {
+          //   tooltip: 'Edit',
+          //   actionType: 'edit',
+          //   class: 'text-[#16c2d5] hover:text-[#16c2d5]/80',
+          //   iconClass: 'ri-edit-line',
+          //   onActionClick: this.onActionClick,
+          // },
+          // {
+          //   tooltip: 'Delete',
+          //   actionType: 'delete',
+          //   class: 'text-red-500 hover:text-red-500/80',
+          //   iconClass: 'ri-delete-bin-line',
+          //   onActionClick: this.onActionClick,
+          // },
         ],
       },
     ]
@@ -279,6 +280,9 @@ export class JobGridComponent {
   ) {    
     if (actionType == 'view') {
       tableSchema.parentComponent.jobDetails(event.id);
+    }
+    if (actionType == 'delete') {
+      tableSchema.parentComponent.deleteConfirmationModal = true;
     }
   }
 

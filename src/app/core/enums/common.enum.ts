@@ -31,6 +31,11 @@ export enum ProfileTabs {
   changePassword = 'change-password',
 }
 
+export enum ModelActions {
+  Close = 'Close',
+  Submit = 'Submit',
+}
+
 
 export enum CommonEnum{
   UILOGIN='UILOGIN',
@@ -41,21 +46,7 @@ export enum CommonEnum{
   CURRENTUSER = 'currentUser',
   USERS = 'users'
 }
-export enum TrainingStepTypeEnum{
-INTRODUCTION = 1,
-DOCUMENT = 2,
-MEDIA = 3,
-QUIZ = 4
-}
-export enum TrainingQuizQuestionEnum{
-SINGLE = 1,
-MULTI = 2,
-}
-export enum LeaveStatusEnum{
-PENDING = 1,
-APPROVED = 2,
-DECLINE = 3,
-}
+
 export enum LoginFlowEnum{
 LOGIN = 'login',
 OTP = 'otp',

@@ -12,13 +12,24 @@ import { ColumnFormateService } from '../../../core/services/helper/column-forma
 import { FormsModule } from '@angular/forms';
 import { TableComponent } from '../../../shared/ui/table/table.component';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { MultiSelectionComponent } from '../../../shared/ui/fields/multi-selection/multi-selection.component';
+import { DeleteConfirmationComponent } from '../../../shared/component/models/delete-confirmation/delete-confirmation.component';
+import { DeleteModelSchema } from '../../../shared/component/models/delete-confirmation/delete-confirmation.component.models';
 
 @Component({
   selector: 'app-worker-task-management',
   templateUrl: './worker-task-management.component.html',
   styleUrls: ['./worker-task-management.component.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, FiltersComponent, TableComponent, PaginationComponent],
+  imports: [
+    CommonModule, 
+    FormsModule, 
+    FiltersComponent, 
+    TableComponent, 
+    PaginationComponent, 
+    MultiSelectionComponent,
+    DeleteConfirmationComponent
+  ],
 })
 export class WorkerTaskManagementComponent {
   statusList: DropdownItemModel[] = [];
@@ -38,6 +49,7 @@ export class WorkerTaskManagementComponent {
       dueDate: "2025-05-15", 
       priority: "High",
       assignedTo: "Emily Johnson", 
+      assignedBy: "James Davidson",
       status: "In Progress"
     },
     {
@@ -47,6 +59,7 @@ export class WorkerTaskManagementComponent {
       dueDate: "2025-05-20", 
       priority: "Medium",
       assignedTo: "Sarah Williams", 
+      assignedBy: "James Davidson",
       status: "Open"
     },
     {
@@ -56,6 +69,7 @@ export class WorkerTaskManagementComponent {
       dueDate: "2025-05-10", 
       priority: "High",
       assignedTo: "Michael Chen", 
+      assignedBy: "James Davidson",
       status: "Completed"
     },
     {
@@ -65,7 +79,8 @@ export class WorkerTaskManagementComponent {
       dueDate: "2025-05-12", 
       priority: "High",
       assignedTo: "Robert Taylor", 
-      status: "Overdue"
+      assignedBy: "James Davidson",
+      status: "Open"
     },
     {
       id: 5, title: "Prepare patient discharge summaries",
@@ -74,6 +89,7 @@ export class WorkerTaskManagementComponent {
       dueDate: "2025-05-14", 
       priority: "Medium",
       assignedTo: "Emily Johnson", 
+      assignedBy: "James Davidson",
       status: "In Progress"
     },
     {
@@ -83,6 +99,7 @@ export class WorkerTaskManagementComponent {
       dueDate: "2025-05-18", 
       priority: "Low",
       assignedTo: "John Technician", 
+      assignedBy: "James Davidson",
       status: "Open"
     },
     {
@@ -92,6 +109,7 @@ export class WorkerTaskManagementComponent {
       dueDate: "2025-05-08", 
       priority: "Medium",
       assignedTo: "Sarah Williams", 
+      assignedBy: "James Davidson",
       status: "Completed"
     }
   ];
@@ -113,6 +131,31 @@ export class WorkerTaskManagementComponent {
   editTaskModal: boolean = false;
   deleteConfirmationModal: boolean = false;
   createTaskModal: boolean = false;
+  workerList: any[] = [
+    {
+      value: 1,
+      label: 'Emily Johnson',
+    },
+    {
+      value: 2,
+      label: 'Michael Chen',
+    },
+    {
+      value: 3,
+      label: 'Sarah Williams',
+    },
+    {
+      value: 4,
+      label: 'Robert Taylor',
+    }
+  ];
+  deleteModelSchema: DeleteModelSchema<WorkerTaskManagementComponent, any> = {
+    parentComponent: this,
+    title: 'Delete Task',
+    message: 'Are you sure you want to delete this task? This action cannot be undone.',
+    cancel: this.delete,
+    confirm: this.delete,
+  };
 
   constructor(
     private singletonStoreService: SingletonStoreService,
@@ -155,7 +198,7 @@ export class WorkerTaskManagementComponent {
         sorting: true,
         dataType: TableColumnsDataTypeEnum.String,
         sortDirection: AdvancedFilterSortDirectionEnum.None,
-        onFormatChange: this.columnFormateService.formatString,
+        onFormatChange: this.columnFormateService.formatStatus,
         onSortChange: this.onSortChange,
       },
       {
@@ -168,12 +211,21 @@ export class WorkerTaskManagementComponent {
         onSortChange: this.onSortChange,
       },
       {
+        title: 'Assigned By',
+        dataPropertyName: 'assignedBy',
+        sorting: true,
+        dataType: TableColumnsDataTypeEnum.String,
+        sortDirection: AdvancedFilterSortDirectionEnum.None,
+        onFormatChange: this.columnFormateService.formatString,
+        onSortChange: this.onSortChange,
+      },
+      {
         title: 'Status',
         dataPropertyName: 'status',
         sorting: true,
         dataType: TableColumnsDataTypeEnum.Int,
         sortDirection: AdvancedFilterSortDirectionEnum.None,
-        onFormatChange: this.columnFormateService.formatString,
+        onFormatChange: this.columnFormateService.formatStatus,
         onSortChange: this.onSortChange,
       },
       {
@@ -289,6 +341,12 @@ export class WorkerTaskManagementComponent {
     if (actionType == 'delete') {
       tableSchema.parentComponent.deleteConfirmationModal = true;
     }
+  }
+
+  delete(tableSchema: DeleteModelSchema<WorkerTaskManagementComponent, any[]>,actionType: string,){
+    console.log(actionType,);
+    
+    tableSchema.parentComponent.deleteConfirmationModal = false;
   }
 
   onChangePagination(

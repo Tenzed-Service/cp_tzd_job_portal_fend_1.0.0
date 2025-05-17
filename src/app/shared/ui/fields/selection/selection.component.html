@@ -25,6 +25,51 @@
             class="ri ri-arrow-down-s-line text-gray-400"></i>
     </div>
 </div>
+
+
+<!-- <div class="relative">
+    @if (prefixIcon) {
+    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+        <div class="w-5 h-5 flex items-center justify-center text-gray-400">
+            <i [ngClass]="prefixIcon"></i>
+        </div>
+    </div>
+    }
+    <div 
+        (click)="toggleDropdown()" (blur)="onInputBlur()"
+        [ngClass]="{ 'cursor-not-allowed': isDisabled, 'pl-10 bg-gray-50': prefixIcon }"
+        [class.border-red-500]="isInvalid"
+        class="appearance-none border border-gray-300 text-gray-700 text-sm rounded px-4 pr-5 py-[0.32rem] w-full focus:outline-none focus:ring-2 focus:ring-[#16c2d5]/20 focus:border-[#16c2d5] text-left cursor-pointer">
+        {{selectedLabel || 'Select Option...'}}
+    </div>
+    <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+        <i class="ri ri-arrow-down-s-line text-gray-400"></i>
+    </div>
+
+    @if (isOpen) {
+    <div class="absolute z-10 w-full mt-1 py-1 bg-white border border-gray-300 rounded-md shadow-lg">
+        <div class="max-h-[200px] overflow-y-auto">
+            @for (item of dropDownListData; track $index) {
+            <div class="px-3 py-1 hover:bg-gray-100 cursor-pointer text-sm w-full flex items-center justify-between"
+                (click)="selectItem(item)"
+                role="option"
+                [attr.aria-selected]="item[keyValue] === selectField">
+                {{item[keyLabel]}}
+                @if (item[keyValue] === selectField) {
+                <i class="ri-check-line text-primary"></i>
+                }
+            </div>
+            }
+            @if (dropDownListData.length === 0) {
+            <div class="px-3 py-2 text-sm text-gray-500">
+                No options available
+            </div>
+            }
+        </div>
+    </div>
+    }
+</div> -->
+
 @if (isInvalid) {
 <small class="text-red-500">
     @for (data of errorList; track $index) {

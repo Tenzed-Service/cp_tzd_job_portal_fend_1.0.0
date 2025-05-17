@@ -219,13 +219,14 @@
     </div>
 </div>
 <!-- Approval Modal -->
+@if(approveModal){
 <div
-    class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-30 hidden"
+    class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-30"
     id="approve-modal">
     <div class="bg-white rounded-lg max-w-md w-full p-6">
         <div class="flex justify-between items-center mb-4">
             <h3 class="text-lg font-bold text-gray-900">Approve Employer</h3>
-            <button class="text-gray-500 hover:text-gray-700 close-modal">
+            <button class="text-gray-500 hover:text-gray-700 close-modal" (click)="approveModal = false">
                 <div class="w-6 h-6 flex items-center justify-center">
                     <i class="ri-close-line ri-lg"></i>
                 </div>
@@ -245,7 +246,7 @@
                 placeholder="Add any notes about this approval..."></textarea>
         </div>
         <div class="flex space-x-3">
-            <button
+            <button (click)="approveModal = false"
                 class="flex-1 bg-gray-100 text-gray-700 px-4 py-2 rounded-button font-medium close-modal whitespace-nowrap">
                 Cancel
             </button>
@@ -256,6 +257,7 @@
         </div>
     </div>
 </div>
+}
 <!-- Rejection Modal -->
 <div
     class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-30 hidden"

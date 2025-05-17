@@ -14,7 +14,7 @@
         </div>
       </div>
       <div class="flex items-center space-x-2">
-        <button
+        <!-- <button
           class="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-primary bg-gray-50 rounded-full"
         >
           <i class="ri-bookmark-line text-xl"></i>
@@ -23,7 +23,7 @@
           class="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-primary bg-gray-50 rounded-full"
         >
           <i class="ri-share-line text-xl"></i>
-        </button>
+        </button> -->
       </div>
     </div>
     <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
@@ -162,17 +162,17 @@
       </div>
     </div>
     <div class="flex justify-end space-x-4">
-      <button (click)="action('worker-jobs')"
+      <button (click)="action('job-grid')"
         class="px-6 py-1.5 text-gray-700 bg-gray-100 hover:bg-gray-200 rounded !rounded-button whitespace-nowrap"
       >
         Cancel
       </button>
-      <button
+      <!-- <button
         id="applyButton" (click)="openApplyModel = true"
         class="px-6 py-1.5 text-white bg-primary hover:bg-primary/90 rounded !rounded-button whitespace-nowrap"
       >
         Apply Now
-      </button>
+      </button> -->
     </div>
   </div>
 </div>
@@ -217,7 +217,6 @@
       <div class="flex justify-end space-x-3">
         <button (click)="openApplyModel = false"
           class="px-6 py-2.5 text-gray-700 bg-gray-100 hover:bg-gray-200 rounded !rounded-button whitespace-nowrap"
-          onclick="document.getElementById('applyConfirmModal').classList.add('hidden')"
         >
           Cancel
         </button>

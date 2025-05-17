@@ -31,7 +31,7 @@ export class WorkerJobsComponent {
       id: 3,
       name: 'Interview Invitation',
       count: 56,
-      icon: 'ri-eye-line',
+      icon: 'ri-calendar-event-line',
     },
     {
       id: 4,
@@ -50,6 +50,12 @@ export class WorkerJobsComponent {
       name: 'Rejected',
       count: 32,
       icon: 'ri-close-line',
+    },
+    {
+      id: 7,
+      name: 'Inviter Employer',
+      count: 32,
+      icon: 'ri-user-star-line',
     },
   ];
   jobList = [
@@ -246,7 +252,7 @@ export class WorkerJobsComponent {
     },
     {
       id: 6,
-      status: 'Rejected',
+      status: 'Inviter Employer',
       title: 'Long-term Care Nurse',
       department: 'Golden Years Care Home',
       location: 'Phoenix, AZ',
@@ -266,7 +272,7 @@ export class WorkerJobsComponent {
           bgColor: 'bg-blue-50',
           textColor: 'text-blue-600',
         },
-        { label: 'Rejected', bgColor: 'bg-red-50', textColor: 'text-red-600' },
+        { label: 'Inviter Employer', bgColor: 'bg-primary/5', textColor: 'text-primary', },
       ],
       details: {
         applicants: '40-60 Applicants',
@@ -295,6 +301,7 @@ export class WorkerJobsComponent {
     tabChange: this.switchTab,
     onFilterChange: this.changeInput,
   };
+  openApplyModel:boolean = false;
 
   constructor(
     private router: Router,
@@ -342,6 +349,12 @@ export class WorkerJobsComponent {
             (job) => job.status === 'Rejected'
           );
         break;
+        case 7:
+          tabsSchema.parentComponent.jobList =
+            tabsSchema.parentComponent.allJobList.filter(
+              (job) => job.status === 'Inviter Employer'
+            );
+          break;
       default:
         tabsSchema.parentComponent.jobList = [
           ...tabsSchema.parentComponent.allJobList,

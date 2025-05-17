@@ -1,5 +1,12 @@
-<div class="bg-white shadow-lg rounded border border-gray-100 mt-2">
-  <div class="p-2 sm:p-4 flex flex-col sm:flex-row gap-8">
+<div class="bg-white custom-shadow px-4 py-3 rounded mt-4">
+  <app-tabs
+  [tabsSchema]="tabsSchema"
+  >
+</app-tabs>
+</div>
+
+<div class="bg-white shadow-lg rounded border border-gray-100 mt-4">
+  <!-- <div class="p-2 sm:p-4 flex flex-col sm:flex-row gap-8">
     <div class="flex flex-col items-center">
       <div class="relative">
         <div
@@ -43,7 +50,9 @@
         </button>
       </nav>
     </div>
-  </div>
+  </div> -->
+
+
   @if (activeTab === profileTabs.personaDetails) {
   <div id="personal-details" class="tab-content p-2 sm:p-4">
     <div

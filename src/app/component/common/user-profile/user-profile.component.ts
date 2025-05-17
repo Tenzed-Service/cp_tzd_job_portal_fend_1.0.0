@@ -10,13 +10,15 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { TabsSchema } from '../../../shared/component/tabs/tabs.component.models';
+import { TabsComponent } from '../../../shared/component/tabs/tabs.component';
 
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
   styleUrls: ['./user-profile.component.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, TabsComponent],
 })
 export class UserProfileComponent implements OnInit {
   profileTabs = ProfileTabs;
@@ -45,9 +47,28 @@ export class UserProfileComponent implements OnInit {
     `[A-Za-z\\d${this.symbols.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')}.]{${
       this.passRequirement.passwordMinCharacters
     },${this.passRequirement.passwordMaxCharacters}}`,
-  ]
-    .map((item) => item.toString())
-    .join('');
+  ].map((item) => item.toString()).join('');
+  tabList: any[] = [
+    {
+      id: 1,
+      name: 'Personal Details',
+      count: 0,
+      icon: 'ri-user-line',
+    },
+    {
+      id: 2,
+      name: 'Change Password',
+      count: 0,
+      icon: 'ri-lock-line',
+    },
+  ];
+  tabsSchema:TabsSchema<UserProfileComponent,any[]> = {
+    parentComponent: this,
+    tabList: this.tabList,
+    activeTab: 1,
+    searchInput: false,
+    tabChange: this.switchTab,
+  };
 
   constructor(
     private router: Router,
@@ -63,9 +84,24 @@ export class UserProfileComponent implements OnInit {
     this.initForms();
   }
 
-  switchTab(tabId: string) {
-    this.activeTab = tabId;
+ // Change the switchTab method signature to match the interface
+ switchTab (
+  tabsSchema: TabsSchema<UserProfileComponent,any[]>,
+  event: any
+) {
+  console.log(tabsSchema,event);
+  
+  switch (event) {
+    case 1:
+      tabsSchema.parentComponent.activeTab = tabsSchema.parentComponent.profileTabs.personaDetails;
+      break;
+    case 2:
+      tabsSchema.parentComponent.activeTab = tabsSchema.parentComponent.profileTabs.changePassword;
+      break;
   }
+  console.log(tabsSchema.parentComponent.activeTab);
+  
+}
 
   action(route: string) {
     this.router.navigateByUrl(route);

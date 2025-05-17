@@ -39,7 +39,7 @@ export class WorkerShiftManagementComponent {
       "department": "ICU Department",
       "role": "Registered Nurse",
       "requiredStaff": 2,
-      "status": "Open"
+      "status": "Pending"
     },
     {
       "id": 2,
@@ -59,7 +59,7 @@ export class WorkerShiftManagementComponent {
       "department": "General Care",
       "role": "Licensed Practical Nurse",
       "requiredStaff": 3,
-      "status": "Urgent"
+      "status": "Pending"
     },
     {
       "id": 4,
@@ -79,7 +79,7 @@ export class WorkerShiftManagementComponent {
       "department": "Cardiology Department",
       "role": "Registered Nurse",
       "requiredStaff": 2,
-      "status": "Open"
+      "status": "Pending"
     }
   ];
   tableSchema: TableSchema<WorkerShiftManagementComponent, any> = {
@@ -129,15 +129,6 @@ export class WorkerShiftManagementComponent {
         dataPropertyName: 'role',
         sorting: true,
         dataType: TableColumnsDataTypeEnum.Int,
-        sortDirection: AdvancedFilterSortDirectionEnum.None,
-        onFormatChange: this.columnFormateService.formatString,
-        onSortChange: this.onSortChange,
-      },
-      {
-        title: 'Staff Required',
-        dataPropertyName: 'requiredStaff',
-        sorting: true,
-        dataType: TableColumnsDataTypeEnum.String,
         sortDirection: AdvancedFilterSortDirectionEnum.None,
         onFormatChange: this.columnFormateService.formatString,
         onSortChange: this.onSortChange,
