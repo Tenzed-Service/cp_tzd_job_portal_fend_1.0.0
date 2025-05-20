@@ -1,7 +1,8 @@
 import { FormsModule, NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
-import { Component, forwardRef, HostListener, Input } from '@angular/core';
+import { Component, ElementRef, EventEmitter, forwardRef, HostListener, Input, Output, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DropdownItemModel, ErrorMessageList } from '../../../../core/models/common/common.models';
+import { Event } from '@angular/router';
 
 @Component({
   selector: 'app-selection',
@@ -18,7 +19,6 @@ import { DropdownItemModel, ErrorMessageList } from '../../../../core/models/com
   ]
 })
 export class SelectionComponent implements ControlValueAccessor {
-  selectField: string = '';
   @Input() prefixIcon: string = '';
   @Input() dropDownListData: any[] = [];
   @Input() isDisabled: boolean = false;
@@ -26,14 +26,23 @@ export class SelectionComponent implements ControlValueAccessor {
   @Input() keyLabel: string = 'label'; // Key for the label property (e.g., 'name', 'label')
   @Input() isInvalid: boolean = false;
   @Input() errorList: ErrorMessageList[] = [];
-  showSkillsDropdown = false;
-  skillInput = '';
   onChange: any = () => {};
   onTouch: any = () => {};
+  @Input() placeholder: string = '';
+  @Output() valueChange = new EventEmitter<any>();
+
+  @ViewChild('searchInput') searchInput!: ElementRef;
+
+  showDropdown: boolean = false;
+  searchTerm: string = '';
+  selectedValue: any = null;
+  filteredOptions: any[] = [];
   
   writeValue(value: string): void {
+    this.filteredOptions = [...this.dropDownListData];
     if (value) {
-      this.selectField = value;
+      this.selectedValue = value;
+      this.searchTerm = this.filteredOptions.find(option => option.value === value)?.label || '';
     }
   }
 
@@ -45,48 +54,36 @@ export class SelectionComponent implements ControlValueAccessor {
     this.onTouch = fn;
   }
 
-  onValueChange(value: any): void {
-    this.onChange(value);
+  // onValueChange(value: any): void {
+  //   this.onChange(value);
+  //   this.onTouch();
+  // }
+
+  searchValue(event: any){
+    if (event?.target?.value) {
+      this.filteredOptions = this.dropDownListData.filter(option =>
+        option.label.toLowerCase().includes(event?.target?.value.toLowerCase())
+      );
+    } else {
+      this.filteredOptions = [...this.dropDownListData];
+    }    
+  }
+
+  selectOption(option: any) {
+    this.selectedValue = option.value;
+    this.searchTerm = option.label;
+    this.showDropdown = false;
+    this.onChange(option.value);
     this.onTouch();
+    this.filteredOptions = [...this.dropDownListData];
   }
 
-  isOpen = false;
-  selectedLabel: string = '';
-
-  @HostListener('document:click', ['$event'])
-  onClick(event: MouseEvent) {
-    if (!(event.target as HTMLElement).closest('.relative')) {
-      this.isOpen = false;
-    }
-  }
-
-  toggleDropdown() {
-    if (!this.isDisabled) {
-      this.isOpen = !this.isOpen;
-    }
-  }
-
-  onInputBlur(): void {
-    // Small delay to allow click events on dropdown items to fire first
+  onInputBlur() {
     setTimeout(() => {
-      this.isOpen = false;
-    }, 100);
-  }
-
-  selectItem(item: any) {
-    this.selectField = item[this.keyValue];
-    this.selectedLabel = item[this.keyLabel];
-    this.onValueChange(this.selectField);
-    this.isOpen = false;
-  }
-
-  ngOnInit() {
-    // Set initial selected label if value exists
-    if (this.selectField) {
-      const selectedItem = this.dropDownListData.find(item => item[this.keyValue] === this.selectField);
-      if (selectedItem) {
-        this.selectedLabel = selectedItem[this.keyLabel];
+      this.showDropdown = false;
+      if (!this.selectedValue) {
+        this.searchTerm = '';
       }
-    }
+    }, 200);
   }
 }

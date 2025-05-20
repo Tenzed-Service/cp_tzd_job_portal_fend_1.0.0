@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { SingletonStoreService } from '../../../core/services/helper/singleton-store.service';
-import { ProfileTabs } from '../../../core/enums/common.enum';
+import { ProfileTabs, UserType } from '../../../core/enums/common.enum';
 import {
   FormBuilder,
   FormGroup,
@@ -69,55 +69,52 @@ export class UserProfileComponent implements OnInit {
     searchInput: false,
     tabChange: this.switchTab,
   };
+  selectedUserType: string = '';
+  userType = UserType;
+  countries: any[] = [];
+  states: any[] = [];
+  cities: any[] = [];
 
   constructor(
     private router: Router,
     private singletonStoreService: SingletonStoreService,
     private fb: FormBuilder
   ) {
+    this.selectedUserType = this.singletonStoreService.selectedUserType.getValue();
     this.singletonStoreService.breadCrumbItems.next([
       { label: 'User Profile', active: true },
     ]);
   }
 
   ngOnInit(): void {
+    this.loadDropdownData();
     this.initForms();
   }
 
- // Change the switchTab method signature to match the interface
- switchTab (
-  tabsSchema: TabsSchema<UserProfileComponent,any[]>,
-  event: any
-) {
-  console.log(tabsSchema,event);
-  
-  switch (event) {
-    case 1:
-      tabsSchema.parentComponent.activeTab = tabsSchema.parentComponent.profileTabs.personaDetails;
-      break;
-    case 2:
-      tabsSchema.parentComponent.activeTab = tabsSchema.parentComponent.profileTabs.changePassword;
-      break;
-  }
-  console.log(tabsSchema.parentComponent.activeTab);
-  
-}
-
-  action(route: string) {
-    this.router.navigateByUrl(route);
-  }
-
   initForms() {
-    this.profileForm = this.fb.group({
-      companyName: ['TechVision Solutions', [Validators.required]],
-      websiteUrl: ['TechVision Solutions', [Validators.pattern('https?://.+')]],
-      employees: ['2'],
-      taxCategory: ['3'],
-      companyAddress: [
-        '123 Innovation Drive, Suite 400, San Francisco, CA 94107, United States',
-      ],
-      businessDescription: [''],
-    });
+    if (this.selectedUserType === this.userType.EMPLOYEE || this.selectedUserType === this.userType.AGENCY) {
+      this.profileForm = this.fb.group({
+        name: ['', Validators.required],
+        email: ['', [Validators.required, Validators.email]],
+        countryCode: ['+91'],
+        contact: ['', Validators.required],
+        country: ['', Validators.required],
+        state: ['', Validators.required],
+        city: ['', Validators.required],
+      });
+    }
+    if (this.selectedUserType === this.userType.EMPLOYER) {
+      this.profileForm = this.fb.group({
+        companyName: ['TechVision Solutions', [Validators.required]],
+        websiteUrl: ['TechVision Solutions', [Validators.pattern('https?://.+')]],
+        employees: ['2'],
+        taxCategory: ['3'],
+        companyAddress: [
+          '123 Innovation Drive, Suite 400, San Francisco, CA 94107, United States',
+        ],
+        businessDescription: [''],
+      });
+    }
 
     this.passwordForm = this.fb.group(
       {
@@ -129,12 +126,42 @@ export class UserProfileComponent implements OnInit {
     );
   }
 
+  loadDropdownData() {
+    // Add your API calls here to load dropdown data
+    this.countries = [{ name: 'USA' }, { name: 'Canada' }];
+    this.states = [{ name: 'California' }, { name: 'Texas' }];
+    this.cities = [{ name: 'Los Angeles' }, { name: 'Houston' }];
+  }
+
   get formControl() {
     return this.profileForm.controls;
   }
 
   get passwordControl() {
     return this.passwordForm.controls;
+  }
+
+  // Change the switchTab method signature to match the interface
+  switchTab (
+    tabsSchema: TabsSchema<UserProfileComponent,any[]>,
+    event: any
+  ) {
+    console.log(tabsSchema,event);
+    
+    switch (event) {
+      case 1:
+        tabsSchema.parentComponent.activeTab = tabsSchema.parentComponent.profileTabs.personaDetails;
+        break;
+      case 2:
+        tabsSchema.parentComponent.activeTab = tabsSchema.parentComponent.profileTabs.changePassword;
+        break;
+    }
+    console.log(tabsSchema.parentComponent.activeTab);
+    
+  }
+
+  action(route: string) {
+    this.router.navigateByUrl(route);
   }
 
   confirmedValidator(controlName: string, matchingControlName: string) {

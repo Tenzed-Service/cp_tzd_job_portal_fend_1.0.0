@@ -1,8 +1,7 @@
 <div class="bg-white custom-shadow px-4 py-3 rounded mt-4">
   <app-tabs
-  [tabsSchema]="tabsSchema"
-  >
-</app-tabs>
+    [tabsSchema]="tabsSchema">
+  </app-tabs>
 </div>
 
 <div class="bg-white shadow-lg rounded border border-gray-100 mt-4">
@@ -52,7 +51,6 @@
     </div>
   </div> -->
 
-
   @if (activeTab === profileTabs.personaDetails) {
   <div id="personal-details" class="tab-content p-2 sm:p-4">
     <div
@@ -71,6 +69,186 @@
       </div>
     </div>
     <form [formGroup]="profileForm" class="mb-4">
+      @if(selectedUserType === userType.EMPLOYEE || selectedUserType === userType.AGENCY){
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div>
+          <label class="block text-sm text-gray-600 mb-1"
+            for="fullName">Name <span
+              class="text-red-500">*</span></label>
+          <input
+            type="text"
+            id="fullName"
+            formControlName="name"
+            placeholder="Enter your full name"
+            class="w-full px-3 py-1 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-primary"
+            [class.border-red-500]="formControl['name'].invalid && formControl['name'].touched" />
+          @if (formControl['name'].invalid &&
+          formControl['name'].touched) {
+          <small class="text-red-500">
+            @if (formControl['name'].errors?.['required']) {
+            Name is required
+            }
+          </small>
+          }
+        </div>
+        <div>
+          <label class="block text-sm text-gray-600 mb-1"
+            for="email">Email <span
+              class="text-red-500">*</span></label>
+          <input
+            type="email"
+            id="email"
+            formControlName="email"
+            placeholder="Enter your email address"
+            class="w-full px-3 py-1 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-primary"
+            [class.border-red-500]="formControl['email'].invalid && formControl['email'].touched" />
+          @if (formControl['email'].invalid &&
+          formControl['email'].touched) {
+          <small class="text-red-500">
+            @if (formControl['email'].errors?.['required'])
+            {
+            Email is required
+            }
+            @if (formControl['email'].errors?.['email']) {
+            Please enter a valid email address
+            }
+          </small>
+          }
+        </div>
+        <div>
+          <label
+            class="block text-sm text-gray-600 mb-1"
+            for="contactNumber">Contact Number <span
+              class="text-red-500">*</span></label>
+          <div class="flex">
+            <div class="w-16">
+              <select formControlName="countryCode"
+                class="w-full h-full px-2 py-1 border border-gray-300 rounded-l focus:outline-none focus:ring-1 focus:ring-primary border-r-0">
+                <option>+1</option>
+                <option>+44</option>
+                <option>+91</option>
+                <option>+61</option>
+                <option>+86</option>
+              </select>
+            </div>
+            <input
+              type="number"
+              id="contactNumber"
+              formControlName="contact"
+              placeholder="Enter contact number"
+              class="flex-1 px-3 py-1 border border-gray-300 rounded-r focus:outline-none focus:ring-1 focus:ring-primary"
+              [class.border-red-500]="formControl['contact'].invalid && formControl['contact'].touched" />
+          </div>
+          @if (formControl['contact'].invalid &&
+          formControl['contact'].touched) {
+          <small class="text-red-500">
+            @if
+            (formControl['contact'].errors?.['required'])
+            {
+            Contact number is required
+            }
+          </small>
+          }
+        </div>
+
+        <!-- Location Information -->
+        <div>
+          <label class="block text-sm text-gray-600 mb-1"
+            for="country">Country <span
+              class="text-red-500">*</span></label>
+          <div class="relative">
+            <select
+              [class.border-red-500]="formControl['country'].invalid && formControl['country'].touched"
+              id="country" formControlName="country"
+              class="appearance-none w-full px-3 py-1 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-primary pr-8">
+              @for (country of countries; track $index) {
+              <option
+                [value]="country.name">{{country.name}}</option>
+              }
+            </select>
+            <div
+              class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+              <i
+                class="ri-arrow-down-s-line text-gray-400"></i>
+            </div>
+          </div>
+          @if (formControl['country'].invalid &&
+          formControl['country'].touched) {
+          <small class="text-red-500">
+            @if
+            (formControl['country'].errors?.['required'])
+            {
+            Country is required
+            }
+          </small>
+          }
+        </div>
+        <div>
+          <label class="block text-sm text-gray-600 mb-1"
+            for="state">State <span
+              class="text-red-500">*</span></label>
+          <div class="relative">
+            <select
+              [class.border-red-500]="formControl['state'].invalid && formControl['state'].touched"
+              id="state" formControlName="state"
+              class="appearance-none w-full px-3 py-1 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-primary pr-8">
+              @for (state of states; track $index) {
+              <option *ngFor="let state of states"
+                [value]="state.name">{{state.name}}</option>
+              }
+            </select>
+            <div
+              class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+              <i
+                class="ri-arrow-down-s-line text-gray-400"></i>
+            </div>
+          </div>
+          @if (formControl['state'].invalid &&
+          formControl['state'].touched) {
+          <small class="text-red-500">
+            @if
+            (formControl['state'].errors?.['required'])
+            {
+            State is required
+            }
+          </small>
+          }
+        </div>
+        <div>
+          <label class="block text-sm text-gray-600 mb-1"
+            for="city">City <span
+              class="text-red-500">*</span></label>
+          <div class="relative">
+            <select
+              [class.border-red-500]="formControl['city'].invalid && formControl['city'].touched"
+              id="city" placeholder="Select City"
+              formControlName="city"
+              class="appearance-none w-full px-3 py-1 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-primary pr-8">
+              @for (city of cities; track $index) {
+              <option
+                [value]="city.name">{{city.name}}</option>
+              }
+            </select>
+            <div
+              class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+              <i
+                class="ri-arrow-down-s-line text-gray-400"></i>
+            </div>
+          </div>
+          @if (formControl['city'].invalid &&
+          formControl['city'].touched) {
+          <small class="text-red-500">
+            @if
+            (formControl['city'].errors?.['required'])
+            {
+            City is required
+            }
+          </small>
+          }
+        </div>
+      </div>
+      }
+      @if(selectedUserType === userType.EMPLOYER){
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <label
@@ -169,7 +347,7 @@
             rows="3"
             formControlName="companyAddress"
             class="w-full px-3 py-1 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-primary">
-          </textarea>
+            </textarea>
         </div>
         <div>
           <label
@@ -182,9 +360,10 @@
             rows="4"
             formControlName="businessDescription"
             class="w-full px-3 py-1 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-primary">
-          </textarea>
+            </textarea>
         </div>
       </div>
+      }
       <div class="mt-4 flex justify-end">
         <button
           type="button"
@@ -335,7 +514,7 @@
               name="current-password"
               formControlName="currentPassword"
               [class.border-red-500]="passwordControl['currentPassword'].invalid && passwordControl['currentPassword'].touched"
-              class="w-full px-3 py-1 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-primary" />
+              class="w-full px-3 py-1 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#16c2d5]/20 focus:border-[#16c2d5]" />
             <button
               type="button"
               class="toggle-password absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-500">
@@ -359,7 +538,7 @@
               id="newPassword"
               formControlName="newPassword"
               placeholder="Enter newPassword"
-              class="w-full px-3 py-1 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-primary"
+              class="w-full px-3 py-1 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#16c2d5]/20 focus:border-[#16c2d5]"
               [class.border-red-500]="passwordControl['newPassword'].invalid && passwordControl['newPassword'].touched" />
             <button
               type="button"
@@ -400,7 +579,7 @@
               id="confirmPassword"
               formControlName="confirmPassword"
               placeholder="Confirm your password"
-              class="w-full px-3 py-1 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-primary"
+              class="w-full px-3 py-1 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#16c2d5]/20 focus:border-[#16c2d5]"
               [class.border-red-500]="passwordControl['confirmPassword'].invalid && passwordControl['confirmPassword'].touched" />
             <button
               type="button"

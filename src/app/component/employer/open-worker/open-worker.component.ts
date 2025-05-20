@@ -6,6 +6,7 @@ import { GridViewType, TableColumnsDataTypeEnum, TableFilterTypeEnum } from '../
 import { DropdownItemModel } from '../../../core/models/common/common.models';
 import { FilterSchema } from '../../../shared/component/filters/filters.component.models';
 import { PaginationSchema } from '../../../shared/ui/pagination/pagination.component.models';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-open-worker',
@@ -111,7 +112,7 @@ export class OpenWorkerComponent {
   ];
   actions=[
     { icon: "ri-eye-line", function: "view", title: "View Details" },
-    { icon: "ri-user-settings-line", function: "edit", title: "Edit Profile" }
+    { icon: "ri-user-add-line", function: "invitation", title: "Send Invitation" }
   ];
   statusList: DropdownItemModel[] = [];
   industries: DropdownItemModel[] = [];
@@ -131,8 +132,10 @@ export class OpenWorkerComponent {
     maxVisiblePages: 5,
     onPaginationChange: this.onChangePagination,
   };
+  inviteModal:boolean = false;
     
   constructor(
+    private router: Router,
     private singletonStoreService: SingletonStoreService,
   ) { 
     this.singletonStoreService.breadCrumbItems.next([
@@ -209,8 +212,14 @@ export class OpenWorkerComponent {
       paginationSchema.pageSize = pagination.pageSize; 
     }
 
-  onActionEvent(action: any) {
-    console.log(action); 
+  onActionEvent(data: any) {
+    console.log(data); 
+    if (data.action === "invitation") {
+      this.inviteModal = true; 
+    }
+    if (data.action === "view") {
+      this.router.navigateByUrl(`open-worker/worker-details/${data.item.id}`);
+    }
   }
 
   onFilterChangeEvent(

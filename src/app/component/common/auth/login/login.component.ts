@@ -3,6 +3,8 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SingletonStoreService } from '../../../../core/services/helper/singleton-store.service';
+import { SelectionComponent } from '../../../../shared/ui/fields/selection/selection.component';
+import { SimpleInputComponent } from '../../../../shared/ui/fields/simple-input/simple-input.component';
 
 @Component({
   selector: 'app-login',
@@ -11,6 +13,8 @@ import { SingletonStoreService } from '../../../../core/services/helper/singleto
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    SelectionComponent,
+    SimpleInputComponent
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'

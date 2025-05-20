@@ -1,7 +1,6 @@
 import { Routes } from '@angular/router';
 import { UserProfileComponent } from '../../component/common/user-profile/user-profile.component';
 import { DashboardComponent } from '../../component/common/dashboard/dashboard.component';
-import { OpenWorkerComponent } from '../../component/employer/open-worker/open-worker.component';
 import { ChatComponent } from '../../component/common/chat/chat.component';
 import { TaskManagementComponent } from '../../component/common/task-management/task-management.component';
 import { WorkerShiftManagementComponent } from '../../component/worker/worker-shift-management/worker-shift-management.component';
@@ -22,7 +21,7 @@ export const content: Routes = [
   },
   {
     path: "open-worker",
-    component: OpenWorkerComponent,
+    loadChildren: () => import('../../component/employer/open-worker/open-worker.routes').then(m => m.openWorkerRoutes),
   },
   {
     path: "jobs",

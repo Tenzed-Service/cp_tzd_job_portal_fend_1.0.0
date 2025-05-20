@@ -1,4 +1,4 @@
-<div class="relative">
+<!-- <div class="relative">
     @if (prefixIcon) {
     <div
         class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -8,7 +8,7 @@
         </div>
     </div>
     }
-    <select [(ngModel)]="selectField" (ngModelChange)="onValueChange($event)"
+    <select [(ngModel)]="selectedValue" (ngModelChange)="onValueChange($event)"
         placeholder="Select Option..."
         [disabled]="isDisabled"
         [ngClass]="{ 'cursor-not-allowed': isDisabled, 'pl-10 bg-gray-50': prefixIcon }"
@@ -24,52 +24,55 @@
         <i
             class="ri ri-arrow-down-s-line text-gray-400"></i>
     </div>
-</div>
-
-
-<!-- <div class="relative">
-    @if (prefixIcon) {
-    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-        <div class="w-5 h-5 flex items-center justify-center text-gray-400">
-            <i [ngClass]="prefixIcon"></i>
-        </div>
-    </div>
-    }
-    <div 
-        (click)="toggleDropdown()" (blur)="onInputBlur()"
-        [ngClass]="{ 'cursor-not-allowed': isDisabled, 'pl-10 bg-gray-50': prefixIcon }"
-        [class.border-red-500]="isInvalid"
-        class="appearance-none border border-gray-300 text-gray-700 text-sm rounded px-4 pr-5 py-[0.32rem] w-full focus:outline-none focus:ring-2 focus:ring-[#16c2d5]/20 focus:border-[#16c2d5] text-left cursor-pointer">
-        {{selectedLabel || 'Select Option...'}}
-    </div>
-    <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-        <i class="ri ri-arrow-down-s-line text-gray-400"></i>
-    </div>
-
-    @if (isOpen) {
-    <div class="absolute z-10 w-full mt-1 py-1 bg-white border border-gray-300 rounded-md shadow-lg">
-        <div class="max-h-[200px] overflow-y-auto">
-            @for (item of dropDownListData; track $index) {
-            <div class="px-3 py-1 hover:bg-gray-100 cursor-pointer text-sm w-full flex items-center justify-between"
-                (click)="selectItem(item)"
-                role="option"
-                [attr.aria-selected]="item[keyValue] === selectField">
-                {{item[keyLabel]}}
-                @if (item[keyValue] === selectField) {
-                <i class="ri-check-line text-primary"></i>
-                }
-            </div>
-            }
-            @if (dropDownListData.length === 0) {
-            <div class="px-3 py-2 text-sm text-gray-500">
-                No options available
-            </div>
-            }
-        </div>
-    </div>
-    }
 </div> -->
 
+
+<div class="relative">
+    @if (prefixIcon) {
+    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+      <div class="w-5 h-5 flex items-center justify-center text-gray-400">
+        <i [ngClass]="prefixIcon"></i>
+      </div>
+    </div>
+    }
+    <input #searchInput
+      type="text" 
+      [(ngModel)]="searchTerm"
+      (focus)="showDropdown = true"
+      (blur)="onInputBlur()"
+      (input)="searchValue($event)"
+      [disabled]="isDisabled" 
+      [class.border-red-500]="isInvalid"
+      [ngClass]="{ 'cursor-not-allowed': isDisabled, 'pl-10 bg-gray-50': prefixIcon }"
+      class="border border-gray-300 text-gray-900 text-sm rounded w-full px-4 py-[0.32rem] focus:outline-none focus:ring-2 focus:ring-[#16c2d5]/20 focus:border-[#16c2d5]"
+      [placeholder]="placeholder" />
+    
+    <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+      <i class="ri-arrow-down-s-line text-gray-400"></i>
+    </div>
+  
+    @if (showDropdown) {
+    <div class="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded shadow-lg px-1">
+      <div class="max-h-[200px] overflow-y-auto py-1">
+        @for (item of filteredOptions; track $index) {
+        <div 
+          class="px-3 py-1.5 hover:bg-[#E6F7FA] hover:text-primary cursor-pointer rounded text-sm"
+          (mousedown)="selectOption(item)"
+          [ngClass]="{'bg-[#E6F7FA] text-primary':selectedValue === item.value}">
+          {{item.label}}
+        </div>
+        }
+        @if (filteredOptions.length === 0) {
+        <div class="px-3 py-2 text-sm text-gray-500">
+          No options found
+        </div>
+        }
+      </div>
+    </div>
+    }
+  </div>
+
+  
 @if (isInvalid) {
 <small class="text-red-500">
     @for (data of errorList; track $index) {

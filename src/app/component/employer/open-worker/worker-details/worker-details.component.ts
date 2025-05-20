@@ -5,13 +5,13 @@ import { Router } from '@angular/router';
 import { UserDetailsScreenComponent } from '../../../common/user-details/user-details.component';
 
 @Component({
-  selector: 'app-verification-details',
-  templateUrl: './verification-details.component.html',
-  styleUrls: ['./verification-details.component.scss'],
+  selector: 'app-worker-details',
+  templateUrl: './worker-details.component.html',
+  styleUrls: ['./worker-details.component.scss'],
   standalone: true,
   imports: [CommonModule,UserDetailsScreenComponent],
 })
-export class VerificationDetailsScreenComponent implements OnInit {
+export class WorkerDetailsComponent implements OnInit {
   currentUrl: string[] = [];
 
   constructor(
@@ -28,14 +28,13 @@ export class VerificationDetailsScreenComponent implements OnInit {
       .split('/')
       .filter((item) => item.trim() !== '');
     this.singletonStoreService.breadCrumbItems.next([
-        { label: this.currentUrl[0] },
-        { label: this.currentUrl[1], url: '/' + this.currentUrl[0] + '/' + this.currentUrl[1] },
-        { label: 'Verification Details', active: true },
+        { label: 'Open Worker', url: '/open-worker' },
+        { label: 'Worker Details', active: true },
       ]);
   }
 
   close() {
-    this.router.navigateByUrl('/' + this.currentUrl[0] + '/' + this.currentUrl[1]);
+    this.router.navigateByUrl('/open-worker');
   }
 
 }
