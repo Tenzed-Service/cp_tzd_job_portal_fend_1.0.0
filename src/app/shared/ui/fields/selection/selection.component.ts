@@ -1,5 +1,5 @@
 import { FormsModule, NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
-import { Component, ElementRef, EventEmitter, forwardRef, HostListener, Input, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, forwardRef, HostListener, input, Input, Output, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DropdownItemModel, ErrorMessageList } from '../../../../core/models/common/common.models';
 import { Event } from '@angular/router';
@@ -26,6 +26,7 @@ export class SelectionComponent implements ControlValueAccessor {
   @Input() keyLabel: string = 'label'; // Key for the label property (e.g., 'name', 'label')
   @Input() isInvalid: boolean = false;
   @Input() errorList: ErrorMessageList[] = [];
+  @Input() rounded: boolean = true;
   onChange: any = () => {};
   onTouch: any = () => {};
   @Input() placeholder: string = '';
@@ -83,6 +84,8 @@ export class SelectionComponent implements ControlValueAccessor {
       this.showDropdown = false;
       if (!this.selectedValue) {
         this.searchTerm = '';
+      }else{
+        this.searchTerm = this.filteredOptions.find(option => option.value === this.selectedValue)?.label || '';
       }
     }, 200);
   }

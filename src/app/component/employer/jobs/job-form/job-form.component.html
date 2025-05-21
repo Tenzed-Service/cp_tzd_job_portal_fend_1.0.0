@@ -104,7 +104,28 @@
                                 No. <span class="text-red-500">*</span></label>
                             <div class="relative">
                                 <div class="absolute w-20 h-full">
-                                    <select formControlName="countryCode"
+                                    <app-selection formControlName="countryCode" [rounded]="false"
+                                    [isInvalid]="formControl['contact'].invalid && formControl['contact'].touched"
+                                    [dropDownListData]="[
+                                        {
+                                            value: '+1',
+                                            label: '+1'
+                                        },
+                                        {
+                                            value: '+44',
+                                            label: '+44'
+                                        },
+                                        {
+                                            value: '+91',
+                                            label: '+91'
+                                        },
+                                        {
+                                            value: '+86',
+                                            label: '+86'
+                                        },
+                                    ]"
+                                    [errorList]="[]"></app-selection>
+                                    <!-- <select formControlName="countryCode"
                                         id="countryCode"
                                         [class.border-red-500]="formControl['contact'].invalid && formControl['contact'].touched"
                                         class="relative bg-transparent appearance-none border border-gray-300 border-l-0 w-full h-full left-2 top-0 pl-2 pr-1 text-sm focus:outline-none">
@@ -117,7 +138,7 @@
                                         class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
                                         <i
                                             class="ri ri-arrow-down-s-line text-gray-400"></i>
-                                    </div>
+                                    </div> -->
                                 </div>
                                 <input formControlName="contact" type="number"
                                     id="contact"
