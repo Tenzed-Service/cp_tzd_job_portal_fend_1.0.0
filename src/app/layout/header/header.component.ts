@@ -20,6 +20,7 @@ export class HeaderComponent implements OnInit {
   isNotificationOpen:boolean = false;
   isProfileOpen:boolean = false;
   userType = UserType;
+  currentUserRole: string = '';
 
   constructor(
     private router: Router,
@@ -28,6 +29,9 @@ export class HeaderComponent implements OnInit {
   ) {    
     this.singletonStoreService.sidebarOpen.subscribe((res: boolean) => {
       this.isSidebarOpen = res;
+    });
+    this.singletonStoreService.selectedUserType.subscribe((res: string) => {
+      this.currentUserRole = res;
     });
   }
 

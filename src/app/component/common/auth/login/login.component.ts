@@ -29,8 +29,8 @@ export class LoginComponent {
     private singletonStoreService: SingletonStoreService
   ) {
     this.loginForm = new FormGroup({
-      email: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('', [Validators.required]),
+      email: new FormControl('user@gmail.com', [Validators.required, Validators.email]),
+      password: new FormControl('123456', [Validators.required]),
       userRole: new FormControl('', [Validators.required]),
       rememberMe: new FormControl(false)
     });

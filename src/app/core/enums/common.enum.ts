@@ -1,7 +1,7 @@
 export enum UserType {
-  AGENCY = 'AGENCY',
-  EMPLOYER = 'EMPLOYER',
-  EMPLOYEE = 'EMPLOYEE',
+  AGENCY = 'Agency',
+  EMPLOYER = 'Employer',
+  EMPLOYEE = 'Employee',
 }
 
 export enum GridViewType {

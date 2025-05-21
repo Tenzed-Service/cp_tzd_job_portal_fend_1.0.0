@@ -6,6 +6,7 @@ import { LayoutMenuModel } from '../core/models/api/layout.model';
 import { RouterModule } from '@angular/router';
 import { SingletonStoreService } from '../core/services/helper/singleton-store.service';
 import { LoaderComponent } from '../shared/ui/loader/loader.component';
+import { UserType } from '../core/enums/common.enum';
 
 @Component({
   selector: 'app-layout',
@@ -45,7 +46,7 @@ export class LayoutComponent implements OnInit {
   ngOnInit(): void {
     this.singletonStoreService.selectedUserType.subscribe((res: string) => {
       switch (res) {
-        case 'AGENCY':
+        case UserType.AGENCY:
           this.menuItems = [
             {
               name: 'Dashboard',
@@ -91,7 +92,7 @@ export class LayoutComponent implements OnInit {
             },
           ];
           break;
-        case 'EMPLOYER':
+        case UserType.EMPLOYER:
           this.menuItems = [
             {
               name: 'Dashboard',
@@ -161,7 +162,7 @@ export class LayoutComponent implements OnInit {
             },
           ];
           break;
-        case 'EMPLOYEE':
+        case UserType.EMPLOYEE:
           this.menuItems = [
             {
               name: 'Dashboard',
