@@ -1,7 +1,6 @@
 <div class="employer-section">
   <div
-    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 my-4"
-  >
+    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 my-4">
     <!-- Active Workers -->
     <div class="bg-white rounded custom-shadow p-4">
       <div class="flex items-start justify-between">
@@ -10,8 +9,7 @@
           <h3 class="text-2xl font-bold mt-1">247</h3>
         </div>
         <div
-          class="w-10 h-10 rounded-full bg-primary bg-opacity-10 flex items-center justify-center text-primary"
-        >
+          class="w-10 h-10 rounded-full bg-primary bg-opacity-10 flex items-center justify-center text-primary">
           <i class="ri-user-line ri-lg"></i>
         </div>
       </div>
@@ -37,8 +35,7 @@
           <h3 class="text-2xl font-bold mt-1">89</h3>
         </div>
         <div
-          class="w-10 h-10 rounded-full bg-primary bg-opacity-10 flex items-center justify-center text-primary"
-        >
+          class="w-10 h-10 rounded-full bg-primary bg-opacity-10 flex items-center justify-center text-primary">
           <i class="ri-briefcase-line ri-lg"></i>
         </div>
       </div>
@@ -64,8 +61,7 @@
           <h3 class="text-2xl font-bold mt-1">36</h3>
         </div>
         <div
-          class="w-10 h-10 rounded-full bg-primary bg-opacity-10 flex items-center justify-center text-primary"
-        >
+          class="w-10 h-10 rounded-full bg-primary bg-opacity-10 flex items-center justify-center text-primary">
           <i class="ri-file-list-line ri-lg"></i>
         </div>
       </div>
@@ -89,8 +85,7 @@
           <h3 class="text-2xl font-bold mt-1">54</h3>
         </div>
         <div
-          class="w-10 h-10 rounded-full bg-primary bg-opacity-10 flex items-center justify-center text-primary"
-        >
+          class="w-10 h-10 rounded-full bg-primary bg-opacity-10 flex items-center justify-center text-primary">
           <i class="ri-calendar-check-line ri-lg"></i>
         </div>
       </div>
@@ -116,8 +111,7 @@
           <h3 class="text-2xl font-bold mt-1">128</h3>
         </div>
         <div
-          class="w-10 h-10 rounded-full bg-primary bg-opacity-10 flex items-center justify-center text-primary"
-        >
+          class="w-10 h-10 rounded-full bg-primary bg-opacity-10 flex items-center justify-center text-primary">
           <i class="ri-check-double-line ri-lg"></i>
         </div>
       </div>
@@ -136,6 +130,54 @@
       </div> -->
     </div>
   </div>
+
+  <!-- Attendance Status -->
+  <div class="mb-4">
+    <div class="bg-white rounded custom-shadow p-4">
+      <h2 class="text-lg font-semibold text-gray-900 mb-4">
+        Today's Attendance
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="bg-red-50 rounded p-4">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-3xl font-bold text-red-600">3</p>
+              <p class="text-sm text-gray-600 mt-1">Running late</p>
+            </div>
+            <div
+              class="w-10 h-10 flex items-center justify-center text-red-600">
+              <i class="ri-time-line ri-lg"></i>
+            </div>
+          </div>
+        </div>
+        <div class="bg-green-50 rounded p-4">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-3xl font-bold text-green-600">42</p>
+              <p class="text-sm text-gray-600 mt-1">Clocked in</p>
+            </div>
+            <div
+              class="w-10 h-10 flex items-center justify-center text-green-600">
+              <i class="ri-checkbox-circle-line ri-lg"></i>
+            </div>
+          </div>
+        </div>
+        <div class="bg-blue-50 rounded p-4">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-3xl font-bold text-blue-600">5</p>
+              <p class="text-sm text-gray-600 mt-1">On time off</p>
+            </div>
+            <div
+              class="w-10 h-10 flex items-center justify-center text-blue-600">
+              <i class="ri-calendar-check-line ri-lg"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Quick Actions & Analytics -->
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
     <!-- Quick Actions -->
@@ -145,17 +187,24 @@
       </h2>
       <div class="grid grid-cols-2 gap-4">
         <button
-          class="flex flex-col items-center justify-center p-4 bg-primary bg-opacity-5 hover:bg-opacity-10 rounded-button transition-all"
-        >
+          class="flex flex-col items-center justify-center p-4 bg-primary bg-opacity-5 hover:bg-opacity-10 rounded-button transition-all">
           <div
-            class="w-10 h-10 rounded-full bg-primary bg-opacity-10 flex items-center justify-center text-primary mb-2"
-          >
+            class="w-10 h-10 rounded-full bg-primary bg-opacity-10 flex items-center justify-center text-primary mb-2">
             <i class="ri-add-line ri-lg"></i>
           </div>
           <span
-            class="text-sm font-medium text-gray-700 whitespace-nowrap"
-            >Post New Job</span
-          >
+            class="text-sm font-medium text-gray-700 whitespace-nowrap">Post New
+            Job</span>
+        </button>
+        <button
+          class="flex flex-col items-center justify-center p-4 bg-primary bg-opacity-5 hover:bg-opacity-10 rounded-button transition-all">
+          <div
+            class="w-10 h-10 rounded-full bg-primary bg-opacity-10 flex items-center justify-center text-primary mb-2">
+            <i class="ri-task-line ri-lg"></i>
+          </div>
+          <span
+            class="text-sm font-medium text-gray-700 whitespace-nowrap">Add a
+            Task</span>
         </button>
         <!-- <button
           class="flex flex-col items-center justify-center p-4 bg-primary bg-opacity-5 hover:bg-opacity-10 rounded-button transition-all"
@@ -206,8 +255,7 @@
       <div class="space-y-4 max-h-96 overflow-y-auto pr-2">
         <div class="flex items-start">
           <div
-            class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-green-600 mr-3 flex-shrink-0"
-          >
+            class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-green-600 mr-3 flex-shrink-0">
             <i class="ri-user-add-line"></i>
           </div>
           <div>
@@ -223,16 +271,13 @@
               >
                 Review Application
               </button> -->
-              <span class="text-xs text-gray-400"
-                >10 minutes ago</span
-              >
+              <span class="text-xs text-gray-400">10 minutes ago</span>
             </div>
           </div>
         </div>
         <div class="flex items-start">
           <div
-            class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 mr-3 flex-shrink-0"
-          >
+            class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 mr-3 flex-shrink-0">
             <i class="ri-calendar-check-line"></i>
           </div>
           <div>
@@ -254,8 +299,7 @@
         </div>
         <div class="flex items-start">
           <div
-            class="w-10 h-10 rounded-full bg-yellow-100 flex items-center justify-center text-yellow-600 mr-3 flex-shrink-0"
-          >
+            class="w-10 h-10 rounded-full bg-yellow-100 flex items-center justify-center text-yellow-600 mr-3 flex-shrink-0">
             <i class="ri-briefcase-line"></i>
           </div>
           <div>
@@ -277,8 +321,7 @@
         </div>
         <div class="flex items-start">
           <div
-            class="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 mr-3 flex-shrink-0"
-          >
+            class="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 mr-3 flex-shrink-0">
             <i class="ri-message-3-line"></i>
           </div>
           <div>
@@ -300,8 +343,7 @@
         </div>
         <div class="flex items-start">
           <div
-            class="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center text-red-600 mr-3 flex-shrink-0"
-          >
+            class="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center text-red-600 mr-3 flex-shrink-0">
             <i class="ri-close-circle-line"></i>
           </div>
           <div>
@@ -324,6 +366,7 @@
       </div>
     </div>
   </div>
+
   <!-- Worker Management -->
   <!-- <div class="bg-white rounded custom-shadow p-4">
     <div

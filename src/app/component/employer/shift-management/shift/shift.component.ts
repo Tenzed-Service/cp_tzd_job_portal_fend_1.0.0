@@ -12,6 +12,8 @@ import { ColumnFormateService } from '../../../../core/services/helper/column-fo
 import { AdvancedFilterSortDirectionEnum, TableColumnsDataTypeEnum, TableFilterTypeEnum } from '../../../../core/enums/common.enum';
 import { FiltersComponent } from '../../../../shared/component/filters/filters.component';
 import { FilterSchema } from '../../../../shared/component/filters/filters.component.models';
+import { DeleteConfirmationComponent } from '../../../../shared/component/models/delete-confirmation/delete-confirmation.component';
+import { DeleteModelSchema } from '../../../../shared/component/models/delete-confirmation/delete-confirmation.component.models';
 
 @Component({
     selector: 'app-shift',
@@ -22,7 +24,8 @@ import { FilterSchema } from '../../../../shared/component/filters/filters.compo
       CommonModule,
       FiltersComponent,
       TableComponent,
-      PaginationComponent
+      PaginationComponent,
+      DeleteConfirmationComponent
     ]
 })
 export class ShiftComponent {
@@ -119,6 +122,14 @@ export class ShiftComponent {
   };
   statusList: { label: string; value: string; }[] = [];
   department: { label: string; value: string; }[] = [];
+  deleteModelSchema: DeleteModelSchema<ShiftComponent,any> = {
+    parentComponent: this,
+    title: 'Delete Shift',
+    message: 'Are you sure you want to delete this shift? This action cannot be undone.',
+    cancel: this.delete,
+    confirm: this.delete,
+  };
+  deleteConfirmationModal: boolean = false;
     
   constructor(
     private router: Router,
@@ -180,7 +191,7 @@ export class ShiftComponent {
           {
             tooltip: 'Delete',
             actionType: 'delete',
-            class: 'text-[#16c2d5] hover:text-[#16c2d5]/80',
+            class: 'text-red-500 hover:text-red-500/80',
             iconClass: 'ri-delete-bin-line',
             onActionClick: this.onActionClick,
           },
@@ -258,8 +269,15 @@ export class ShiftComponent {
     event?: any
   ) {    
     if (actionType == 'edit') {
-      // tableSchema.parentComponent.openDetails(event.id);
+      tableSchema.parentComponent.createShift(`edit/${event.id}`);
     }
+    if (actionType == 'delete') {
+      tableSchema.parentComponent.deleteConfirmationModal = true
+    }
+  }
+
+  delete(tableSchema: DeleteModelSchema<ShiftComponent, any[]>,actionType: string,){
+    tableSchema.parentComponent.deleteConfirmationModal = false;
   }
 
   onSortChange(
@@ -275,7 +293,7 @@ export class ShiftComponent {
     }
   }
 
-  createShift(){
-    this.router.navigateByUrl('/shift-management/shifts/create');
+  createShift(path:string){
+    this.router.navigateByUrl(`/shift-management/shifts/${path}`);
   }
 }

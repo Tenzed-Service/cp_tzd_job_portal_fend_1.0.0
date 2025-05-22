@@ -5,7 +5,7 @@
       [filterSchema]="filterSchema">
       <button
         class="bg-primary text-white px-3 py-1 text-sm rounded-button flex items-center whitespace-nowrap"
-        (click)="createShift()">
+        (click)="createShift('create')">
         <div class="w-4 h-4 flex items-center justify-center mr-2">
           <i class="ri-add-line"></i>
         </div>
@@ -298,3 +298,10 @@
       [paginationSchema]="paginationSchema"></app-pagination>
   </div>
 </div>
+
+<!-- Delete Confirmation Modal -->
+@if(deleteConfirmationModal){
+  <app-delete-confirmation 
+  [deleteModelSchema]="deleteModelSchema"
+  ></app-delete-confirmation>
+}

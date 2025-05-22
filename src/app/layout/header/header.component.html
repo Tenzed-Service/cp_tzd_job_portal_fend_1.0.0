@@ -35,7 +35,7 @@
       <div class="relative">
         <div
           id="notification-bell"
-          (click)="isNotificationOpen = !isNotificationOpen; isProfileOpen = false"
+          (click)="$event.stopPropagation();isNotificationOpen = !isNotificationOpen;isProfileOpen = false"
           class="w-9 h-9 bg-gray-100 rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-200">
           <i class="ri-notification-3-line text-gray-600"></i>
         </div>
@@ -159,7 +159,7 @@
       <div class="relative">
         <button
           class="flex items-center space-x-2"
-          id="userProfileButton" (click)="isProfileOpen =!isProfileOpen; isNotificationOpen = false">
+          id="userProfileButton" (click)="$event.stopPropagation();isProfileOpen =!isProfileOpen;isNotificationOpen = false">
           <div
             class="w-9 h-9 rounded-full bg-[#10217d] flex items-center justify-center text-white font-medium">
             JD

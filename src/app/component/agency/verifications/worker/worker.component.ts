@@ -9,6 +9,8 @@ import { DropdownItemModel } from '../../../../core/models/common/common.models'
 import { TableColumns, TableSchema } from '../../../../shared/ui/table/table.component.models';
 import { ColumnFormateService } from '../../../../core/services/helper/column-formate.service';
 import { FilterSchema } from '../../../../shared/component/filters/filters.component.models';
+import { ApproveUserComponent } from '../../../../shared/component/models/approve-user/approve-user.component';
+import { ApproveModalSchema } from '../../../../shared/component/models/approve-user/approve-user.component.models';
 
 export interface Worker {
   id: number;
@@ -27,7 +29,8 @@ export interface Worker {
     standalone: true,
     imports: [
       CommonModule,
-      WorkerViewComponent
+      WorkerViewComponent,
+      ApproveUserComponent
     ]
 })
 export class WorkerComponent {
@@ -148,6 +151,11 @@ export class WorkerComponent {
   statusList: DropdownItemModel[] = [];
   industries: DropdownItemModel[] = [];
   calenders: DropdownItemModel[] = [];
+  approveModalSchema: ApproveModalSchema<WorkerComponent, any> = {
+    parentComponent: this,
+    title: 'Approve Employee',
+    action: this.onApproveActionClick
+  }
   approveModal:boolean = false;
 
   constructor(
@@ -316,6 +324,18 @@ export class WorkerComponent {
     }
     if (actionType == 'approve') {
       tableSchema.parentComponent.approveModal = true;
+    }
+  }
+
+  onApproveActionClick(
+    tableSchema: ApproveModalSchema<WorkerComponent, any>,
+    actionType: string,
+    event?: any
+  ) {    
+    if (actionType == 'close') {
+      tableSchema.parentComponent.approveModal = false;
+    }
+    if (actionType == 'approve') {
     }
   }
 

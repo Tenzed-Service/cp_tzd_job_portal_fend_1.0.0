@@ -120,25 +120,36 @@
             class="block text-sm text-gray-600 mb-1"
             for="contactNumber">Contact Number <span
               class="text-red-500">*</span></label>
-          <div class="flex">
-            <div class="w-16">
-              <select formControlName="countryCode"
-                class="w-full h-full px-2 py-1 border border-gray-300 rounded-l focus:outline-none focus:ring-1 focus:ring-primary border-r-0">
-                <option>+1</option>
-                <option>+44</option>
-                <option>+91</option>
-                <option>+61</option>
-                <option>+86</option>
-              </select>
+              <div class="relative">
+                <div class="absolute w-20 h-full">
+                    <app-selection formControlName="countryCode" [rounded]="false"
+                    [isInvalid]="formControl['contact'].invalid && formControl['contact'].touched"
+                    [dropDownListData]="[
+                        {
+                            value: '+1',
+                            label: '+1'
+                        },
+                        {
+                            value: '+44',
+                            label: '+44'
+                        },
+                        {
+                            value: '+91',
+                            label: '+91'
+                        },
+                        {
+                            value: '+86',
+                            label: '+86'
+                        },
+                    ]"
+                    [errorList]="[]"></app-selection>
+                </div>
+                <input formControlName="contact" type="number"
+                    id="contact"
+                    placeholder="Enter contact number"
+                    [class.border-red-500]="formControl['contact'].invalid && formControl['contact'].touched"
+                    class="w-full pl-24 pr-4 py-[0.32rem] text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#16c2d5]/20 focus:border-[#16c2d5]" />
             </div>
-            <input
-              type="number"
-              id="contactNumber"
-              formControlName="contact"
-              placeholder="Enter contact number"
-              class="flex-1 px-3 py-1 border border-gray-300 rounded-r focus:outline-none focus:ring-1 focus:ring-primary"
-              [class.border-red-500]="formControl['contact'].invalid && formControl['contact'].touched" />
-          </div>
           @if (formControl['contact'].invalid &&
           formControl['contact'].touched) {
           <small class="text-red-500">
@@ -156,95 +167,43 @@
           <label class="block text-sm text-gray-600 mb-1"
             for="country">Country <span
               class="text-red-500">*</span></label>
-          <div class="relative">
-            <select
-              [class.border-red-500]="formControl['country'].invalid && formControl['country'].touched"
-              id="country" formControlName="country"
-              class="appearance-none w-full px-3 py-1 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-primary pr-8">
-              @for (country of countries; track $index) {
-              <option
-                [value]="country.name">{{country.name}}</option>
-              }
-            </select>
-            <div
-              class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-              <i
-                class="ri-arrow-down-s-line text-gray-400"></i>
-            </div>
-          </div>
-          @if (formControl['country'].invalid &&
-          formControl['country'].touched) {
-          <small class="text-red-500">
-            @if
-            (formControl['country'].errors?.['required'])
-            {
-            Country is required
-            }
-          </small>
-          }
+              <app-selection formControlName="country"
+              [isInvalid]="formControl['country'].invalid && formControl['country'].touched"
+              [dropDownListData]="countries"
+              [errorList]="[
+                  {
+                      error: formControl['country'].invalid && formControl['country'].touched,
+                      errorMessage: 'Country is required' 
+                  }
+              ]"></app-selection>
         </div>
         <div>
           <label class="block text-sm text-gray-600 mb-1"
             for="state">State <span
               class="text-red-500">*</span></label>
-          <div class="relative">
-            <select
-              [class.border-red-500]="formControl['state'].invalid && formControl['state'].touched"
-              id="state" formControlName="state"
-              class="appearance-none w-full px-3 py-1 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-primary pr-8">
-              @for (state of states; track $index) {
-              <option *ngFor="let state of states"
-                [value]="state.name">{{state.name}}</option>
-              }
-            </select>
-            <div
-              class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-              <i
-                class="ri-arrow-down-s-line text-gray-400"></i>
-            </div>
-          </div>
-          @if (formControl['state'].invalid &&
-          formControl['state'].touched) {
-          <small class="text-red-500">
-            @if
-            (formControl['state'].errors?.['required'])
-            {
-            State is required
-            }
-          </small>
-          }
+              <app-selection formControlName="state"
+              [isInvalid]="formControl['state'].invalid && formControl['state'].touched"
+              [dropDownListData]="states"
+              [errorList]="[
+                  {
+                      error: formControl['state'].invalid && formControl['state'].touched,
+                      errorMessage: 'State is required' 
+                  }
+              ]"></app-selection>
         </div>
         <div>
           <label class="block text-sm text-gray-600 mb-1"
             for="city">City <span
               class="text-red-500">*</span></label>
-          <div class="relative">
-            <select
-              [class.border-red-500]="formControl['city'].invalid && formControl['city'].touched"
-              id="city" placeholder="Select City"
-              formControlName="city"
-              class="appearance-none w-full px-3 py-1 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-primary pr-8">
-              @for (city of cities; track $index) {
-              <option
-                [value]="city.name">{{city.name}}</option>
-              }
-            </select>
-            <div
-              class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-              <i
-                class="ri-arrow-down-s-line text-gray-400"></i>
-            </div>
-          </div>
-          @if (formControl['city'].invalid &&
-          formControl['city'].touched) {
-          <small class="text-red-500">
-            @if
-            (formControl['city'].errors?.['required'])
-            {
-            City is required
-            }
-          </small>
-          }
+              <app-selection formControlName="city"
+              [isInvalid]="formControl['city'].invalid && formControl['city'].touched"
+              [dropDownListData]="cities"
+              [errorList]="[
+                  {
+                      error: formControl['city'].invalid && formControl['city'].touched,
+                      errorMessage: 'City is required' 
+                  }
+              ]"></app-selection>
         </div>
       </div>
       }
@@ -363,23 +322,11 @@
             </textarea>
         </div>
       </div>
-      }
-      <div class="mt-4 flex justify-end">
-        <button
-          type="button"
-          class="mr-4 px-4 py-2 border border-gray-300 rounded-button text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary whitespace-nowrap">
-          Cancel
-        </button>
-        <button
-          type="submit"
-          class="px-4 py-2 border border-transparent rounded-button shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary whitespace-nowrap">
-          Save Changes
-        </button>
-      </div>
+      }      
     </form>
-    <div class="border-t border-gray-200 pt-4">
+    <div class="pt-4">
       <div class="mb-6">
-        <h3 class="text-lg font-medium text-gray-900">
+        <h3 class="text-md font-medium text-gray-900">
           Required Documents
         </h3>
         <p class="mt-1 text-sm text-gray-500">
@@ -480,6 +427,18 @@
           </div>
         </div>
       </div>
+    </div>
+    <div class="mt-4 flex justify-end">
+      <button
+        type="button"
+        class="mr-4 px-4 py-2 border border-gray-300 rounded-button text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary whitespace-nowrap">
+        Cancel
+      </button>
+      <button
+        type="submit"
+        class="px-4 py-2 border border-transparent rounded-button shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary whitespace-nowrap">
+        Save Changes
+      </button>
     </div>
   </div>
   }

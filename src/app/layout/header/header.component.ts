@@ -1,6 +1,6 @@
 import { UserType } from '../../core/enums/common.enum';
 import { SingletonStoreService } from './../../core/services/helper/singleton-store.service';
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, HostListener, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 
@@ -25,7 +25,8 @@ export class HeaderComponent implements OnInit {
   constructor(
     private router: Router,
     private singletonStoreService: SingletonStoreService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private elementRef: ElementRef
   ) {    
     this.singletonStoreService.sidebarOpen.subscribe((res: boolean) => {
       this.isSidebarOpen = res;
@@ -41,6 +42,13 @@ export class HeaderComponent implements OnInit {
   get isSmallScreen(): boolean {
     return window.innerWidth < 960;
   }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+      this.isProfileOpen = false;
+      this.isNotificationOpen = false;
+  }
+  
 
   ngAfterViewInit() {
     this.singletonStoreService.breadCrumbItems.subscribe((header:breadCrumb[])=>{

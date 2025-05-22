@@ -18,6 +18,8 @@ import {
 import { ColumnFormateService } from '../../../../core/services/helper/column-formate.service';
 import { FilterSchema } from '../../../../shared/component/filters/filters.component.models';
 import { PaginationSchema } from '../../../../shared/ui/pagination/pagination.component.models';
+import { ApproveUserComponent } from '../../../../shared/component/models/approve-user/approve-user.component';
+import { ApproveModalSchema } from '../../../../shared/component/models/approve-user/approve-user.component.models';
 
 export interface EmployerDetail {
   id: number;
@@ -40,6 +42,7 @@ export interface EmployerDetail {
     FiltersComponent,
     TableComponent,
     PaginationComponent,
+    ApproveUserComponent
   ],
 })
 export class EmployerComponent implements OnInit {
@@ -149,6 +152,11 @@ export class EmployerComponent implements OnInit {
     maxVisiblePages: 5,
     onPaginationChange: this.onChangePagination,
   };
+  approveModalSchema: ApproveModalSchema<EmployerComponent, EmployerDetail[]> = {
+    parentComponent: this,
+    title: 'Approve Employer',
+    action: this.onApproveActionClick
+  }
   approveModal:boolean = false;
 
   constructor(
@@ -330,6 +338,18 @@ export class EmployerComponent implements OnInit {
     }
     if (actionType == 'approve') {
       tableSchema.parentComponent.approveModal = true;
+    }
+  }
+
+  onApproveActionClick(
+    tableSchema: ApproveModalSchema<EmployerComponent, EmployerDetail[]>,
+    actionType: string,
+    event?: any
+  ) {    
+    if (actionType == 'close') {
+      tableSchema.parentComponent.approveModal = false;
+    }
+    if (actionType == 'approve') {
     }
   }
 

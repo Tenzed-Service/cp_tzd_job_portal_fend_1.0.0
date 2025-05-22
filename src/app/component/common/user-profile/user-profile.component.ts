@@ -12,13 +12,14 @@ import {
 } from '@angular/forms';
 import { TabsSchema } from '../../../shared/component/tabs/tabs.component.models';
 import { TabsComponent } from '../../../shared/component/tabs/tabs.component';
+import { SelectionComponent } from '../../../shared/ui/fields/selection/selection.component';
 
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
   styleUrls: ['./user-profile.component.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, TabsComponent],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, TabsComponent, SelectionComponent],
 })
 export class UserProfileComponent implements OnInit {
   profileTabs = ProfileTabs;
@@ -128,9 +129,9 @@ export class UserProfileComponent implements OnInit {
 
   loadDropdownData() {
     // Add your API calls here to load dropdown data
-    this.countries = [{ name: 'USA' }, { name: 'Canada' }];
-    this.states = [{ name: 'California' }, { name: 'Texas' }];
-    this.cities = [{ name: 'Los Angeles' }, { name: 'Houston' }];
+    this.countries = [{ value: 1, label: 'USA' }, { value: 2, label: 'Canada' }];
+    this.states = [{ value: 1, label: 'California' }, { value: 2, label: 'Texas' }];
+    this.cities = [{ value: 1, label: 'Los Angeles' }, { value: 2, label: 'Houston' }];
   }
 
   get formControl() {

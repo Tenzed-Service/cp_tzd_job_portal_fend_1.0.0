@@ -1,6 +1,6 @@
 
 @if (currentUser === userType.AGENCY) {
-  <app-agency-dashboard></app-agency-dashboard>
+<app-agency-dashboard></app-agency-dashboard>
 }
 @if (currentUser === userType.EMPLOYER) {
 <app-employer-dashboard></app-employer-dashboard>
@@ -8,3 +8,148 @@
 @if (currentUser === userType.EMPLOYEE) {
 <app-worker-dashboard></app-worker-dashboard>
 }
+
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
+  <!-- Line Chart -->
+  <div class="bg-white rounded overflow-hidden">
+    <div class="p-5 border-b border-gray-200">
+      <div class="flex justify-between items-center">
+        <div>
+          <h3 class="text-md font-medium text-gray-900">
+            Monthly Revenue Trend
+          </h3>
+          <p class="text-sm text-gray-500 mt-1">
+            Line chart showing revenue growth over time
+          </p>
+        </div>
+        <div class="flex space-x-2">
+          <span
+            class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+            Line Chart
+          </span>
+          <!-- <button
+            class="w-5 h-5 flex items-center justify-center text-gray-400 hover:text-gray-500">
+            <i class="ri-download-line"></i>
+          </button> -->
+        </div>
+      </div>
+    </div>
+    <div class="p-5">
+      <div echarts [options]="lineOption" class="h-80"></div>
+    </div>
+  </div>
+  <!-- Bar Chart -->
+  <div class="bg-white rounded overflow-hidden">
+    <div class="p-5 border-b border-gray-200">
+      <div class="flex justify-between items-center">
+        <div>
+          <h3 class="text-md font-medium text-gray-900">
+            Quarterly Sales Comparison
+          </h3>
+          <p class="text-sm text-gray-500 mt-1">
+            Bar chart comparing quarterly performance
+          </p>
+        </div>
+        <div class="flex space-x-2">
+          <span
+            class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+            Bar Chart
+          </span>
+          <!-- <button
+            class="w-5 h-5 flex items-center justify-center text-gray-400 hover:text-gray-500">
+            <i class="ri-download-line"></i>
+          </button> -->
+        </div>
+      </div>
+    </div>
+    <div class="p-5">
+      <div echarts [options]="barOption" class="h-80"></div>
+    </div>
+  </div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+  <!-- Pie Chart -->
+  <div class="bg-white rounded overflow-hidden">
+    <div class="p-5 border-b border-gray-200">
+      <div class="flex justify-between items-center">
+        <div>
+          <h3 class="text-md font-medium text-gray-900">
+            Revenue Distribution by Product
+          </h3>
+          <p class="text-sm text-gray-500 mt-1">
+            Pie chart showing product revenue breakdown
+          </p>
+        </div>
+        <div class="flex space-x-2">
+          <span
+            class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+            Pie Chart
+          </span>
+          <!-- <button
+            class="w-5 h-5 flex items-center justify-center text-gray-400 hover:text-gray-500">
+            <i class="ri-download-line"></i>
+          </button> -->
+        </div>
+      </div>
+    </div>
+    <div class="p-5">
+      <div echarts [options]="pieOption" class="h-80"></div>
+    </div>
+  </div>
+  <!-- Doughnut Chart -->
+  <div class="bg-white rounded overflow-hidden">
+    <div class="p-5 border-b border-gray-200">
+      <div class="flex justify-between items-center">
+        <div>
+          <h3 class="text-md font-medium text-gray-900">
+            Marketing Budget Allocation
+          </h3>
+          <p class="text-sm text-gray-500 mt-1">
+            Doughnut chart showing budget distribution
+          </p>
+        </div>
+        <div class="flex space-x-2">
+          <span
+            class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+            Doughnut Chart
+          </span>
+          <!-- <button
+            class="w-5 h-5 flex items-center justify-center text-gray-400 hover:text-gray-500">
+            <i class="ri-download-line"></i>
+          </button> -->
+        </div>
+      </div>
+    </div>
+    <div class="p-5">
+      <div echarts [options]="doughnutOption" class="h-80"></div>
+    </div>
+  </div>
+  <!-- Polar Area Chart -->
+  <div class="bg-white rounded overflow-hidden">
+    <div class="p-5 border-b border-gray-200">
+      <div class="flex justify-between items-center">
+        <div>
+          <h3 class="text-md font-medium text-gray-900">
+            Customer Satisfaction Metrics
+          </h3>
+          <p class="text-sm text-gray-500 mt-1">
+            Polar area chart showing satisfaction scores
+          </p>
+        </div>
+        <div class="flex space-x-2">
+          <span
+            class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">
+            Polar Area Chart
+          </span>
+          <!-- <button
+            class="w-5 h-5 flex items-center justify-center text-gray-400 hover:text-gray-500">
+            <i class="ri-download-line"></i>
+          </button> -->
+        </div>
+      </div>
+    </div>
+    <div class="p-5">
+      <div echarts [options]="polarAreaOption" class="h-80"></div>
+    </div>
+  </div>
+</div>

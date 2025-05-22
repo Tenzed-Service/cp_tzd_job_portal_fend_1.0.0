@@ -302,21 +302,8 @@
             </div>
             <!-- Actions -->
             <div
-                class="border-t border-gray-100 pt-4 flex items-center justify-between">
-                <div>
-                    <a
-                        href="https://readdy.ai/home/2383245e-29ed-43f1-a0aa-72c4fbee76a7/54db157e-e270-4399-be13-a23591204f29"
-                        data-readdy="true"
-                        class="text-primary hover:text-primary/80 text-sm font-medium">
-                        <div class="flex items-center space-x-1">
-                            <div
-                                class="w-4 h-4 flex items-center justify-center">
-                                <i class="ri-arrow-left-line"></i>
-                            </div>
-                            <span>Back to Original Page</span>
-                        </div>
-                    </a>
-                </div>
+                class="border-t border-gray-100 pt-4 flex items-center justify-end">
+                
                 <div class="flex items-center space-x-2">
                     <button
                         class="px-3 py-1.5 text-sm text-gray-700 border border-gray-300 rounded hover:bg-gray-50 !rounded-button whitespace-nowrap">
@@ -685,16 +672,16 @@ Review and update medication charts for all ICU patients</textarea>
     ></app-delete-confirmation>
 }
 <!-- Create Task Modal -->
- @if(createTaskModal){
+ @if(createTaskModal || editTaskModal){
 <div
     id="createTaskModal"
     class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
     <div
         class="bg-white rounded-lg p-6 max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
         <div class="flex items-center justify-between mb-6">
-            <h3 class="text-xl font-semibold text-gray-900">Create New Task</h3>
+            <h3 class="text-xl font-semibold text-gray-900">{{editTaskModal ? 'Edit' : 'Create New'}} Task</h3>
             <button
-                id="closeCreateTaskBtn" (click)="createTaskModal = false"
+                id="closeCreateTaskBtn" (click)="createTaskModal = false; editTaskModal = false"
                 class="text-gray-500 hover:text-gray-700 !rounded-button whitespace-nowrap">
                 <div class="w-8 h-8 flex items-center justify-center">
                     <i class="ri-close-line ri-lg"></i>
@@ -980,7 +967,7 @@ Review and update medication charts for all ICU patients</textarea>
             </div>
             <div class="flex items-center justify-end space-x-3">
                 <button
-                    type="button" (click)="createTaskModal = false"
+                    type="button" (click)="createTaskModal = false; editTaskModal = false"
                     id="cancelCreateTaskBtn"
                     class="px-4 py-2 text-gray-700 border border-gray-300 rounded hover:bg-gray-50 !rounded-button whitespace-nowrap">
                     Cancel
@@ -988,7 +975,7 @@ Review and update medication charts for all ICU patients</textarea>
                 <button
                     type="submit"
                     class="px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 !rounded-button whitespace-nowrap">
-                    Create Task
+                    Submit
                 </button>
             </div>
         </form>

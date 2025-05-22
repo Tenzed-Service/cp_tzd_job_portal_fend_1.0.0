@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SingletonStoreService } from '../../../../../core/services/helper/singleton-store.service';
 import {
   FormControl,
@@ -47,15 +47,19 @@ export class ShiftFormComponent {
     'Sunday',
   ];
   monthlyDates: number[] = Array.from({ length: 31 }, (_, i) => i + 1);
+  shiftId:number = 0;
 
   constructor(
     private router: Router,
-    private singletonStoreService: SingletonStoreService
+    private singletonStoreService: SingletonStoreService,
+    private activatedRoute: ActivatedRoute,
   ) {
+    this.shiftId = Number(this.activatedRoute.snapshot.paramMap.get('id')) ?? 0;
+    
     this.singletonStoreService.breadCrumbItems.next([
       { label: 'Shift Management' },
       { label: 'Shifts', url: '/shift-management/shifts' },
-      { label: 'Create', active: true },
+      { label: this.shiftId == 0 ? 'Create' : 'Edit', active: true },
     ]);
   }
 
