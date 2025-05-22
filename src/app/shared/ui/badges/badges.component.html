@@ -1,0 +1,12 @@
+<span
+  class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full whitespace-nowrap"
+  [ngClass]="{
+    'bg-[#89dee2]/20 text-[#2e4450]':  statusName === statusType.Available || statusName === statusType.FullyAssigned || statusName === statusType.Completed,
+    'bg-[#16c2d5]/20 text-[#10217d]': statusName === statusType.Pending ||statusName === statusType.Approved || statusName === statusType.PartiallyAssigned || statusName === statusType.InProgress,
+    'bg-[#d7baad]/30 text-[#527c88]': statusName === statusType.InfoRequested || statusName === statusType.PendingConfirmation || statusName === statusType.Assigned || statusName === statusType.Busy,
+    'bg-[#d7baad]/50 text-[#2e4450]': statusName === statusType.Rejected,
+    'bg-gray-100': statusName === statusType.ToDo
+  }"
+  >
+  {{statusName}}
+</span>

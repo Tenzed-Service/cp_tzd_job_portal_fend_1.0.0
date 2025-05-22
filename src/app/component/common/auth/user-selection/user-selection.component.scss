@@ -1,0 +1,21 @@
+.otp-container {
+
+    .welcome-section {
+        background: linear-gradient(135deg, #10217d 0%, #2e4450 100%);
+        img{
+            width: 80%;
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .otp-container {
+        .welcome-section {
+            display: none;
+        }
+    
+        .otp-form-section {
+            padding: 1rem;
+        }
+    }
+}

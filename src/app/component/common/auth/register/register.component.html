@@ -1,0 +1,515 @@
+
+    <div class="flex items-center justify-center min-h-screen py-1">
+        <div class="w-full max-w-4xl bg-white rounded md:shadow-md md:border-t-4 md:border-primary h-[100vh] overflow-y-auto"
+            [class.pointer-none]="isVisibleModel">
+            <div class="p-4">
+                <div class="flex flex-col items-center mb-6">
+                    <div
+                        class="w-12 h-12 flex items-center justify-center text-primary mb-2">
+                        <i class="ri-user-add-line ri-2x"></i>
+                    </div>
+                    <h1 class="md:text-2xl font-semibold text-center text-gray-800">
+                        {{selectedUserType == userType.EMPLOYER ? 'Employer' :
+                        'Employee'}} Registration
+                    </h1>
+                    <p class="text-sm text-gray-500 mt-1 text-center">
+                        Please fill out this form with information to create your
+                        employer
+                        account
+                    </p>
+                </div>
+
+                <form [formGroup]="registerForm">
+                    <!-- Personal Information -->
+                    <div class="mb-4">
+                        <h2 class="text-sm font-medium text-gray-700 mb-2">
+                            Personal Information
+                        </h2>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div>
+                                <label class="block text-sm text-gray-600 mb-1"
+                                    for="fullName">Name <span
+                                        class="text-red-500">*</span></label>
+                                <input
+                                    type="text"
+                                    id="fullName"
+                                    formControlName="name"
+                                    placeholder="Enter your full name"
+                                    class="w-full px-3 py-1 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-primary"
+                                    [class.border-red-500]="formControl['name'].invalid && formControl['name'].touched" />
+                                @if (formControl['name'].invalid &&
+                                formControl['name'].touched) {
+                                <small class="text-red-500">
+                                    @if (formControl['name'].errors?.['required']) {
+                                    Name is required
+                                    }
+                                </small>
+                                }
+                            </div>
+                            @if (selectedUserType == userType.EMPLOYER) {
+                            <div>
+                                <label
+                                    class="block text-sm text-gray-600 mb-1"
+                                    for="companyName">Company Name <span
+                                        class="text-red-500">*</span></label>
+                                <input
+                                    type="text"
+                                    id="companyName"
+                                    formControlName="companyName"
+                                    placeholder="Enter company name"
+                                    class="w-full px-3 py-1 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-primary"
+                                    [class.border-red-500]="formControl['companyName'].invalid && formControl['companyName'].touched" />
+                                @if (formControl['companyName'].invalid &&
+                                formControl['companyName'].touched) {
+                                <small class="text-red-500">
+                                    @if
+                                    (formControl['companyName'].errors?.['required'])
+                                    {
+                                    Company name is required
+                                    }
+                                </small>
+                                }
+                            </div>
+                            }
+                            <div>
+                                <label class="block text-sm text-gray-600 mb-1"
+                                    for="email">Email <span
+                                        class="text-red-500">*</span></label>
+                                <input
+                                    type="email"
+                                    id="email"
+                                    formControlName="email"
+                                    placeholder="Enter your email address"
+                                    class="w-full px-3 py-1 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-primary"
+                                    [class.border-red-500]="formControl['email'].invalid && formControl['email'].touched" />
+                                @if (formControl['email'].invalid &&
+                                formControl['email'].touched) {
+                                <small class="text-red-500">
+                                    @if (formControl['email'].errors?.['required'])
+                                    {
+                                    Email is required
+                                    }
+                                    @if (formControl['email'].errors?.['email']) {
+                                    Please enter a valid email address
+                                    }
+                                </small>
+                                }
+                            </div>
+                            <div>
+                                <label
+                                    class="block text-sm text-gray-600 mb-1"
+                                    for="contactNumber">Contact Number <span
+                                        class="text-red-500">*</span></label>
+                                <div class="flex">
+                                    <div class="w-16">
+                                        <select formControlName="countryCode"
+                                            class="w-full h-full px-2 py-1 border border-gray-300 rounded-l focus:outline-none focus:ring-1 focus:ring-primary border-r-0">
+                                            <option>+1</option>
+                                            <option>+44</option>
+                                            <option>+91</option>
+                                            <option>+61</option>
+                                            <option>+86</option>
+                                        </select>
+                                    </div>
+                                    <input
+                                        type="number"
+                                        id="contactNumber"
+                                        formControlName="contact"
+                                        placeholder="Enter contact number"
+                                        class="flex-1 px-3 py-1 border border-gray-300 rounded-r focus:outline-none focus:ring-1 focus:ring-primary"
+                                        [class.border-red-500]="formControl['contact'].invalid && formControl['contact'].touched" />
+                                </div>
+                                @if (formControl['contact'].invalid &&
+                                formControl['contact'].touched) {
+                                <small class="text-red-500">
+                                    @if
+                                    (formControl['contact'].errors?.['required'])
+                                    {
+                                    Contact number is required
+                                    }
+                                </small>
+                                }
+                            </div>
+                            <div>
+                                <label class="block text-sm text-gray-600 mb-1"
+                                    for="password">Password <span
+                                        class="text-red-500">*</span></label>
+                                <div class="relative">
+                                    <input
+                                        [type]="showPassword ? 'text' : 'password'"
+                                        id="password"
+                                        formControlName="password"
+                                        placeholder="Enter password"
+                                        class="w-full px-3 py-1 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-primary"
+                                        [class.border-red-500]="formControl['password'].invalid && formControl['password'].touched" />
+                                    <button
+                                        type="button"
+                                        (click)="showPassword = !showPassword"
+                                        class="absolute inset-y-0 right-0 flex items-center px-3 text-gray-500 toggle-password">
+                                        <i
+                                            [ngClass]="{'ri-eye-line' : !showPassword, 'ri-eye-off-line' : showPassword}"></i>
+                                    </button>
+                                </div>
+                                @if (formControl['password'].invalid &&
+                                formControl['password'].touched) {
+                                <small class="text-red-500">
+                                    @if
+                                    (formControl['password'].errors?.['required']) {
+                                    Password is required
+                                    }
+                                    @if
+                                    (formControl['password'].errors?.['pattern']) {
+                                    Password invalid.Min 8 character & Max 15
+                                    character. Password must contain at least one
+                                    small & one capital alphabet and numeric digit.
+                                    }
+                                </small>
+                                }
+                            </div>
+                            <div>
+                                <label
+                                    class="block text-sm text-gray-600 mb-1"
+                                    for="confirmPassword">Confirm Password <span
+                                        class="text-red-500">*</span></label>
+                                <div class="relative">
+                                    <input
+                                        [type]="showConfirmPassword ? 'text' : 'password'"
+                                        id="confirmPassword"
+                                        formControlName="confirmPassword"
+                                        placeholder="Confirm your password"
+                                        class="w-full px-3 py-1 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-primary"
+                                        [class.border-red-500]="formControl['confirmPassword'].invalid && formControl['confirmPassword'].touched" />
+                                    <button
+                                        type="button"
+                                        (click)="showConfirmPassword = !showConfirmPassword"
+                                        class="absolute inset-y-0 right-0 flex items-center px-3 text-gray-500 toggle-password">
+                                        <i
+                                            [ngClass]="{'ri-eye-line' : !showConfirmPassword, 'ri-eye-off-line' : showConfirmPassword}"></i>
+                                    </button>
+                                </div>
+                                @if (formControl['confirmPassword'].invalid &&
+                                formControl['confirmPassword'].touched) {
+                                <small class="text-red-500">
+                                    @if
+                                    (formControl['confirmPassword'].errors?.['required'])
+                                    {
+                                    Confirm password is required
+                                    } @else if
+                                    (formControl['confirmPassword'].errors?.['confirmedValidator'])
+                                    {
+                                    Password and Confirm Password must be match.
+                                    }
+                                </small>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Location Information -->
+                    <div class="mb-4">
+                        <h2 class="text-sm font-medium text-gray-700 mb-2">
+                            Location Information
+                        </h2>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div>
+                                <label class="block text-sm text-gray-600 mb-1"
+                                    for="country">Country <span
+                                        class="text-red-500">*</span></label>
+                                <div class="relative">
+                                    <select
+                                        [class.border-red-500]="formControl['country'].invalid && formControl['country'].touched"
+                                        id="country" formControlName="country"
+                                        class="appearance-none w-full px-3 py-1 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-primary pr-8">
+                                        @for (country of countries; track $index) {
+                                        <option
+                                            [value]="country.name">{{country.name}}</option>
+                                        }
+                                    </select>
+                                    <div
+                                        class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                                        <i
+                                            class="ri-arrow-down-s-line text-gray-400"></i>
+                                    </div>
+                                </div>
+                                @if (formControl['country'].invalid &&
+                                formControl['country'].touched) {
+                                <small class="text-red-500">
+                                    @if
+                                    (formControl['country'].errors?.['required'])
+                                    {
+                                    Country is required
+                                    }
+                                </small>
+                                }
+                            </div>
+                            <div>
+                                <label class="block text-sm text-gray-600 mb-1"
+                                    for="state">State <span
+                                        class="text-red-500">*</span></label>
+                                <div class="relative">
+                                    <select
+                                        [class.border-red-500]="formControl['state'].invalid && formControl['state'].touched"
+                                        id="state" formControlName="state"
+                                        class="appearance-none w-full px-3 py-1 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-primary pr-8">
+                                        @for (state of states; track $index) {
+                                        <option *ngFor="let state of states"
+                                            [value]="state.name">{{state.name}}</option>
+                                        }
+                                    </select>
+                                    <div
+                                        class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                                        <i
+                                            class="ri-arrow-down-s-line text-gray-400"></i>
+                                    </div>
+                                </div>
+                                @if (formControl['state'].invalid &&
+                                formControl['state'].touched) {
+                                <small class="text-red-500">
+                                    @if
+                                    (formControl['state'].errors?.['required'])
+                                    {
+                                    State is required
+                                    }
+                                </small>
+                                }
+                            </div>
+                            <div>
+                                <label class="block text-sm text-gray-600 mb-1"
+                                    for="city">City <span
+                                        class="text-red-500">*</span></label>
+                                <div class="relative">
+                                    <select
+                                        [class.border-red-500]="formControl['city'].invalid && formControl['city'].touched"
+                                        id="city" placeholder="Select City"
+                                        formControlName="city"
+                                        class="appearance-none w-full px-3 py-1 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-primary pr-8">
+                                        @for (city of cities; track $index) {
+                                        <option
+                                            [value]="city.name">{{city.name}}</option>
+                                        }
+                                    </select>
+                                    <div
+                                        class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                                        <i
+                                            class="ri-arrow-down-s-line text-gray-400"></i>
+                                    </div>
+                                </div>
+                                @if (formControl['city'].invalid &&
+                                formControl['city'].touched) {
+                                <small class="text-red-500">
+                                    @if
+                                    (formControl['city'].errors?.['required'])
+                                    {
+                                    City is required
+                                    }
+                                </small>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Company Details -->
+                    @if (selectedUserType == userType.EMPLOYER) {
+                    <div class="mb-4">
+                        <h2 class="text-sm font-medium text-gray-700 mb-2">
+                            Company Details
+                        </h2>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div>
+                                <label class="block text-sm text-gray-600 mb-1"
+                                    for="legalName">Legal Name <span
+                                        class="text-red-500">*</span></label>
+                                <input
+                                    type="text"
+                                    id="legalName"
+                                    formControlName="legalName"
+                                    placeholder="Enter legal name"
+                                    class="w-full px-3 py-1 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-primary"
+                                    [class.border-red-500]="formControl['legalName'].invalid && formControl['legalName'].touched" />
+                                @if (formControl['legalName'].invalid &&
+                                formControl['legalName'].touched) {
+                                <small class="text-red-500">
+                                    @if
+                                    (formControl['legalName'].errors?.['required'])
+                                    {
+                                    Legal name is required
+                                    }
+                                </small>
+                                }
+                            </div>
+                            <div>
+                                <label class="block text-sm text-gray-600 mb-1"
+                                    for="industry">Industry <span
+                                        class="text-red-500">*</span></label>
+                                <div class="relative">
+                                    <select
+                                        [class.border-red-500]="formControl['industry'].invalid && formControl['industry'].touched"
+                                        id="industry" formControlName="industry"
+                                        class="appearance-none w-full px-3 py-1 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-primary pr-8">
+                                        @for (industry of industries; track $index)
+                                        {
+                                        <option
+                                            [value]="industry.name">{{industry.name}}</option>
+                                        }
+                                    </select>
+                                    <div
+                                        class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                                        <i
+                                            class="ri-arrow-down-s-line text-gray-400"></i>
+                                    </div>
+                                </div>
+                                @if (formControl['industry'].invalid &&
+                                formControl['industry'].touched) {
+                                <small class="text-red-500">
+                                    @if
+                                    (formControl['industry'].errors?.['required'])
+                                    {
+                                    Industry is required
+                                    }
+                                </small>
+                                }
+                            </div>
+                            <div>
+                                <label
+                                    class="block text-sm text-gray-600 mb-1"
+                                    for="entityType">Entity Type <span
+                                        class="text-red-500">*</span></label>
+                                <div class="relative">
+                                    <select
+                                        [class.border-red-500]="formControl['entityType'].invalid && formControl['entityType'].touched"
+                                        id="entityType"
+                                        formControlName="entityType"
+                                        class="appearance-none w-full px-3 py-1 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-primary pr-8">
+                                        @for (item of legalEntities; track $index) {
+                                        <option
+                                            [value]="item?.value">{{item?.name}}</option>
+                                        }
+                                    </select>
+                                    <div
+                                        class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                                        <i
+                                            class="ri-arrow-down-s-line text-gray-400"></i>
+                                    </div>
+                                </div>
+                                @if (formControl['entityType'].invalid &&
+                                formControl['entityType'].touched) {
+                                <small class="text-red-500">
+                                    @if
+                                    (formControl['entityType'].errors?.['required'])
+                                    {
+                                    Entity type is required
+                                    }
+                                </small>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    }
+
+                    <!-- Documents -->
+                    <div class="mb-6">
+                        <div class="flex items-center gap-2 mb-3">
+                            <h2
+                                class="text-sm font-medium text-gray-700">Documents</h2>
+                            <div class="relative group">
+                                <div
+                                    class="w-4 h-4 flex items-center justify-center cursor-help">
+                                    <i
+                                        class="ri-information-line text-gray-400 group-hover:text-gray-600"></i>
+                                </div>
+                                <div
+                                    class="absolute left-1/2 -translate-x-1/3 bottom-full mb-2 px-3 py-2 bg-slate-900 text-white text-xs rounded-md opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap">
+                                    Only PNG, JPG, and PDF files are allowed.
+                                    <div
+                                        class="absolute left-1/3 -translate-x-1/2 top-full border-4 border-transparent border-t-gray-900"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center mb-4"
+                            (dragover)="onDragOver($event)"
+                            (dragleave)="onDragLeave($event)"
+                            (drop)="onDrop($event)">
+                            <div
+                                class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-2">
+                                <i class="ri-upload-2-line text-gray-500"></i>
+                            </div>
+                            <p class="text-sm text-gray-500 mb-1">
+                                Upload a file or drag and drop
+                            </p>
+                            <p class="text-xs text-gray-400">PNG, JPG, PDF up to
+                                10MB</p>
+                            <input type="file" class="hidden" id="fileUpload"
+                                (change)="onFileSelected($event)"
+                                accept=".jpg,.jpeg,.png" multiple />
+                            <button
+                                type="button"
+                                onclick="document.getElementById('fileUpload').click()"
+                                class="mt-3 px-4 py-1.5 bg-gray-100 text-gray-700 text-sm rounded-md hover:bg-gray-200 !rounded-button whitespace-nowrap">
+                                Browse Files
+                            </button>
+                        </div>
+
+                        @if (uploadedFiles.length > 0) {
+                        <div class="space-y-3">
+                            @for (file of uploadedFiles; track file; let i = $index)
+                            {
+                            <div
+                                class="flex items-center justify-between bg-gray-50 p-3 rounded">
+                                <div class="flex items-center">
+                                    <div
+                                        class="w-8 h-8 bg-blue-100 rounded-md flex items-center justify-center mr-3">
+                                        <i
+                                            class="ri-file-text-line text-blue-500"></i>
+                                    </div>
+                                    <div>
+                                        <p
+                                            class="text-sm font-medium text-gray-700">
+                                            {{file.name}}
+                                        </p>
+                                        <p class="text-xs text-gray-500">
+                                            {{(file.size / 1024) > 1024 ?
+                                            ((file.size / 1024 / 1024).toFixed(1) +
+                                            ' MB') :
+                                            ((file.size / 1024).toFixed(1) +
+                                            ' KB')}} •
+                                            {{file.type.split('/')[1].toUpperCase()}}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="flex space-x-2">
+                                    <button
+                                        type="button"
+                                        class="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-red-500"
+                                        (click)="removeFile(i)">
+                                        <i class="ri-delete-bin-line"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            }
+                        </div>
+                        }
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button
+                        type="button"
+                        (click)="onSubmit()"
+                        class="submit-btn w-full py-2 px-4 text-white font-medium rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-opacity-50 !rounded-button whitespace-nowrap">
+                        Submit Registration
+                    </button>
+
+                    <div class="mt-6 text-center text-gray-600">
+                        Already have an account?
+                        <a (click)="goBack()"
+                            class="text-secondary hover:underline cursor-pointer">Login</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+@if (isVisibleModel) {
+<app-register-success-screen
+    (isShow)="isVisibleModel = $event"></app-register-success-screen>
+}

@@ -1,0 +1,1239 @@
+<div class="flex h-full pt-4">
+    <!-- Left Panel - Tasks -->
+    <div class="w-full md:w-3/5 flex flex-col md:border-r md:border-gray-200">
+        <div
+            class="p-4 border-b border-gray-200 rounded md:rounded-r-none bg-white mb-2">
+            <div
+                class="flex flex-wrap items-center justify-center sm:justify-between">
+                <div class="flex items-center space-x-4 mb-2 pr-4">
+                    <h2 class="text-lg font-semibold text-gray-900">Tasks</h2>
+                    <button id="pastDueTasksBtn"
+                        class="flex items-center px-3 py-1 text-xs bg-red-50 text-red-600 rounded-full hover:bg-red-100">
+                        <div
+                            class="w-3 h-3 flex items-center justify-center mr-1">
+                            <i class="ri-time-line"></i>
+                        </div>
+                        <span>3 Past Due</span>
+                    </button>
+                </div>
+                <div class="flex items-center justify-center space-x-3 mb-2">
+                    <app-simple-input
+                        (keyup)="searchInput.next({event: $event, type: 'task'})"
+                        placeholder="Search"
+                        prefixIcon="ri-search-line"></app-simple-input>
+                </div>
+            </div>
+            <div>
+                <app-tabs [tabsSchema]="taskTabsSchema">
+                    <button id="advancedSettingsBtn"
+                        (click)="advancedSettingsModal = true"
+                        class="p-1 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-full"
+                        title="Advanced Settings">
+                        <div class="w-5 h-5 flex items-center justify-center">
+                            <i class="ri-settings-3-line"></i>
+                        </div>
+                    </button>
+                    <button
+                        class="p-1 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-full"
+                        title="Export Tasks">
+                        <div class="w-5 h-5 flex items-center justify-center">
+                            <i class="ri-download-line"></i>
+                        </div>
+                    </button>
+                    <button
+                        class="p-1 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-full"
+                        title="Bulk Create">
+                        <div class="w-5 h-5 flex items-center justify-center">
+                            <i class="ri-file-list-3-line"></i>
+                        </div>
+                    </button>
+                </app-tabs>
+            </div>
+        </div>
+        <div class="flex-1 overflow-y-auto px-1">
+            <div class="grid grid-cols-1 gap-2">
+                @for (task of taskList; track task.id) {
+                @if (!task?.archived) {
+                <div
+                    class="bg-white rounded custom-shadow p-4 relative flex task-card drop-zone"
+                    [ngClass]="{
+                                'priority-high': task.priority === 'High',
+                                'priority-medium': task.priority === 'Medium',
+                                'priority-low': task.priority === 'Low'
+                            }"
+                    [attr.data-task-id]="task.id"
+                    (dragover)="onDragOver($event)"
+                    (dragleave)="onDragLeave($event)"
+                    (drop)="onDrop($event, task)">
+                    <div
+                        class="priority-indicator absolute left-0 top-0 bottom-0 rounded-lg"
+                        [ngClass]="{
+                                'bg-red-500': task.priority === 'High',
+                                'bg-orange-500': task.priority === 'Medium',
+                                'bg-gray-500': task.priority === 'Low'
+                                }"></div>
+                    <div class="flex-1 pl-2">
+                        <div class="flex justify-between items-start mb-3">
+                            <div>
+                                <h3 class="font-semibold text-gray-900">{{
+                                    task.title }}</h3>
+                                <p class="text-sm text-gray-500 mt-1">{{
+                                    task.description }}</p>
+                            </div>
+                            <div class="w-[100px] flex justify-end">
+                                <app-badges [statusName]="task.status"></app-badges>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-3 mb-3">
+                            <div>
+                                <p class="text-xs text-gray-500 mb-1">Due
+                                    Date</p>
+                                <div
+                                    class="text-sm font-medium flex items-center">
+                                    <div
+                                        class="w-4 h-4 flex items-center justify-center mr-1 text-gray-400">
+                                        <i class="ri-calendar-line"></i>
+                                    </div>
+                                    {{ task.dueDate |
+                                    date:'MMM d, yyyy - h:mm a' }}
+                                </div>
+                            </div>
+                            <div>
+                                <p
+                                    class="text-xs text-gray-500 mb-1">Priority</p>
+                                <div
+                                    class="text-sm font-medium flex items-center">
+                                    <div
+                                        class="w-4 h-4 flex items-center justify-center mr-1"
+                                        [ngClass]="{
+                                        'text-red-500': task.priority === 'High',
+                                        'text-orange-500': task.priority === 'Medium',
+                                        'text-gray-500': task.priority === 'Low'
+                                        }">
+                                        <i class="ri-flag-2-line"></i>
+                                    </div>
+                                    {{ task.priority }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <p class="text-xs text-gray-500 mb-1">Assigned
+                                To</p>
+                            <div class="flex -space-x-2">
+                                @for (staff of task.assignedTo; track staff) {
+                                <img
+                                    class="w-8 h-8 rounded-full border-2 border-white"
+                                    [src]="getStaffImage(staff)"
+                                    [alt]="staff">
+                                }
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <div class="flex space-x-1">
+                                @for (tag of task.tags; track tag) {
+                                <span
+                                    class="px-2 py-1 bg-gray-100 rounded-full text-xs text-gray-700">{{
+                                    tag }}</span>
+                                }
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <button
+                                    class="text-gray-500 hover:text-gray-700"
+                                    title="Archive Task"
+                                    (click)="archiveTask(task)">
+                                    <div
+                                        class="w-5 h-5 flex items-center justify-center">
+                                        <i class="ri-archive-line"></i>
+                                    </div>
+                                </button>
+                                <button
+                                    class="text-gray-500 hover:text-gray-700"
+                                    title="Duplicate Task"
+                                    (click)="duplicateTask(task)">
+                                    <div
+                                        class="w-5 h-5 flex items-center justify-center">
+                                        <i class="ri-file-copy-line"></i>
+                                    </div>
+                                </button>
+                                <button class="text-primary text-sm font-medium"
+                                    (click)="viewTaskDetails(task)">
+                                    View Details
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                }
+                }
+            </div>
+        </div>
+        <div class="absolute bottom-6 right-6">
+            <button id="createTaskBtn" (click)="createTaskModal = true"
+                class="w-10 h-10 rounded-full bg-primary text-white shadow-lg flex items-center justify-center hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2">
+                <div class="w-6 h-6 flex items-center justify-center">
+                    <i class="ri-add-line"></i>
+                </div>
+            </button>
+        </div>
+    </div>
+    <!-- Right Panel - Staff Directory -->
+    <div class="w-2/5 hidden md:flex flex-col">
+        <div
+            class="p-4 border-b border-gray-200 rounded md:rounded-l-none bg-white mb-2">
+            <div class="flex items-center justify-between mb-2">
+                <h2 class="text-lg font-semibold text-gray-900">Staff</h2>
+                <app-simple-input
+                    (keyup)="searchInput.next({event: $event, type: 'staff'})"
+                    placeholder="Search"
+                    prefixIcon="ri-search-line"></app-simple-input>
+            </div>
+            <div>
+                <app-tabs
+                    [tabsSchema]="staffTabsSchema"></app-tabs>
+            </div>
+        </div>
+        <div class="flex-1 overflow-y-auto px-1">
+            <div class="grid grid-cols-1 gap-2">
+                @for (staff of staffList; track staff.id) {
+                <div class="bg-white rounded custom-shadow p-4 cursor-move"
+                    [attr.draggable]="true"
+                    [attr.data-staff-id]="staff.id"
+                    [attr.data-staff-name]="staff.name"
+                    [attr.data-staff-role]="staff.roles"
+                    (dragstart)="onDragStart($event, staff)">
+                    <div class="flex items-start">
+                        <img class="w-12 h-12 rounded-full mr-3"
+                            [src]="staff.image"
+                            [alt]="staff.name">
+                        <div class="flex-1">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h3 class="font-semibold text-gray-900">
+                                        {{ staff.title ? staff.title + ' ' : ''
+                                        }}{{ staff.name }}{{ staff.title ===
+                                        'RN' || staff.title === 'DA' ? ', ' +
+                                        staff.title : '' }}
+                                    </h3>
+                                    <p class="text-sm text-gray-500">{{
+                                        staff.department }}</p>
+                                </div>
+                                <app-badges [statusName]="staff.status"></app-badges>
+                            </div>
+                            <div class="mt-2">
+                                <div class="flex space-x-1 mb-2">
+                                    @for (role of staff.roles; track role) {
+                                    <span
+                                        class="px-2 py-1 bg-gray-100 rounded-full text-xs text-gray-700">{{
+                                        role }}</span>
+                                    }
+                                </div>
+                                <div
+                                    class="flex items-center justify-between text-xs text-gray-500">
+                                    <span class="flex items-center">
+                                        <div
+                                            class="w-3 h-3 flex items-center justify-center mr-1">
+                                            <i class="ri-task-line"></i>
+                                        </div>
+                                        {{ staff.taskCount }} task{{
+                                        staff.taskCount !== 1 ? 's' : '' }}
+                                        assigned
+                                    </span>
+                                    <button (click)="assignTaskModal = true"
+                                        class="text-primary text-sm font-medium">
+                                        Assign Task
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Task Details Modal -->
+ @if (selectedTask) {
+<div id="taskDetailsModal"
+    class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div
+        class="bg-white rounded-lg shadow-lg w-full max-w-4xl max-h-[90vh] overflow-y-auto mx-4">
+        <div
+            class="flex items-center justify-between border-b border-gray-200 px-6 py-4 sticky top-0 bg-white z-10">
+            <h3 class="text-lg font-semibold text-gray-900">Task Details</h3>
+            <div class="flex items-center space-x-3">
+                <button
+                    class="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-full"
+                    title="Archive">
+                    <div id="archiveTaskBtn"
+                        class="w-5 h-5 flex items-center justify-center">
+                        <i class="ri-archive-line"></i>
+                    </div>
+                </button>
+                <button
+                    class="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-full"
+                    title="Print">
+                    <div class="w-5 h-5 flex items-center justify-center">
+                        <i class="ri-printer-line"></i>
+                    </div>
+                </button>
+                <button
+                    class="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-full"
+                    title="Export">
+                    <div class="w-5 h-5 flex items-center justify-center">
+                        <i class="ri-download-line"></i>
+                    </div>
+                </button>
+                <button id="closeTaskDetailsBtn" (click)="selectedTask = null"
+                    class="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-full">
+                    <div class="w-5 h-5 flex items-center justify-center">
+                        <i class="ri-close-line"></i>
+                    </div>
+                </button>
+            </div>
+        </div>
+        <div class="p-6">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="lg:col-span-2 space-y-6">
+                    <div class="bg-gray-50 rounded-lg p-4">
+                        <div class="flex items-start mb-4">
+                            <div
+                                class="w-12 h-12 flex items-center justify-center rounded-full bg-blue-100 text-blue-600 mr-4">
+                                <i class="ri-file-list-3-line ri-lg"></i>
+                            </div>
+                            <div class="flex-1">
+                                <div class="flex justify-between items-start">
+                                    <h4
+                                        class="text-xl font-semibold text-gray-900">Update
+                                        patient records system</h4>
+                                    <span
+                                        class="status-badge status-in-progress">In
+                                        Progress</span>
+                                </div>
+                                <p class="text-gray-600 mt-2">Ensure all recent
+                                    patient data is correctly entered into the
+                                    system before the end of day.</p>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4 mb-4">
+                            <div>
+                                <p class="text-sm text-gray-500 mb-1">Due
+                                    Date</p>
+                                <div class="font-medium flex items-center">
+                                    <div
+                                        class="w-4 h-4 flex items-center justify-center mr-1 text-gray-400">
+                                        <i class="ri-calendar-line"></i>
+                                    </div>
+                                    May 7, 2025 - 5:00 PM
+                                </div>
+                            </div>
+                            <div>
+                                <p
+                                    class="text-sm text-gray-500 mb-1">Priority</p>
+                                <div class="font-medium flex items-center">
+                                    <div
+                                        class="w-4 h-4 flex items-center justify-center mr-1 text-red-500">
+                                        <i class="ri-flag-2-line"></i>
+                                    </div>
+                                    High
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div class="flex space-x-1">
+                                <span
+                                    class="px-2 py-1 bg-gray-100 rounded-full text-xs text-gray-700">Admin</span>
+                                <span
+                                    class="px-2 py-1 bg-gray-100 rounded-full text-xs text-gray-700">Records</span>
+                            </div>
+                            <button
+                                class="text-primary hover:text-primary-dark text-sm font-medium flex items-center">
+                                <div
+                                    class="w-4 h-4 flex items-center justify-center mr-1">
+                                    <i class="ri-edit-line"></i>
+                                </div>
+                                Edit Task
+                            </button>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 rounded-lg p-4">
+                        <div class="flex items-center justify-between mb-4">
+                            <h5 class="font-semibold text-gray-900">Assigned
+                                Staff</h5>
+                            <button
+                                class="text-primary hover:text-primary-dark text-sm font-medium flex items-center">
+                                <div
+                                    class="w-4 h-4 flex items-center justify-center mr-1">
+                                    <i class="ri-user-add-line"></i>
+                                </div>
+                                Reassign
+                            </button>
+                        </div>
+                        <div
+                            class="bg-white rounded border border-gray-200 p-3">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <img class="w-10 h-10 rounded-full mr-3"
+                                        src="https://readdy.ai/api/search-image?query=professional%25252520headshot%25252520of%25252520a%25252520female%25252520with%25252520short%25252520brown%25252520hair%2525252C%25252520smiling%2525252C%25252520professional%25252520attire%2525252C%25252520neutral%25252520background%2525252C%25252520high%25252520quality%25252520portrait&width=50&height=50&seq=1&orientation=squarish"
+                                        alt="Emily Johnson">
+                                    <div>
+                                        <h6
+                                            class="font-medium text-gray-900">Dr.
+                                            Emily Johnson</h6>
+                                        <p class="text-sm text-gray-500">General
+                                            Medicine</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <button
+                                        class="p-1.5 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded"
+                                        title="Send notification">
+                                        <div
+                                            class="w-4 h-4 flex items-center justify-center">
+                                            <i class="ri-notification-line"></i>
+                                        </div>
+                                    </button>
+                                    <button
+                                        class="p-1.5 text-gray-500 hover:text-red-600 hover:bg-gray-100 rounded"
+                                        title="Remove">
+                                        <div
+                                            class="w-4 h-4 flex items-center justify-center">
+                                            <i class="ri-delete-bin-line"></i>
+                                        </div>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 rounded-lg p-4">
+                        <h5 class="font-semibold text-gray-900 mb-3">Task
+                            Progress</h5>
+                        <div class="mb-2 flex justify-between items-center">
+                            <span class="text-sm text-gray-600">60%
+                                Complete</span>
+                            <span class="text-sm text-gray-600">3 of 5
+                                items</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2.5">
+                            <div class="bg-primary h-2.5 rounded-full"
+                                style="width: 60%"></div>
+                        </div>
+                        <div class="mt-4 space-y-2">
+                            <div class="flex items-center">
+                                <input type="checkbox"
+                                    class="custom-checkbox mr-3" checked>
+                                <span class="text-sm text-gray-700">Review
+                                    current patient records</span>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="checkbox"
+                                    class="custom-checkbox mr-3" checked>
+                                <span class="text-sm text-gray-700">Identify
+                                    missing information</span>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="checkbox"
+                                    class="custom-checkbox mr-3" checked>
+                                <span class="text-sm text-gray-700">Update
+                                    patient contact details</span>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="checkbox"
+                                    class="custom-checkbox mr-3">
+                                <span class="text-sm text-gray-700">Verify
+                                    insurance information</span>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="checkbox"
+                                    class="custom-checkbox mr-3">
+                                <span class="text-sm text-gray-700">Generate
+                                    updated patient reports</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 rounded-lg p-4">
+                        <h5
+                            class="font-semibold text-gray-900 mb-3">Comments</h5>
+                        <div class="space-y-4">
+                            <div class="flex items-start">
+                                <img class="w-8 h-8 rounded-full mr-3"
+                                    src="https://readdy.ai/api/search-image?query=professional%25252520headshot%25252520of%25252520a%25252520female%25252520with%25252520short%25252520brown%25252520hair%2525252C%25252520smiling%2525252C%25252520professional%25252520attire%2525252C%25252520neutral%25252520background%2525252C%25252520high%25252520quality%25252520portrait&width=50&height=50&seq=1&orientation=squarish"
+                                    alt="Emily Johnson">
+                                <div class="flex-1 bg-gray-100 rounded-lg p-3">
+                                    <div
+                                        class="flex justify-between items-start">
+                                        <h6
+                                            class="font-medium text-gray-900">Dr.
+                                            Emily Johnson</h6>
+                                        <span
+                                            class="text-xs text-gray-500">Today
+                                            at 10:23 AM</span>
+                                    </div>
+                                    <p class="text-sm text-gray-700 mt-1">I've
+                                        completed updating the contact
+                                        information for all patients. Working on
+                                        insurance verification now.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <img class="w-8 h-8 rounded-full mr-3"
+                                    src="https://readdy.ai/api/search-image?query=professional%25252520headshot%25252520of%25252520an%25252520african%25252520american%25252520male%2525252C%25252520smiling%2525252C%25252520professional%25252520attire%2525252C%25252520neutral%25252520background%2525252C%25252520high%25252520quality%25252520portrait&width=50&height=50&seq=4&orientation=squarish"
+                                    alt="David Washington">
+                                <div class="flex-1 bg-gray-100 rounded-lg p-3">
+                                    <div
+                                        class="flex justify-between items-start">
+                                        <h6
+                                            class="font-medium text-gray-900">Dr.
+                                            David Washington</h6>
+                                        <span
+                                            class="text-xs text-gray-500">Yesterday
+                                            at 4:15 PM</span>
+                                    </div>
+                                    <p class="text-sm text-gray-700 mt-1">The IT
+                                        department has provided access to the
+                                        updated records system. Let me know if
+                                        you need any assistance.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <div class="flex items-start">
+                                <img class="w-8 h-8 rounded-full mr-3"
+                                    src="https://readdy.ai/api/search-image?query=professional%25252520headshot%25252520of%25252520a%25252520caucasian%25252520man%25252520with%25252520blonde%25252520hair%2525252C%25252520smiling%2525252C%25252520professional%25252520attire%2525252C%25252520neutral%25252520background%2525252C%25252520high%25252520quality%25252520portrait&width=50&height=50&seq=8&orientation=squarish"
+                                    alt="James Wilson">
+                                <div class="flex-1">
+                                    <textarea
+                                        class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#16c2d5]/20 focus:border-[#16c2d5]"
+                                        rows="2"
+                                        placeholder="Add a comment..."></textarea>
+                                    <div class="mt-2 flex justify-end">
+                                        <button
+                                            class="px-4 py-1 bg-primary text-white rounded-button hover:bg-primary-dark text-sm whitespace-nowrap">
+                                            Post Comment
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="space-y-6">
+                    <div class="bg-gray-50 rounded-lg p-4">
+                        <h5 class="font-semibold text-gray-900 mb-3">Task
+                            Details</h5>
+                        <div class="space-y-3">
+                            <div class="flex items-start">
+                                <div
+                                    class="w-5 h-5 flex items-center justify-center text-gray-500 mt-0.5 mr-3">
+                                    <i class="ri-user-line"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-600">Created
+                                        By</p>
+                                    <p class="text-sm font-medium">James
+                                        Wilson</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div
+                                    class="w-5 h-5 flex items-center justify-center text-gray-500 mt-0.5 mr-3">
+                                    <i class="ri-calendar-line"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-600">Created
+                                        On</p>
+                                    <p class="text-sm font-medium">May 5, 2025 -
+                                        9:30 AM</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div
+                                    class="w-5 h-5 flex items-center justify-center text-gray-500 mt-0.5 mr-3">
+                                    <i class="ri-time-line"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-600">Estimated
+                                        Time</p>
+                                    <p class="text-sm font-medium">4 hours</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div
+                                    class="w-5 h-5 flex items-center justify-center text-gray-500 mt-0.5 mr-3">
+                                    <i class="ri-link"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-600">Related
+                                        To</p>
+                                    <p class="text-sm font-medium">Patient
+                                        Records System Update Project</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+ }
+<!-- Advanced Settings Modal -->
+@if (advancedSettingsModal) {
+<div id="advancedSettingsModal"
+    class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white rounded-lg shadow-lg w-full max-w-2xl mx-4">
+        <div
+            class="flex items-center justify-between border-b border-gray-200 px-6 py-4">
+            <h3 class="text-lg font-semibold text-gray-900">Task Advanced
+                Settings</h3>
+            <button id="closeAdvancedSettingsBtn"
+                (click)="advancedSettingsModal = false"
+                class="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-full">
+                <div class="w-5 h-5 flex items-center justify-center">
+                    <i class="ri-close-line"></i>
+                </div>
+            </button>
+        </div>
+        <div class="p-6">
+            <div class="space-y-6">
+                <div>
+                    <h4 class="text-sm font-medium text-gray-900 mb-3">Task
+                        Notifications</h4>
+                    <div class="space-y-3">
+                        <label class="flex items-center justify-between">
+                            <span class="text-sm text-gray-700">Email
+                                notifications</span>
+                            <label class="custom-switch">
+                                <input type="checkbox" checked>
+                                <span class="switch-slider"></span>
+                            </label>
+                        </label>
+                        <label class="flex items-center justify-between">
+                            <span class="text-sm text-gray-700">Due date
+                                reminders</span>
+                            <label class="custom-switch">
+                                <input type="checkbox" checked>
+                                <span class="switch-slider"></span>
+                            </label>
+                        </label>
+                        <label class="flex items-center justify-between">
+                            <span class="text-sm text-gray-700">Task assignment
+                                notifications</span>
+                            <label class="custom-switch">
+                                <input type="checkbox" checked>
+                                <span class="switch-slider"></span>
+                            </label>
+                        </label>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-sm font-medium text-gray-900 mb-3">Task
+                        Automation</h4>
+                    <div class="space-y-3">
+                        <label class="flex items-center justify-between">
+                            <span class="text-sm text-gray-700">Auto-archive
+                                completed tasks after</span>
+                            <select
+                                class="pl-3 pr-8 py-1 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary">
+                                <option>7 days</option>
+                                <option>14 days</option>
+                                <option>30 days</option>
+                                <option>Never</option>
+                            </select>
+                        </label>
+                        <label class="flex items-center justify-between">
+                            <span class="text-sm text-gray-700">Auto-assign
+                                based on workload</span>
+                            <label class="custom-switch">
+                                <input type="checkbox">
+                                <span class="switch-slider"></span>
+                            </label>
+                        </label>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-sm font-medium text-gray-900 mb-3">Default
+                        Task Settings</h4>
+                    <div class="space-y-3">
+                        <label class="flex items-center justify-between">
+                            <span class="text-sm text-gray-700">Default
+                                priority</span>
+                            <select
+                                class="pl-3 pr-8 py-1 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary">
+                                <option>Low</option>
+                                <option>Medium</option>
+                                <option>High</option>
+                            </select>
+                        </label>
+                        <label class="flex items-center justify-between">
+                            <span class="text-sm text-gray-700">Default due
+                                time</span>
+                            <input type="time" value="17:00"
+                                class="pl-3 pr-3 py-1 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary">
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="flex justify-end mt-6 pt-4 border-t border-gray-200">
+                <button
+                    class="px-4 py-2 bg-primary text-white rounded-button hover:bg-primary-dark whitespace-nowrap">
+                    Save Settings
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+}
+<!-- Create Task Modal -->
+@if (createTaskModal) {
+<div id="createTaskModal"
+    class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div
+        class="bg-white rounded-lg shadow-lg w-full max-w-4xl max-h-[90vh] overflow-y-auto mx-4">
+        <div
+            class="flex items-center justify-between border-b border-gray-200 px-6 py-4 sticky top-0 bg-white z-10">
+            <h3 class="text-lg font-semibold text-gray-900">Create New Task</h3>
+            <button id="closeCreateTaskBtn" (click)="createTaskModal = false"
+                class="p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-full">
+                <div class="w-5 h-5 flex items-center justify-center">
+                    <i class="ri-close-line"></i>
+                </div>
+            </button>
+        </div>
+        <div class="p-6">
+            <form id="createTaskForm">
+                <div class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="md:col-span-2">
+                            <label
+                                class="block text-sm font-medium text-gray-700 mb-1">Task
+                                Title</label>
+                            <input type="text"
+                                class="block w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary"
+                                placeholder="Enter task title">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label
+                                class="flex items-center space-x-2 text-sm text-gray-700 mb-3">
+                                <input type="checkbox" class="custom-checkbox"
+                                    id="recurringTaskCheck">
+                                <span>Make this a recurring task</span>
+                            </label>
+                            <div id="recurringTaskOptions"
+                                class="bg-gray-50 rounded-lg p-4 hidden">
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label
+                                            class="block text-sm font-medium text-gray-700 mb-1">Repeat
+                                            Every</label>
+                                        <div class="flex space-x-2">
+                                            <input type="number" min="1"
+                                                value="1"
+                                                class="w-20 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary">
+                                            <select
+                                                class="flex-1 pl-3 pr-8 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary">
+                                                <option>Day</option>
+                                                <option>Week</option>
+                                                <option>Month</option>
+                                                <option>Year</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label
+                                            class="block text-sm font-medium text-gray-700 mb-1">Repeat
+                                            On</label>
+                                        <div class="flex space-x-2">
+                                            <label class="flex items-center">
+                                                <input type="checkbox"
+                                                    class="custom-checkbox mr-2">
+                                                <span class="text-sm">Mon</span>
+                                            </label>
+                                            <label class="flex items-center">
+                                                <input type="checkbox"
+                                                    class="custom-checkbox mr-2">
+                                                <span class="text-sm">Wed</span>
+                                            </label>
+                                            <label class="flex items-center">
+                                                <input type="checkbox"
+                                                    class="custom-checkbox mr-2">
+                                                <span class="text-sm">Fri</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label
+                                            class="block text-sm font-medium text-gray-700 mb-1">Ends</label>
+                                        <select
+                                            class="w-full pl-3 pr-8 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary">
+                                            <option>Never</option>
+                                            <option>After number of
+                                                occurrences</option>
+                                            <option>On specific date</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label
+                                            class="block text-sm font-medium text-gray-700 mb-1">Time
+                                            of Day</label>
+                                        <input type="time"
+                                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="md:col-span-2">
+                            <label
+                                class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                            <textarea
+                                class="block w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary"
+                                rows="3"
+                                placeholder="Enter task description"></textarea>
+                        </div>
+                        <div>
+                            <label
+                                class="block text-sm font-medium text-gray-700 mb-1">Due
+                                Date</label>
+                            <div class="relative">
+                                <input type="date"
+                                    class="block w-full pl-3 pr-10 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary"
+                                    min="2025-05-06">
+                                <div
+                                    class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                                    <div
+                                        class="w-5 h-5 flex items-center justify-center text-gray-400">
+                                        <i class="ri-calendar-line"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <label
+                                class="block text-sm font-medium text-gray-700 mb-1">Due
+                                Time</label>
+                            <div class="relative">
+                                <input type="time"
+                                    class="block w-full pl-3 pr-10 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary">
+                                <div
+                                    class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                                    <div
+                                        class="w-5 h-5 flex items-center justify-center text-gray-400">
+                                        <i class="ri-time-line"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <label
+                                class="block text-sm font-medium text-gray-700 mb-1">Priority</label>
+                            <div class="relative">
+                                <select
+                                    class="block w-full pl-3 pr-10 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary appearance-none">
+                                    <option value>Select priority</option>
+                                    <option value="high">High</option>
+                                    <option value="medium">Medium</option>
+                                    <option value="low">Low</option>
+                                </select>
+                                <div
+                                    class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                                    <div
+                                        class="w-5 h-5 flex items-center justify-center text-gray-400">
+                                        <i class="ri-arrow-down-s-line"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <label
+                                class="block text-sm font-medium text-gray-700 mb-1">Status</label>
+                            <div class="relative">
+                                <select
+                                    class="block w-full pl-3 pr-10 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary appearance-none">
+                                    <option value>Select status</option>
+                                    <option value="todo">To Do</option>
+                                    <option value="in-progress">In
+                                        Progress</option>
+                                    <option value="completed">Completed</option>
+                                </select>
+                                <div
+                                    class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                                    <div
+                                        class="w-5 h-5 flex items-center justify-center text-gray-400">
+                                        <i class="ri-arrow-down-s-line"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <label
+                                class="block text-sm font-medium text-gray-700 mb-1">Estimated
+                                Time (hours)</label>
+                            <div class="relative">
+                                <input type="number" min="0" step="0.5"
+                                    class="block w-full pl-3 pr-10 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary"
+                                    placeholder="Enter estimated hours">
+                                <div
+                                    class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                                    <div
+                                        class="w-5 h-5 flex items-center justify-center text-gray-400">
+                                        <i class="ri-time-line"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <label
+                                class="block text-sm font-medium text-gray-700 mb-1">Tags</label>
+                            <div class="relative">
+                                <input type="text"
+                                    class="block w-full pl-3 pr-10 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary"
+                                    placeholder="Enter tags separated by commas">
+                                <div
+                                    class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                                    <div
+                                        class="w-5 h-5 flex items-center justify-center text-gray-400">
+                                        <i class="ri-price-tag-3-line"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="md:col-span-2 space-y-4">
+                            <div>
+                                <label
+                                    class="block text-sm font-medium text-gray-700 mb-1">Assign
+                                    To (Multiple)</label>
+                                <div
+                                    class="border border-gray-300 rounded-md p-3">
+                                    <div class="flex flex-wrap gap-2 mb-3">
+                                        <div
+                                            class="flex items-center bg-gray-100 rounded-full px-3 py-1">
+                                            <img class="w-6 h-6 rounded-full"
+                                                src="https://readdy.ai/api/search-image?query=professional%25252520headshot%25252520of%25252520a%25252520female%25252520with%25252520short%25252520brown%25252520hair%2525252C%25252520smiling%2525252C%25252520professional%25252520attire%2525252C%25252520neutral%25252520background%2525252C%25252520high%25252520quality%25252520portrait&width=50&height=50&seq=1&orientation=squarish"
+                                                alt="Emily Johnson">
+                                            <span class="text-sm ml-2">Dr. Emily
+                                                Johnson</span>
+                                            <button
+                                                class="ml-2 text-gray-500 hover:text-gray-700">
+                                                <i class="ri-close-line"></i>
+                                            </button>
+                                        </div>
+                                        <div
+                                            class="flex items-center bg-gray-100 rounded-full px-3 py-1">
+                                            <img class="w-6 h-6 rounded-full"
+                                                src="https://readdy.ai/api/search-image?query=professional%25252520headshot%25252520of%25252520an%25252520asian%25252520male%25252520with%25252520glasses%2525252C%25252520smiling%2525252C%25252520professional%25252520attire%2525252C%25252520neutral%25252520background%2525252C%25252520high%25252520quality%25252520portrait&width=50&height=50&seq=2&orientation=squarish"
+                                                alt="Michael Chen">
+                                            <span class="text-sm ml-2">Dr.
+                                                Michael Chen</span>
+                                            <button
+                                                class="ml-2 text-gray-500 hover:text-gray-700">
+                                                <i class="ri-close-line"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="relative">
+                                        <input type="text"
+                                            placeholder="Search staff members..."
+                                            class="w-full pl-9 pr-4 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary">
+                                        <div
+                                            class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+                                            <div
+                                                class="w-4 h-4 flex items-center justify-center">
+                                                <i class="ri-search-line"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="md:col-span-2 space-y-4">
+                            <div>
+                                <label
+                                    class="block text-sm font-medium text-gray-700 mb-1">Tags</label>
+                                <div class="flex flex-wrap gap-2 mb-2">
+                                    <span
+                                        class="bg-blue-100 text-blue-700 px-2 py-1 rounded-full text-xs flex items-center">
+                                        Urgent
+                                        <button
+                                            class="ml-1 text-blue-500 hover:text-blue-700">
+                                            <i class="ri-close-line"></i>
+                                        </button>
+                                    </span>
+                                    <span
+                                        class="bg-green-100 text-green-700 px-2 py-1 rounded-full text-xs flex items-center">
+                                        Documentation
+                                        <button
+                                            class="ml-1 text-green-500 hover:text-green-700">
+                                            <i class="ri-close-line"></i>
+                                        </button>
+                                    </span>
+                                </div>
+                                <div class="relative">
+                                    <input type="text" placeholder="Add tags..."
+                                        class="w-full pl-9 pr-4 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary">
+                                    <div
+                                        class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+                                        <div
+                                            class="w-4 h-4 flex items-center justify-center">
+                                            <i class="ri-price-tag-3-line"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <label
+                                    class="block text-sm font-medium text-gray-700 mb-1">Subtasks</label>
+                                <div class="border border-gray-200 rounded-md">
+                                    <div class="divide-y divide-gray-200">
+                                        <div class="p-3 flex items-center">
+                                            <input type="checkbox"
+                                                class="custom-checkbox mr-3">
+                                            <input type="text"
+                                                class="flex-1 border-none focus:outline-none text-sm"
+                                                placeholder="Enter subtask">
+                                            <button
+                                                class="p-1 text-gray-400 hover:text-gray-600">
+                                                <i
+                                                    class="ri-delete-bin-line"></i>
+                                            </button>
+                                        </div>
+                                        <div class="p-3 flex items-center">
+                                            <input type="checkbox"
+                                                class="custom-checkbox mr-3">
+                                            <input type="text"
+                                                class="flex-1 border-none focus:outline-none text-sm"
+                                                placeholder="Enter subtask">
+                                            <button
+                                                class="p-1 text-gray-400 hover:text-gray-600">
+                                                <i
+                                                    class="ri-delete-bin-line"></i>
+                                            </button>
+                                        </div>
+                                        <div class="p-3 flex items-center">
+                                            <input type="checkbox"
+                                                class="custom-checkbox mr-3">
+                                            <input type="text"
+                                                class="flex-1 border-none focus:outline-none text-sm"
+                                                placeholder="Enter subtask">
+                                            <button
+                                                class="p-1 text-gray-400 hover:text-gray-600">
+                                                <i
+                                                    class="ri-delete-bin-line"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="p-2 bg-gray-50 border-t border-gray-200">
+                                        <button type="button"
+                                            class="flex items-center text-primary hover:text-primary-dark text-sm font-medium">
+                                            <div
+                                                class="w-5 h-5 flex items-center justify-center mr-1">
+                                                <i class="ri-add-line"></i>
+                                            </div>
+                                            Add Another Subtask
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <label
+                                    class="block text-sm font-medium text-gray-700 mb-1">Attachments</label>
+                                <div
+                                    class="border-2 border-dashed border-gray-300 rounded-md p-4">
+                                    <div class="text-center">
+                                        <div
+                                            class="w-12 h-12 mx-auto mb-3 flex items-center justify-center rounded-full bg-gray-100">
+                                            <i
+                                                class="ri-upload-cloud-line ri-2x text-gray-400"></i>
+                                        </div>
+                                        <p
+                                            class="text-sm text-gray-600 mb-2">Drag
+                                            and drop files here, or</p>
+                                        <button type="button"
+                                            class="text-primary hover:text-primary-dark text-sm font-medium">browse
+                                            files</button>
+                                        <input type="file" class="hidden"
+                                            multiple>
+                                    </div>
+                                </div>
+                                <div class="mt-3 space-y-2">
+                                    <div
+                                        class="flex items-center justify-between p-2 bg-gray-50 rounded">
+                                        <div class="flex items-center">
+                                            <i
+                                                class="ri-file-text-line text-gray-400 mr-2"></i>
+                                            <span
+                                                class="text-sm text-gray-700">requirements.pdf</span>
+                                        </div>
+                                        <button
+                                            class="text-gray-400 hover:text-gray-600">
+                                            <i class="ri-close-line"></i>
+                                        </button>
+                                    </div>
+                                    <div
+                                        class="flex items-center justify-between p-2 bg-gray-50 rounded">
+                                        <div class="flex items-center">
+                                            <i
+                                                class="ri-image-line text-gray-400 mr-2"></i>
+                                            <span
+                                                class="text-sm text-gray-700">screenshot.png</span>
+                                        </div>
+                                        <button
+                                            class="text-gray-400 hover:text-gray-600">
+                                            <i class="ri-close-line"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="flex justify-between pt-4 border-t border-gray-200">
+                        <button type="button"
+                            class="px-4 py-2 bg-gray-100 text-gray-700 rounded-button hover:bg-gray-200 whitespace-nowrap flex items-center">
+                            <i class="ri-save-line mr-2"></i>
+                            Save as Draft
+                        </button>
+                        <div class="flex space-x-3">
+                            <button type="button" id="cancelCreateTaskBtn"
+                                (click)="createTaskModal = false"
+                                class="px-4 py-2 border border-gray-300 rounded-button text-gray-700 hover:bg-gray-50 whitespace-nowrap">
+                                Cancel
+                            </button>
+                            <button type="submit"
+                                class="px-4 py-2 bg-primary text-white rounded-button hover:bg-primary-dark whitespace-nowrap">
+                                Create & Publish
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+}
+<!-- Assign Task Modal -->
+ @if (assignTaskModal) {
+<div id="assignTaskModal"
+    class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white rounded-lg shadow-lg w-full max-w-lg mx-4">
+        <div
+            class="flex items-center justify-between border-b border-gray-200 px-6 py-4">
+            <h3 class="text-lg font-semibold text-gray-900">Assign Task</h3>
+            <button id="closeAssignTaskModal" (click)="assignTaskModal = false"
+                class="text-gray-500 hover:text-gray-700">
+                <div class="w-6 h-6 flex items-center justify-center">
+                    <i class="ri-close-line"></i>
+                </div>
+            </button>
+        </div>
+        <div class="p-6">
+            <div class="mb-6">
+                <div class="mb-4">
+                    <label
+                        class="block text-sm font-medium text-gray-700 mb-1">Select
+                        Task</label>
+                        <app-selection
+                        [isInvalid]="false"
+                        [dropDownListData]="[
+                            {
+                                value: '1',
+                                label: 'Update patient records system'
+                            },
+                            {
+                                value: '2',
+                                label: 'Prepare emergency response training'
+                            },
+                            {
+                                value: '3',
+                                label: 'Review nursing staff schedules'
+                            },
+                            {
+                                value: '4',
+                                label: 'Order medical supplies'
+                            },
+                            {
+                                value: '5',
+                                label: 'Coordinate patient transfer procedures' 
+                            }
+                        ]"
+                        [errorList]="[]"></app-selection>
+                </div>
+                <div class="mb-4">
+                    <p class="text-sm text-gray-500 mb-2">Staff to Assign</p>
+                    <div class="flex items-center bg-gray-100 rounded p-3">
+                        <img class="w-10 h-10 rounded-full mr-3"
+                            src="https://readdy.ai/api/search-image?query=professional%25252520headshot%25252520of%25252520a%25252520middle%25252520eastern%25252520man%25252520with%25252520dark%25252520hair%25252520and%25252520beard%2525252C%25252520smiling%2525252C%25252520professional%25252520attire%2525252C%25252520neutral%25252520background%2525252C%25252520high%25252520quality%25252520portrait&width=50&height=50&seq=6&orientation=squarish"
+                            alt="Amir Patel">
+                        <div>
+                            <h5 class="font-medium text-gray-900">Dr. Amir
+                                Patel</h5>
+                            <p class="text-sm text-gray-500">Cardiology</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <label
+                        class="block text-sm font-medium text-gray-700 mb-1">Due
+                        Date</label>
+                    <app-date
+                    [isInvalid]="false"
+                    errorMessage="Due date is required"></app-date>                   
+                </div>
+                <div>
+                    <label
+                        class="block text-sm font-medium text-gray-700 mb-1">Notes</label>
+                    <textarea
+                        class="block w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#16c2d5]/20 focus:border-[#16c2d5]"
+                        rows="2"
+                        placeholder="Add any assignment notes or instructions"></textarea>
+                </div>
+            </div>
+            <div class="flex justify-between">
+                <label class="flex items-center">
+                    <input type="checkbox" class="custom-checkbox mr-2">
+                    <span class="text-sm text-gray-700">Send notification</span>
+                </label>
+                <div class="flex space-x-3">
+                    <button id="cancelAssignmentBtn" (click)="assignTaskModal = false"
+                        class="px-4 py-2 border border-gray-300 rounded-button text-gray-700 hover:bg-gray-50 whitespace-nowrap">
+                        Cancel
+                    </button>
+                    <button (click)="confirmationModal = true"
+                        class="px-4 py-2 bg-primary text-white rounded-button hover:bg-primary-dark whitespace-nowrap">
+                        Confirm Assignment
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+ }
+<!-- Confirmation Modal -->
+ @if (confirmationModal) {
+<div id="confirmationModal"
+    class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white rounded-lg shadow-lg w-full max-w-md mx-4 p-6">
+        <div class="text-center mb-6">
+            <div
+                class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <div
+                    class="w-8 h-8 flex items-center justify-center text-green-600">
+                    <i class="ri-check-line ri-2x"></i>
+                </div>
+            </div>
+            <h3 class="text-lg font-semibold text-gray-900 mb-2">Task
+                Successfully Assigned</h3>
+            <p class="text-gray-600">The task has been assigned to Dr. Amir
+                Patel with a due date of May 15, 2025.</p>
+        </div>
+        <div class="flex justify-center">
+            <button id="closeConfirmationBtn" (click)="confirmationModal = false; assignTaskModal = false"
+                class="px-6 py-2 bg-primary text-white rounded-button hover:bg-primary-dark whitespace-nowrap">
+                Done
+            </button>
+        </div>
+    </div>
+</div>
+ }
+

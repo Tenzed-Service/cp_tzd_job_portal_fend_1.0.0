@@ -1,0 +1,144 @@
+<div class="container mx-auto">
+  <!-- Job Status Tabs -->
+  <div class="bg-white rounded custom-shadow px-4 py-3 my-4">
+    <app-tabs
+    [tabsSchema]="tabsSchema"
+    ></app-tabs>
+  </div>
+  <!-- Job Cards Grid -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    @for (job of jobList; track job.id) {
+      <div class="bg-white rounded-lg p-4 custom-shadow hover:shadow-lg transition-shadow duration-300">
+        <!-- Header -->
+        <div class="flex items-start justify-between mb-4">
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 rounded-full flex items-center justify-center p-2"
+                 [ngClass]="job.iconBgColor">
+              <i [class]="job.icon + ' text-2xl ' + job.iconTextColor"></i>
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold text-gray-900">
+                {{ job.title }}
+              </h3>
+              <div class="flex flex-col items-start gap-2 text-gray-500 text-sm mt-1">
+                <div class="flex items-center">
+                  <i class="ri-building-line mr-1"></i>
+                  <span>{{ job.department }}</span>
+                </div>
+                <div class="flex items-center">
+                  <i class="ri-map-pin-line mr-1"></i>
+                  <span>{{ job.location }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- <button class="transition-colors"
+                  [ngClass]="job.bookmark.textColor + ' hover:' + job.bookmark.hoverTextColor"
+                  >
+            <i [class]="job.bookmark.icon + ' text-xl'"></i>
+          </button> -->
+        </div>
+        <!-- Tags -->
+        <div class="flex items-center gap-2 mb-4 whitespace-nowrap flex-wrap">
+          @for (tag of job.tags; track tag.label) {
+            <span class="px-2 py-1 rounded-full text-xs font-medium flex items-center gap-1"
+                  [ngClass]="tag.bgColor + ' ' + tag.textColor">
+              @if (tag.icon) {
+                <i [class]="tag.icon"></i>
+              }
+              {{ tag.label }}
+            </span>
+          }
+        </div>
+        <!-- Details -->
+        <div class="border-t border-gray-100 pt-4 mb-4">
+          <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 text-sm text-gray-500">
+            <div class="flex items-center gap-1">
+              <i class="ri-user-3-line"></i>
+              <span>{{ job.details.applicants }}</span>
+            </div>
+            <div class="flex items-center gap-1">
+              <i class="ri-time-line"></i>
+              <span>{{ job.details.posted }}</span>
+            </div>
+          </div>
+        </div>
+        <!-- Actions -->
+        <div class="flex justify-end gap-3">
+          @if (job.status === 'Interview Invitation') {
+          <button (click)="openApplyModel = true"
+          class="flex-1 max-w-[120px] py-1.5 bg-primary text-white rounded !rounded-button hover:bg-primary/90 transition-colors font-medium"
+          >
+            Apply Now
+          </button>
+          }
+          <button (click)="jobDetails('worker-jobs/job-details/'+job.id)"
+            class="px-4 w-[145px] py-1.5 border border-gray-200 text-gray-700 rounded !rounded-button hover:bg-gray-50 transition-colors font-medium flex items-center justify-center"
+          >
+            <i class="ri-eye-line mr-1"></i>
+            View Details
+          </button>
+        </div>
+      </div>
+    }
+  </div>
+</div>
+
+
+@if (openApplyModel) {
+  <div
+    id="applyConfirmModal"
+    class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+  >
+    <div class="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+      <div class="flex justify-between items-start mb-6">
+        <h3 class="text-xl font-semibold text-gray-900">
+          Confirm Application
+        </h3>
+        <button
+          class="text-gray-400 hover:text-gray-600"
+          (click)="openApplyModel = false"
+        >
+          <div class="w-6 h-6 flex items-center justify-center">
+            <i class="ri-close-line text-xl"></i>
+          </div>
+        </button>
+      </div>
+      <div class="mb-6">
+        <p class="text-gray-600 mb-4">
+          Are you sure you want to apply for the position of:
+        </p>
+        <div class="bg-gray-50 p-4 rounded-lg">
+          <h4 class="font-semibold text-gray-900 mb-2">
+            Senior Frontend Developer
+          </h4>
+          <div class="flex items-center text-gray-600">
+            <div
+              class="w-5 h-5 flex items-center justify-center mr-2"
+            >
+              <i class="ri-google-fill text-[#4285f4]"></i>
+            </div>
+            <span>Google Inc.</span>
+          </div>
+        </div>
+      </div>
+      <div class="flex justify-end space-x-3">
+        <button (click)="openApplyModel = false"
+          class="px-6 py-2.5 text-gray-700 bg-gray-100 hover:bg-gray-200 rounded !rounded-button whitespace-nowrap"
+          onclick="document.getElementById('applyConfirmModal').classList.add('hidden')"
+        >
+          Cancel
+        </button>
+        <a
+          data-readdy="true"
+        >
+          <button
+            class="px-6 py-2.5 text-white bg-primary hover:bg-primary/90 rounded !rounded-button whitespace-nowrap"
+          >
+            Confirm & Apply
+          </button>
+        </a>
+      </div>
+    </div>
+  </div>
+}

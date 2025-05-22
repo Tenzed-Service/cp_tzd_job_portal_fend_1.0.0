@@ -1,0 +1,618 @@
+<div class="bg-white custom-shadow px-4 py-3 rounded mt-4">
+  <app-tabs
+    [tabsSchema]="tabsSchema">
+  </app-tabs>
+</div>
+
+<div class="bg-white shadow-lg rounded border border-gray-100 mt-4">
+  <!-- <div class="p-2 sm:p-4 flex flex-col sm:flex-row gap-8">
+    <div class="flex flex-col items-center">
+      <div class="relative">
+        <div
+          class="w-32 h-32 rounded bg-gray-200 overflow-hidden border-4 border-white shadow-lg transform hover:scale-105 transition-transform duration-300">
+          <img
+            id="profile-image"
+            src="https://readdy.ai/api/search-image?query=professional%20business%20logo%2C%20minimalist%20design%2C%20clean%20lines%2C%20modern%20aesthetic%2C%20suitable%20for%20tech%20company%2C%20blue%20and%20white%20color%20scheme%2C%20simple%20geometric%20shapes%2C%20abstract%20representation%20of%20growth%20and%20innovation&width=300&height=300&seq=1&orientation=squarish"
+            alt="Company Logo"
+            class="w-full h-full object-cover object-top" />
+        </div>
+        <label
+          for="profile-upload"
+          class="absolute bottom-2 right-2 w-10 h-10 flex items-center justify-center bg-primary text-white rounded shadow-lg cursor-pointer hover:bg-primary/90 transition-colors">
+          <i class="ri-camera-line"></i>
+        </label>
+        <input
+          id="profile-upload"
+          type="file"
+          accept="image/*"
+          class="hidden" />
+      </div>
+      <h2 class="mt-4 text-xl font-semibold text-gray-900">
+        TechVision Solutions
+      </h2>
+      <p class="text-gray-500 text-sm">Technology Services</p>
+    </div>
+    <div class="flex-1">
+      <nav
+        class="flex border border-gray-100 p-1 space-x-2 bg-gray-100/50 shadow-sm rounded-xl">
+        <button
+          class="tab-btn flex-1 whitespace-nowrap px-4 py-2 rounded-xl font-medium text-sm transition-all"
+          [ngClass]="activeTab === profileTabs.personaDetails ? 'bg-white shadow-sm text-primary' : 'text-gray-500 hover:bg-white/50'"
+          (click)="switchTab(profileTabs.personaDetails)">
+          <i class="ri-user-line mr-2"></i>Personal Details
+        </button>
+        <button
+          class="tab-btn flex-1 whitespace-nowrap px-4 py-2 rounded-xl font-medium text-sm transition-all"
+          [ngClass]="activeTab === profileTabs.changePassword ? 'bg-white shadow-sm text-primary' : 'text-gray-500 hover:bg-white/50'"
+          (click)="switchTab(profileTabs.changePassword)">
+          <i class="ri-lock-line mr-2"></i>Change Password
+        </button>
+      </nav>
+    </div>
+  </div> -->
+
+  @if (activeTab === profileTabs.personaDetails) {
+  <div id="personal-details" class="tab-content p-2 sm:p-4">
+    <div
+      id="success-message"
+      class="hidden mb-6 p-4 rounded bg-green-50 border border-green-200">
+      <div class="flex">
+        <div
+          class="flex-shrink-0 w-5 h-5 flex items-center justify-center text-green-400">
+          <i class="ri-checkbox-circle-line"></i>
+        </div>
+        <div class="ml-3">
+          <p class="text-sm font-medium text-green-800">
+            Profile updated successfully!
+          </p>
+        </div>
+      </div>
+    </div>
+    <form [formGroup]="profileForm" class="mb-4">
+      @if(selectedUserType === userType.EMPLOYEE || selectedUserType === userType.AGENCY){
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div>
+          <label class="block text-sm text-gray-600 mb-1"
+            for="fullName">Name <span
+              class="text-red-500">*</span></label>
+          <input
+            type="text"
+            id="fullName"
+            formControlName="name"
+            placeholder="Enter your full name"
+            class="w-full px-3 py-1 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-primary"
+            [class.border-red-500]="formControl['name'].invalid && formControl['name'].touched" />
+          @if (formControl['name'].invalid &&
+          formControl['name'].touched) {
+          <small class="text-red-500">
+            @if (formControl['name'].errors?.['required']) {
+            Name is required
+            }
+          </small>
+          }
+        </div>
+        <div>
+          <label class="block text-sm text-gray-600 mb-1"
+            for="email">Email <span
+              class="text-red-500">*</span></label>
+          <input
+            type="email"
+            id="email"
+            formControlName="email"
+            placeholder="Enter your email address"
+            class="w-full px-3 py-1 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-primary"
+            [class.border-red-500]="formControl['email'].invalid && formControl['email'].touched" />
+          @if (formControl['email'].invalid &&
+          formControl['email'].touched) {
+          <small class="text-red-500">
+            @if (formControl['email'].errors?.['required'])
+            {
+            Email is required
+            }
+            @if (formControl['email'].errors?.['email']) {
+            Please enter a valid email address
+            }
+          </small>
+          }
+        </div>
+        <div>
+          <label
+            class="block text-sm text-gray-600 mb-1"
+            for="contactNumber">Contact Number <span
+              class="text-red-500">*</span></label>
+          <div class="flex">
+            <div class="w-16">
+              <select formControlName="countryCode"
+                class="w-full h-full px-2 py-1 border border-gray-300 rounded-l focus:outline-none focus:ring-1 focus:ring-primary border-r-0">
+                <option>+1</option>
+                <option>+44</option>
+                <option>+91</option>
+                <option>+61</option>
+                <option>+86</option>
+              </select>
+            </div>
+            <input
+              type="number"
+              id="contactNumber"
+              formControlName="contact"
+              placeholder="Enter contact number"
+              class="flex-1 px-3 py-1 border border-gray-300 rounded-r focus:outline-none focus:ring-1 focus:ring-primary"
+              [class.border-red-500]="formControl['contact'].invalid && formControl['contact'].touched" />
+          </div>
+          @if (formControl['contact'].invalid &&
+          formControl['contact'].touched) {
+          <small class="text-red-500">
+            @if
+            (formControl['contact'].errors?.['required'])
+            {
+            Contact number is required
+            }
+          </small>
+          }
+        </div>
+
+        <!-- Location Information -->
+        <div>
+          <label class="block text-sm text-gray-600 mb-1"
+            for="country">Country <span
+              class="text-red-500">*</span></label>
+          <div class="relative">
+            <select
+              [class.border-red-500]="formControl['country'].invalid && formControl['country'].touched"
+              id="country" formControlName="country"
+              class="appearance-none w-full px-3 py-1 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-primary pr-8">
+              @for (country of countries; track $index) {
+              <option
+                [value]="country.name">{{country.name}}</option>
+              }
+            </select>
+            <div
+              class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+              <i
+                class="ri-arrow-down-s-line text-gray-400"></i>
+            </div>
+          </div>
+          @if (formControl['country'].invalid &&
+          formControl['country'].touched) {
+          <small class="text-red-500">
+            @if
+            (formControl['country'].errors?.['required'])
+            {
+            Country is required
+            }
+          </small>
+          }
+        </div>
+        <div>
+          <label class="block text-sm text-gray-600 mb-1"
+            for="state">State <span
+              class="text-red-500">*</span></label>
+          <div class="relative">
+            <select
+              [class.border-red-500]="formControl['state'].invalid && formControl['state'].touched"
+              id="state" formControlName="state"
+              class="appearance-none w-full px-3 py-1 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-primary pr-8">
+              @for (state of states; track $index) {
+              <option *ngFor="let state of states"
+                [value]="state.name">{{state.name}}</option>
+              }
+            </select>
+            <div
+              class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+              <i
+                class="ri-arrow-down-s-line text-gray-400"></i>
+            </div>
+          </div>
+          @if (formControl['state'].invalid &&
+          formControl['state'].touched) {
+          <small class="text-red-500">
+            @if
+            (formControl['state'].errors?.['required'])
+            {
+            State is required
+            }
+          </small>
+          }
+        </div>
+        <div>
+          <label class="block text-sm text-gray-600 mb-1"
+            for="city">City <span
+              class="text-red-500">*</span></label>
+          <div class="relative">
+            <select
+              [class.border-red-500]="formControl['city'].invalid && formControl['city'].touched"
+              id="city" placeholder="Select City"
+              formControlName="city"
+              class="appearance-none w-full px-3 py-1 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-primary pr-8">
+              @for (city of cities; track $index) {
+              <option
+                [value]="city.name">{{city.name}}</option>
+              }
+            </select>
+            <div
+              class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+              <i
+                class="ri-arrow-down-s-line text-gray-400"></i>
+            </div>
+          </div>
+          @if (formControl['city'].invalid &&
+          formControl['city'].touched) {
+          <small class="text-red-500">
+            @if
+            (formControl['city'].errors?.['required'])
+            {
+            City is required
+            }
+          </small>
+          }
+        </div>
+      </div>
+      }
+      @if(selectedUserType === userType.EMPLOYER){
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label
+            for="company-name"
+            class="block text-sm text-gray-600 mb-1">Company Name<span
+              class="text-red-500">*</span></label>
+          <input
+            type="text"
+            id="company-name"
+            name="company-name"
+            formControlName="companyName"
+            [class.border-red-500]="formControl['companyName'].invalid && formControl['companyName'].touched"
+            class="w-full px-3 py-1 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-primary" />
+          @if (formControl['companyName'].invalid &&
+          formControl['companyName'].touched) {
+          <small class="text-red-500">
+            Company name is required
+          </small>
+          }
+        </div>
+        <div>
+          <label
+            for="website-url"
+            class="block text-sm text-gray-600 mb-1">Website URL</label>
+          <input
+            type="url"
+            id="website-url"
+            name="website-url"
+            formControlName="websiteUrl"
+            class="w-full px-3 py-1 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-primary" />
+          @if (formControl['websiteUrl'].invalid &&
+          formControl['websiteUrl'].touched) {
+          <small class="text-red-500">
+            @if(formControl['websiteUrl'].errors?.['pattern'])
+            {
+            Pleas enter valid URL.
+            }
+          </small>
+          }
+        </div>
+        <div>
+          <label
+            for="employees"
+            class="block text-sm text-gray-600 mb-1">Number of
+            Employees</label>
+          <div class="relative">
+            <select formControlName="employees"
+              class="appearance-none w-full px-3 py-1 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-primary pr-8">
+              <option value="1">1-10</option>
+              <option value="2">11-50</option>
+              <option value="3">51-200</option>
+              <option value="4">201-500</option>
+              <option value="5">501-1000</option>
+              <option value="6">1000+</option>
+            </select>
+            <div
+              class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+              <i
+                class="ri-arrow-down-s-line text-gray-400"></i>
+            </div>
+          </div>
+        </div>
+        <div>
+          <label
+            for="tax-category"
+            class="block text-sm text-gray-600 mb-1">Taxation/Statutory
+            Category</label>
+          <div class="relative">
+            <select formControlName="taxCategory"
+              class="appearance-none w-full px-3 py-1 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-primary pr-8">
+              <option value="1">Limited Liability Company (LLC)</option>
+              <option value="2">Corporation (C-Corp)</option>
+              <option value="3">S Corporation (S-Corp)</option>
+              <option value="4">Partnership</option>
+              <option value="5">Sole Proprietorship</option>
+              <option value="6">Non-Profit Organization</option>
+            </select>
+            <div
+              class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+              <i
+                class="ri-arrow-down-s-line text-gray-400"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-1 gap-4 mt-4">
+        <div>
+          <label
+            for="company-address"
+            class="block text-sm text-gray-600 mb-1">Company
+            Address</label>
+
+          <textarea
+            id="company-address"
+            name="company-address"
+            rows="3"
+            formControlName="companyAddress"
+            class="w-full px-3 py-1 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-primary">
+            </textarea>
+        </div>
+        <div>
+          <label
+            for="business-description"
+            class="block text-sm text-gray-600 mb-1">Business
+            Description</label>
+          <textarea
+            id="business-description"
+            name="business-description"
+            rows="4"
+            formControlName="businessDescription"
+            class="w-full px-3 py-1 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-primary">
+            </textarea>
+        </div>
+      </div>
+      }
+      <div class="mt-4 flex justify-end">
+        <button
+          type="button"
+          class="mr-4 px-4 py-2 border border-gray-300 rounded-button text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary whitespace-nowrap">
+          Cancel
+        </button>
+        <button
+          type="submit"
+          class="px-4 py-2 border border-transparent rounded-button shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary whitespace-nowrap">
+          Save Changes
+        </button>
+      </div>
+    </form>
+    <div class="border-t border-gray-200 pt-4">
+      <div class="mb-6">
+        <h3 class="text-lg font-medium text-gray-900">
+          Required Documents
+        </h3>
+        <p class="mt-1 text-sm text-gray-500">
+          Please upload the following documents to complete your company
+          profile.
+        </p>
+      </div>
+      <div class="space-y-6">
+        <div
+          class="bg-gray-50 border border-dashed border-gray-300 rounded p-6">
+          <div class="text-center">
+            <div
+              class="w-12 h-12 mx-auto flex items-center justify-center rounded-full bg-primary/10 text-primary">
+              <i class="ri-upload-cloud-line ri-xl"></i>
+            </div>
+            <h3 class="mt-2 text-sm font-medium text-gray-900">
+              Upload Business Registration
+            </h3>
+            <p class="mt-1 text-xs text-gray-500">
+              PDF, JPG or PNG up to 10MB
+            </p>
+            <div class="mt-4">
+              <label
+                for="file-upload-1"
+                class="inline-flex items-center px-4 py-2 border border-transparent rounded-button shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary cursor-pointer whitespace-nowrap">
+                <i class="ri-upload-line mr-2"></i>
+                Upload File
+              </label>
+              <input
+                id="file-upload-1"
+                name="file-upload-1"
+                type="file"
+                class="sr-only" />
+            </div>
+          </div>
+        </div>
+        <div class="bg-white border border-gray-200 rounded p-6">
+          <div class="flex items-start justify-between">
+            <div class="flex items-start space-x-4">
+              <div
+                class="w-10 h-10 flex items-center justify-center rounded-full bg-green-100 text-green-600">
+                <i class="ri-file-pdf-line"></i>
+              </div>
+              <div>
+                <h3 class="text-sm font-medium text-gray-900">
+                  Tax Registration Certificate.pdf
+                </h3>
+                <p class="text-xs text-gray-500">
+                  2.4 MB · Uploaded on Apr 8, 2025
+                </p>
+                <span
+                  class="inline-flex items-center mt-1 px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                  <i class="ri-checkbox-circle-line mr-1"></i>
+                  Verified
+                </span>
+              </div>
+            </div>
+            <div class="flex space-x-2">
+              <button
+                type="button"
+                class="p-1 rounded-full text-gray-400 hover:text-gray-500">
+                <i class="ri-eye-line"></i>
+              </button>
+              <button
+                type="button"
+                class="p-1 rounded-full text-gray-400 hover:text-red-500">
+                <i class="ri-delete-bin-line"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div
+          class="bg-gray-50 border border-dashed border-gray-300 rounded p-6">
+          <div class="text-center">
+            <div
+              class="w-12 h-12 mx-auto flex items-center justify-center rounded-full bg-primary/10 text-primary">
+              <i class="ri-upload-cloud-line ri-xl"></i>
+            </div>
+            <h3 class="mt-2 text-sm font-medium text-gray-900">
+              Upload Company Insurance
+            </h3>
+            <p class="mt-1 text-xs text-gray-500">
+              PDF, JPG or PNG up to 10MB
+            </p>
+            <div class="mt-4">
+              <label
+                for="file-upload-3"
+                class="inline-flex items-center px-4 py-2 border border-transparent rounded-button shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary cursor-pointer whitespace-nowrap">
+                <i class="ri-upload-line mr-2"></i>
+                Upload File
+              </label>
+              <input
+                id="file-upload-3"
+                name="file-upload-3"
+                type="file"
+                class="sr-only" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  }
+  @if (activeTab === profileTabs.changePassword) {
+  <div id="change-password" class="tab-content p-2 sm:p-4">
+    <div
+      id="password-error"
+      class="hidden mb-6 p-4 rounded bg-red-50 border border-red-200">
+      <div class="flex">
+        <div
+          class="flex-shrink-0 w-5 h-5 flex items-center justify-center text-red-400">
+          <i class="ri-error-warning-line"></i>
+        </div>
+        <div class="ml-3">
+          <p class="text-sm font-medium text-red-800">
+            Current password is incorrect. Please try again.
+          </p>
+        </div>
+      </div>
+    </div>
+    <form [formGroup]="passwordForm">
+      <div class="space-y-6 max-w-md">
+        <div>
+          <label
+            for="current-password"
+            class="block text-sm text-gray-600 mb-1">Current Password<span
+              class="text-red-500">*</span></label>
+          <div class="mt-1 relative">
+            <input
+              type="password"
+              id="current-password"
+              name="current-password"
+              formControlName="currentPassword"
+              [class.border-red-500]="passwordControl['currentPassword'].invalid && passwordControl['currentPassword'].touched"
+              class="w-full px-3 py-1 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#16c2d5]/20 focus:border-[#16c2d5]" />
+            <button
+              type="button"
+              class="toggle-password absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-500">
+              <i class="ri-eye-line"></i>
+            </button>
+          </div>
+          @if (passwordControl['currentPassword'].invalid &&
+          passwordControl['currentPassword'].touched) {
+          <small class="text-red-500">
+            Current password is required
+          </small>
+          }
+        </div>
+        <div>
+          <label class="block text-sm text-gray-600 mb-1"
+            for="newPassword">New Password <span
+              class="text-red-500">*</span></label>
+          <div class="relative">
+            <input
+              [type]="showPassword ? 'text' : 'password'"
+              id="newPassword"
+              formControlName="newPassword"
+              placeholder="Enter newPassword"
+              class="w-full px-3 py-1 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#16c2d5]/20 focus:border-[#16c2d5]"
+              [class.border-red-500]="passwordControl['newPassword'].invalid && passwordControl['newPassword'].touched" />
+            <button
+              type="button"
+              (click)="showPassword = !showPassword"
+              class="absolute inset-y-0 right-0 flex items-center px-3 text-gray-500 toggle-newPassword">
+              <i class="ri-eye-line"
+                [ngClass]="showPassword ? 'ri-eye-off-line' : 'ri-eye-line'"></i>
+            </button>
+          </div>
+          <p class="mt-1 text-xs text-gray-500">
+            Password should be at least 8 characters with a mix of
+            letters, numbers, and symbols.
+          </p>
+          @if (passwordControl['newPassword'].invalid &&
+          passwordControl['newPassword'].touched) {
+          <small class="text-red-500">
+            @if
+            (passwordControl['newPassword'].errors?.['required']) {
+            Password is required
+            }
+            @if
+            (passwordControl['newPassword'].errors?.['pattern']) {
+            Password invalid.Min 8 character & Max 15
+            character. Password must contain at least one
+            small & one capital alphabet and numeric digit.
+            }
+          </small>
+          }
+        </div>
+        <div>
+          <label
+            class="block text-sm text-gray-600 mb-1"
+            for="confirmPassword">Confirm New Password <span
+              class="text-red-500">*</span></label>
+          <div class="relative">
+            <input
+              [type]="showConfirmPassword ? 'text' : 'password'"
+              id="confirmPassword"
+              formControlName="confirmPassword"
+              placeholder="Confirm your password"
+              class="w-full px-3 py-1 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#16c2d5]/20 focus:border-[#16c2d5]"
+              [class.border-red-500]="passwordControl['confirmPassword'].invalid && passwordControl['confirmPassword'].touched" />
+            <button
+              type="button"
+              (click)="showConfirmPassword = !showConfirmPassword"
+              class="absolute inset-y-0 right-0 flex items-center px-3 text-gray-500 toggle-password">
+              <i
+                [ngClass]="{'ri-eye-line' : !showConfirmPassword, 'ri-eye-off-line' : showConfirmPassword}"></i>
+            </button>
+          </div>
+          @if (passwordControl['confirmPassword'].invalid &&
+          passwordControl['confirmPassword'].touched) {
+          <small class="text-red-500">
+            @if
+            (passwordControl['confirmPassword'].errors?.['required'])
+            {
+            Confirm password is required
+            } @else if
+            (passwordControl['confirmPassword'].errors?.['confirmedValidator'])
+            {
+            Password and Confirm Password must be match.
+            }
+          </small>
+          }
+        </div>
+        <div>
+          <button
+            type="submit"
+            class="w-full px-4 py-2 border border-transparent rounded-button shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary whitespace-nowrap">
+            Update Password
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+  }
+</div>

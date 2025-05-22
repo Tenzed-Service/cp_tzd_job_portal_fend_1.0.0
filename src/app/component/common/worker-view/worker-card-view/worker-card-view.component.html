@@ -1,0 +1,48 @@
+<div class="worker-card-view-section">
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+    @for (worker of workerList; track worker.id) {
+      <div class="bg-white rounded custom-shadow overflow-hidden hover:shadow-md transition-shadow">
+        <div class="p-4">
+          <!-- Header -->
+          <div class="flex items-start justify-between mb-4">
+            <div class="flex items-center">
+              <img [src]="worker.avatar" [alt]="worker.name"
+                   class="w-12 h-12 rounded-full object-cover object-top mr-3">
+              <div>
+                <h3 class="font-medium text-gray-900">{{ worker.name }}</h3>
+                <p class="text-sm text-gray-500">{{ worker.jobTitle }}</p>
+              </div>
+            </div>
+            <span class="status-badge" [ngClass]="worker.statusClass">{{ worker.status }}</span>
+          </div>
+          <!-- Skills and Created At -->
+          <div class="mb-4">
+            <div class="flex flex-wrap gap-2 mb-2">
+              @for (skill of worker.skills; track skill) {
+                <span class="skill-tag">{{ skill }}</span>
+              }
+            </div>
+            <div class="text-xs text-gray-500 flex items-center">
+              <div class="w-4 h-4 flex items-center justify-center mr-1">
+                <i class="ri-time-line"></i>
+              </div>
+              Created At: {{ worker.createdAt }}
+            </div>
+          </div>
+          <!-- Footer -->
+          <div class="flex items-center justify-between pt-3 border-t border-gray-100">
+            <div class="text-xs text-gray-500">ID: {{ worker.workerId }}</div>
+            <div class="flex space-x-2">
+              @for (action of actions; track action.icon) {
+                <button class="w-8 h-8 flex items-center justify-center font-medium text-gray-500 hover:text-primary hover:bg-gray-100 rounded-full"
+                        [title]="action.title" (click)="clickAction(action.function,worker)">
+                  <i [class]="action.icon"></i>
+                </button>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</div>

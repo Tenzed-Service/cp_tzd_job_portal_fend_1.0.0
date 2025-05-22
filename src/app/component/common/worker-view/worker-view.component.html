@@ -1,0 +1,31 @@
+<div class="worker-view-section">
+  <!-- Filters Section -->
+  <div class="bg-white px-4 py-3 rounded shadow-sm border border-gray-100 my-4">
+    <app-filters
+    [filterSchema]="filterSchema"
+    ></app-filters>
+  </div>
+
+  <!-- Worker Cards Grid -->
+   @if (tableSchema) {
+    <div class="worker-table-view-section">
+      <div class="bg-white p-4 pb-0 rounded shadow-sm border border-gray-100 relative">
+        <app-table
+        [tableSchema]="tableSchema"
+        ></app-table>
+      </div>
+    </div>
+   }@else if (!tableSchema) {
+    <app-worker-card-view
+    [workerList]="workerList"
+    [actions]="actionList"
+    (actionEvent)="onActionEvent($event)"
+    ></app-worker-card-view>
+   }
+  <!-- Pagination -->
+  <div class="bg-white rounded px-4 py-2 pt-0">
+    <app-pagination
+    [paginationSchema]="paginationSchema"  
+    ></app-pagination>
+  </div>
+</div>

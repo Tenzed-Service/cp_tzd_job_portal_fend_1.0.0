@@ -1,0 +1,154 @@
+<div class="p-4">
+  <!-- Navigation and View Controls -->
+  <div class="flex flex-col sm:flex-row justify-between items-center mb-4 space-y-4 sm:space-y-0">
+    <div class="flex items-center space-x-3">
+      <button (click)="prevPeriod()"
+              class="w-8 h-8 flex items-center justify-center text-gray-500 hover:bg-gray-100 rounded-full"
+              title="Previous">
+        <i class="ri-arrow-left-s-line"></i>
+      </button>
+      <h3 class="text-lg font-semibold">{{ dateRangeDisplay }}</h3>
+      <button (click)="nextPeriod()"
+              class="w-8 h-8 flex items-center justify-center text-gray-500 hover:bg-gray-100 rounded-full"
+              title="Next">
+        <i class="ri-arrow-right-s-line"></i>
+      </button>
+      <button (click)="setToday()"
+              class="text-sm text-blue-600 font-medium ml-2 hover:text-blue-700"
+              title="Today">Today</button>
+    </div>
+    <div class="flex items-center space-x-2">
+      <div class="bg-gray-100 rounded-full p-1 flex">
+        <button class="view-btn" [ngClass]="{'active': currentView === 'week'}" (click)="changeView('week')">Week</button>
+        <button class="view-btn" [ngClass]="{'active': currentView === 'day'}" (click)="changeView('day')">Day</button>
+        <button class="view-btn" [ngClass]="{'active': currentView === 'month'}" (click)="changeView('month')">Month</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Calendar Views Container -->
+  <div id="calendarViewsContainer">
+    <!-- Week View -->
+    @if (currentView === 'week') {
+      <div class="bg-white rounded custom-shadow overflow-hidden mb-6">
+        <div class="calendar-header bg-gray-50 border-b border-gray-200 grid grid-cols-8">
+          <div class="time-slot font-medium"></div>
+          @for (day of weekDays; track day.date) {
+            <div class="calendar-day text-center py-2 cursor-pointer hover:bg-gray-100"
+                 (click)="selectDay(day.date)">
+              <div class="text-gray-500 text-xs">{{ day.dayName }}</div>
+              <div class="text-gray-900" [ngClass]="{'font-semibold bg-blue-100 rounded-full w-6 h-6 mx-auto flex items-center justify-center': day.isToday}">
+                {{ day.date.getDate() }}
+              </div>
+            </div>
+          }
+        </div>
+        <div class="calendar-grid relative" style="height: 720px;">
+          <div class="calendar-time">
+            @for (time of timeSlots; track time) {
+              <div class="time-slot">{{ time }}</div>
+            }
+          </div>
+          @for (day of weekDays; track day.date) {
+            <div class="day-column">
+              @for (shift of getShiftsForDay(day.date); track shift.id) {
+                <div class="shift-block" 
+                     [ngClass]="shift.type"
+                     [style.top.px]="shift.top"
+                     [style.height.px]="shift.duration"
+                     (click)="openShiftModal(shift)">
+                  <div class="shift-title">{{ shift.title }}</div>
+                  <div class="shift-staff">{{ shift.staff }}</div>
+                </div>
+              }
+            </div>
+          }
+        </div>
+      </div>
+    }
+
+    <!-- Day View -->
+    @if (currentView === 'day') {
+      <div class="bg-white rounded custom-shadow overflow-hidden mb-6">
+        <div class="calendar-header bg-gray-50 border-b border-gray-200 flex">
+          <div class="time-slot font-medium w-20"></div>
+          <div class="calendar-day flex-1 text-center py-2">
+            <div class="text-gray-500 text-xs">{{ currentDate.toLocaleDateString('en-US', { weekday: 'short' }).toUpperCase() }}</div>
+            <div class="text-gray-900" [ngClass]="{'font-semibold bg-blue-100 rounded-full w-6 h-6 mx-auto flex items-center justify-center': isToday(currentDate)}">
+              {{ currentDate.getDate() }}
+            </div>
+          </div>
+        </div>
+        <div class="flex" style="height: 720px;">
+          <div class="calendar-time w-20">
+            @for (time of timeSlots; track time) {
+              <div class="time-slot">{{ time }}</div>
+            }
+          </div>
+          <div class="flex-1 relative border-l border-gray-200">
+            @for (shift of getShiftsForDay(currentDate); track shift.id) {
+              <div class="shift-block" 
+                   [ngClass]="shift.type"
+                   [style.top.px]="shift.top"
+                   [style.height.px]="shift.duration"
+                   (click)="openShiftModal(shift)">
+                <div class="shift-title">{{ shift.title }}</div>
+                <div class="shift-staff">{{ shift.staff }}</div>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    }
+
+    <!-- Month View -->
+    @if (currentView === 'month') {
+      <div class="bg-white rounded custom-shadow overflow-hidden mb-6">
+        <div class="p-6">
+          <div class="grid grid-cols-7 gap-4">
+            <div class="text-sm font-medium text-gray-500 text-center">Mon</div>
+            <div class="text-sm font-medium text-gray-500 text-center">Tue</div>
+            <div class="text-sm font-medium text-gray-500 text-center">Wed</div>
+            <div class="text-sm font-medium text-gray-500 text-center">Thu</div>
+            <div class="text-sm font-medium text-gray-500 text-center">Fri</div>
+            <div class="text-sm font-medium text-gray-500 text-center">Sat</div>
+            <div class="text-sm font-medium text-gray-500 text-center">Sun</div>
+          </div>
+          <div class="grid grid-cols-7 gap-4 mt-4">
+            @for (day of monthDays; track day.date) {
+              <div class="h-24 border border-gray-200 rounded p-2 text-sm cursor-pointer hover:bg-gray-100"
+                   [ngClass]="{'bg-gray-50': day.isOtherMonth, 'bg-blue-100 font-semibold': day.isToday}"
+                   (click)="selectDay(day.date)">
+                <div>{{ day.date.getDate() }}</div>
+                @if (getShiftsForDay(day.date).length > 0) {
+                  <div class="text-xs text-gray-600 mt-1">{{ getShiftsForDay(day.date).length }} shift{{ getShiftsForDay(day.date).length > 1 ? 's' : '' }}</div>
+                }
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+
+  <!-- Shift Details Modal -->
+  @if (selectedShift) {
+    <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div class="bg-white rounded-lg p-6 max-w-md w-full">
+        <h3 class="text-lg font-semibold mb-4">Shift Details</h3>
+        <div class="space-y-2">
+          <p><strong>Title:</strong> {{ selectedShift.title }}</p>
+          <p><strong>Staff:</strong> {{ selectedShift.staff }}</p>
+          <p><strong>Date:</strong> {{ selectedShift.date }}</p>
+          <p><strong>Time:</strong> {{ selectedShift.startTime }} ({{ selectedShift.duration / 60 }} hours)</p>
+        </div>
+        <div class="mt-6 flex justify-end space-x-2">
+          <button (click)="closeShiftModal()"
+                  class="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+</div>

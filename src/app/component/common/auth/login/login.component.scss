@@ -1,0 +1,102 @@
+.login-container {
+
+    .welcome-section {
+        flex: 1;
+        padding: 4rem;
+        color: white;
+        background: linear-gradient(135deg, #10217d 0%, #2e4450 100%);
+        position: relative;
+
+        .map-background {
+            position: absolute;
+            top: 50%;
+            left: 40%;
+            transform: translate(-50%, -50%);
+            width: 75%;
+            height: 40%;
+            background-image: url('/assets/images/auth/Vector.png');
+            background-size: 70% auto;
+            background-repeat: no-repeat;
+            background-position: center;
+            opacity: 0.5;
+            z-index: 2;
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 600;
+            margin-top: 0.25rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .portal-title {
+            font-weight: 700;
+            margin-bottom: 1rem;
+            margin-top: 0.25rem;
+        }
+
+        .welcome-text {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            opacity: 0.8;
+            max-width: 600px;
+        }
+    }
+
+    .form-container {
+        .login-box {
+            width: 100%;
+            max-width: 450px;
+            padding: 2rem;
+            border-radius: 1rem;
+        }
+
+        .divider {
+            position: relative;
+            text-align: center;
+            margin: 1.5rem 0;
+
+            &::before,
+            &::after {
+                content: '';
+                position: absolute;
+                top: 50%;
+                width: 45%;
+                height: 1px;
+                background: #dee2e6;
+            }
+
+            &::before {
+                left: 0;
+            }
+
+            &::after {
+                right: 0;
+            }
+
+            span {
+                background: white;
+                padding: 0 1rem;
+                color: #6c757d;
+                position: relative;
+                z-index: 1;
+            }
+        }
+
+        .submit-btn {
+            background: linear-gradient(96deg, rgba(22, 194, 213, 1) 0%, rgba(16, 33, 125, 1) 100%);
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .login-container {
+        .welcome-section {
+            display: none;
+        }
+    
+        .login-form-section {
+            padding: 1rem;
+        }
+    }
+}

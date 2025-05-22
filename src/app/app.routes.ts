@@ -1,36 +1,25 @@
 import { Routes } from '@angular/router';
-import { AuthGuard } from './core/guard/auth.guard';
-import { ContentComponent } from './shared/components/layout/content/content.component';
+import { LayoutComponent } from './layout/layout.component';
 import { content } from './shared/routes/routes';
-import { FullComponent } from './shared/components/layout/full/full.component';
-import { fullRoutes } from './shared/routes/full.routes';
-import { Error404Component } from './errors/error404/error404.component';
 
 export const routes: Routes = [
-   {
-    path: "",
-    redirectTo: "auth/login",
-    pathMatch: "full",
+  {
+    path: '',
+    redirectTo: '/auth/login',
+    pathMatch: 'full'
   },
+  {
+    path: "",
+    component: LayoutComponent,
+    children: content
+  },
+  
   {
     path: "auth",
-    loadChildren: () => import('./components/auth/auth.routes').then(m => m.auth),
-    canActivateChild: [AuthGuard],
+    loadChildren: () => import('./component/common/auth/auth.routes').then(m => m.auth),
   },
-  {
-    path: '',
-    component: ContentComponent,
-    children: content,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: '',
-    component: FullComponent,
-    children: fullRoutes,
-  },
-  {
-    path: '**',
-    pathMatch: 'full',
-    component: Error404Component
-  }
+  // {
+  //   path: '**',
+  //   redirectTo: 'auth/login'
+  // }
 ];

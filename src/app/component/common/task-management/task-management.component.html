@@ -1,0 +1,6 @@
+@if(currentUserType === userType.EMPLOYER){
+    <app-employer-task-management></app-employer-task-management>
+}
+@else if(currentUserType === userType.EMPLOYEE){
+    <app-worker-task-management></app-worker-task-management>
+}
