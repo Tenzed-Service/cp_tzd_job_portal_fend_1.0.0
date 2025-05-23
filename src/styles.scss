@@ -1,23 +1,2 @@
-/* Add this import to include Quill styles */
-
-// $scale: .875;
-// @import "../node_modules/quill/dist/quill.core.css";
-// @import "../node_modules/quill/dist/quill.snow.css";
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-
-@font-face {
-    font-family: 'Pacifico';
-    src: url('/assets/fonts/pacifico/Pacifico-Regular.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-  }
-
-body{
-    margin: 0;
-    overflow: hidden;
-    height: 100vh;
-}
+/* You can add global styles to this file, and also import other style files */
+@import "../public/assets/scss/app.scss";

@@ -1,9 +1,0 @@
-.submit-btn {
-    background: linear-gradient(96deg,rgba(22, 194, 213, 1) 0%, rgba(16, 33, 125, 1) 100%);
-}
-
-:host {
-    &:has(.pointer-none) {
-        @apply fixed inset-0 overflow-hidden;
-    }
-}
