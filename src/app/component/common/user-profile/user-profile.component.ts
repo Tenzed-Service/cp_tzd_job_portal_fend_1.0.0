@@ -147,8 +147,6 @@ export class UserProfileComponent implements OnInit {
     tabsSchema: TabsSchema<UserProfileComponent,any[]>,
     event: any
   ) {
-    console.log(tabsSchema,event);
-    
     switch (event) {
       case 1:
         tabsSchema.parentComponent.activeTab = tabsSchema.parentComponent.profileTabs.personaDetails;
@@ -156,9 +154,7 @@ export class UserProfileComponent implements OnInit {
       case 2:
         tabsSchema.parentComponent.activeTab = tabsSchema.parentComponent.profileTabs.changePassword;
         break;
-    }
-    console.log(tabsSchema.parentComponent.activeTab);
-    
+    }    
   }
 
   action(route: string) {

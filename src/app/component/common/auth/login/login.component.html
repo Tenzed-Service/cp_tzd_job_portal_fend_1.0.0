@@ -95,16 +95,16 @@
                     [isInvalid]="formControl['userRole'].invalid && formControl['userRole'].touched"
                     [dropDownListData]="[
                         {
-                            value: 'AGENCY',
-                            label: 'Agency'
+                            value: userType.AGENCY,
+                            label: userType.AGENCY
                         },
                         {
-                            value: 'EMPLOYER',
-                            label: 'Employer'
+                            value: userType.EMPLOYER,
+                            label: userType.EMPLOYER
                         },
                         {
-                            value: 'EMPLOYEE',
-                            label: 'Employee'
+                            value: userType.EMPLOYEE,
+                            label: userType.EMPLOYEE
                         },
                     ]"
                     [errorList]="[

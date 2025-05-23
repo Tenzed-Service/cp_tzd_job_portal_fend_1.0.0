@@ -1,3 +1,4 @@
+import { UserType } from './../../../../core/enums/common.enum';
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -23,6 +24,7 @@ export class LoginComponent {
 
   loginForm!: FormGroup;
   showPassword: boolean = false;
+  userType = UserType;
 
   constructor(
     private router: Router,
