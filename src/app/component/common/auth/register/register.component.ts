@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import { SingletonStoreService } from '../../../../core/services/helper/singleton-store.service';
 import { UserType } from '../../../../core/enums/common.enum';
 import { RegisterSuccessScreenComponent } from '../../../../shared/component/register-success-screen/register-success-screen.component';
+import { SelectionComponent } from '../../../../shared/ui/fields/selection/selection.component';
+import { SimpleInputComponent } from '../../../../shared/ui/fields/simple-input/simple-input.component';
 
 @Component({
     selector: 'app-register',
@@ -12,7 +14,9 @@ import { RegisterSuccessScreenComponent } from '../../../../shared/component/reg
     imports: [
         CommonModule,
         ReactiveFormsModule,
-        RegisterSuccessScreenComponent
+        RegisterSuccessScreenComponent,
+        SelectionComponent,
+        SimpleInputComponent
     ],
     templateUrl: './register.component.html',
     styleUrls: ['./register.component.scss']
@@ -93,11 +97,11 @@ export class RegisterComponent implements OnInit {
 
     loadDropdownData() {
         // Add your API calls here to load dropdown data
-        this.countries = [{ name: 'USA' }, { name: 'Canada' }];
-        this.states = [{ name: 'California' }, { name: 'Texas' }];
-        this.cities = [{ name: 'Los Angeles' }, { name: 'Houston' }];
-        this.industries = [{ name: 'Technology' }, { name: 'Healthcare' }];
-        this.legalEntities = [{ name: 'Corporation', value:'Corporation' }, { name: 'Limited Liability Company (LLC)', value:'LLC' }, { name: 'Partnership', value:'Partnership' }, { name: 'Sole Proprietorship', value:'SoleProprietorship' }, { name: 'Non-Profit Organization', value:'NonProfit' }];
+        this.countries = [{ value: 1, label: 'USA' }, { value: 2, label: 'Canada' }];
+        this.states = [{ value: 1, label: 'California' }, { value: 2, label: 'Texas' }];
+        this.cities = [{ value: 1, label: 'Los Angeles' }, { value: 2, label: 'Houston' }];
+        this.industries = [{ value: 1, label: 'Technology' }, { value: 2, label: 'Healthcare' }];
+        this.legalEntities = [{ label: 'Corporation', value:1 }, { label: 'Limited Liability Company (LLC)', value:2 }, { label: 'Partnership', value:3 }, { label: 'Sole Proprietorship', value:4 }, { label: 'Non-Profit Organization', value:5 }];
     }
 
     ConfirmedValidator(controlName: string, matchingControlName: string) {

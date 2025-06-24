@@ -222,6 +222,7 @@
                             <app-selection
                                 [isInvalid]="formControl['amountType'].invalid && formControl['amountType'].touched? true : false"
                                 [dropDownListData]="amountTypeList"
+                                placeholder="Select amount type"
                                 [errorList]="[
                                     {
                                         error: formControl['amountType'].errors?.['required'],
@@ -303,12 +304,13 @@
                                         <app-selection
                                             [isInvalid]="locations.at(no).get('country')?.invalid && locations.at(no).get('country')?.touched? true : false"
                                             [dropDownListData]="countryList"
+                                            placeholder="Select country"
                                             [errorList]="[
-                                    {
-                                        error: locations.at(no).get('country')?.errors?.['required'],
-                                        errorMessage: 'Country is required' 
-                                    }
-                                ]"
+                                                {
+                                                    error: locations.at(no).get('country')?.errors?.['required'],
+                                                    errorMessage: 'Country is required' 
+                                                }
+                                            ]"
                                             formControlName="country"></app-selection>
                                     </div>
                                     <div>
@@ -319,12 +321,13 @@
                                         <app-selection
                                             [isInvalid]="locations.at(no).get('state')?.invalid && locations.at(no).get('state')?.touched ? true : false"
                                             [dropDownListData]="stateList"
+                                            placeholder="Select state"
                                             [errorList]="[
-                                    {
-                                        error: locations.at(no).get('state')?.invalid && locations.at(no).get('state')?.touched ? true : false,
-                                        errorMessage: 'State is required' 
-                                    }
-                                ]"
+                                                {
+                                                    error: locations.at(no).get('state')?.invalid && locations.at(no).get('state')?.touched ? true : false,
+                                                    errorMessage: 'State is required' 
+                                                }
+                                            ]"
                                             formControlName="state"></app-selection>
                                     </div>
                                 </div>
@@ -338,6 +341,7 @@
                                         <app-selection
                                             [isInvalid]="locations.at(no).get('city')?.invalid && locations.at(no).get('city')?.touched ? true : false"
                                             [dropDownListData]="cityList"
+                                            placeholder="Select city"
                                             [errorList]="[
                                                 {
                                                     error: locations.at(no).get('city')?.invalid && locations.at(no).get('city')?.touched ? true : false,
@@ -427,6 +431,7 @@
                             <app-selection
                                 [isInvalid]="formControl['status'].invalid && formControl['status'].touched? true : false"
                                 [dropDownListData]="statusList"
+                                placeholder="Select status"
                                 [errorList]="[
                                     {
                                         error: formControl['status'].errors?.['required'],

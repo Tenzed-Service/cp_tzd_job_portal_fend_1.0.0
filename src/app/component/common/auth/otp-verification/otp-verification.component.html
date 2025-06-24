@@ -18,7 +18,7 @@
             </div>
 
             <div id="otpForm" class="flex flex-col items-center">
-                <div class="mb-8 text-center">
+                <div class="mb-4 text-center">
                     <div class="flex gap-4 mb-1">
                         @for (item of otpArray; track $index) {
                         <input type="text"
@@ -27,7 +27,7 @@
                             (input)="onOtpInput($event, $index)"
                             (keydown)="onOtpKeyDown($event, $index)"
                             [class.border-red-500]="otpArray[$index] === '' && showError"
-                            class="w-12 h-12 text-center text-xl border rounded-lg focus:border-primary focus:outline-none" />
+                            class="w-10 h-10 text-center text-xl border rounded focus:border-primary focus:outline-none" />
                         }
                     </div>
                     @if (showError) {

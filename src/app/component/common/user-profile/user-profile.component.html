@@ -170,6 +170,7 @@
               <app-selection formControlName="country"
               [isInvalid]="formControl['country'].invalid && formControl['country'].touched"
               [dropDownListData]="countries"
+              placeholder="Select country"
               [errorList]="[
                   {
                       error: formControl['country'].invalid && formControl['country'].touched,
@@ -184,6 +185,7 @@
               <app-selection formControlName="state"
               [isInvalid]="formControl['state'].invalid && formControl['state'].touched"
               [dropDownListData]="states"
+              placeholder="Select state"
               [errorList]="[
                   {
                       error: formControl['state'].invalid && formControl['state'].touched,
@@ -198,6 +200,7 @@
               <app-selection formControlName="city"
               [isInvalid]="formControl['city'].invalid && formControl['city'].touched"
               [dropDownListData]="cities"
+              placeholder="Select city"
               [errorList]="[
                   {
                       error: formControl['city'].invalid && formControl['city'].touched,
